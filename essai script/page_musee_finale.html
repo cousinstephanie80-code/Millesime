@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Première Trame Dévoilée</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* 🎨 COULEURS ET POLICES */
+    :root {
+      --color-text: #4F352C;
+      --color-accent: #7F6050;
+      --color-button: #9b7a63;
+      --color-green: #6e8b3d;
+      --color-paper: rgba(255, 255, 255, 0.85);
+    }
+
+    /* 🧵 FOND DE PAGE */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      color: var(--color-text);
+      background-image: url('images/fond_musee.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 🪶 CONTENEUR PRINCIPAL */
+    .contenu {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 85%;
+      max-width: 1200px;
+      height: 85vh;
+    }
+
+    /* 📜 ZONE TEXTE GAUCHE */
+    .zone-texte {
+      width: 45%;
+      background: var(--color-paper);
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .zone-texte p {
+      font-size: 1.05em;
+      line-height: 1.6;
+    }
+
+    /* 🎧 BOUTONS PRINCIPAUX */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      padding: 14px 28px;
+    }
+
+    /* 🎙️ Bouton écouter */
+    .btn-audio {
+      background-color: var(--color-button);
+      color: #fff;
+      margin-top: 15px;
+    }
+
+    .btn-audio:hover {
+      background-color: #927568;
+      transform: translateY(-2px);
+    }
+
+    /* 🧵 Bouton suivant */
+    .btn-next {
+      background-color: var(--color-green);
+      color: #fff;
+      margin-top: 40px;
+      font-size: 1em;
+    }
+
+    .btn-next:hover {
+      background-color: #85a64a;
+      transform: translateY(-2px);
+    }
+
+    /* 📺 ZONE VIDÉO */
+    .zone-video {
+      width: 50%;
+      border-radius: 15px;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+      padding: 20px;
+    }
+
+    .zone-video iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 10px;
+    }
+
+    /* 🎨 Icônes intégrées */
+    .btn img {
+      height: 24px;
+      width: 24px;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="contenu">
+    
+    <!-- 🧵 Partie gauche -->
+    <div class="zone-texte">
+      <p>La navette du temps s’est posée en ce lieu d’histoires.<br>
+      Le fil d’une mémoire oubliée nous guide vers cette ancienne manufacture.<br>
+      Pour découvrir quel trésor de savoir-faire y est précieusement conservé, laissez-vous porter par le murmure des bobines…</p>
+
+      <!-- 🎙️ Bouton écouter -->
+      <button class="btn btn-audio">
+        <img src="images/micro.png" alt="Micro"> Écouter le murmure de la laine
+      </button>
+
+      <p style="font-style: italic; margin-top: 25px;">
+        Quel est le mot de passe révélé par le murmure de la laine ?
+      </p>
+
+      <input type="text" placeholder="Dévoilez le mot secret ici..." style="padding:10px; border-radius:8px; border:1px solid #cbb8a5; width:80%; margin-bottom:15px;"><br>
+      <button class="btn btn-audio"><img src="images/bobine.png" alt="Bobine"> Valider</button>
+
+      <button class="btn btn-next"><img src="images/bobine.png" alt="Bobine"> Musée terminé, énigme suivante !</button>
+    </div>
+
+    <!-- 🎥 Partie droite -->
+    <div class="zone-video">
+      <iframe src="https://www.youtube.com/embed/rKJydhNMoeE?rel=0" allowfullscreen></iframe>
+    </div>
+  </div>
+</body>
+</html>

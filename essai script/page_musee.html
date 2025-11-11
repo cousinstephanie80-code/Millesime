@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Première Trame Dévoilée</title>
+
+<!-- Polices -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ----------------------------
+   🎨 Thème Lin, Kraft & Corail
+-----------------------------*/
+:root {
+  --color-background-page: #FAF5E8;
+  --color-text-dark: #4F352C;
+  --color-accent-dark: #7F6050;
+  --color-accent-light: #FF6F61;
+  --color-secondary-light: #DCD7C9;
+  --color-text-intro: #3E332C;
+}
+
+/* ----------------------------
+   🌿 Structure & Typo
+-----------------------------*/
+body {
+  background-color: var(--color-background-page);
+  color: var(--color-text-dark);
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+}
+
+.page-container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #F8F5F0;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* ----------------------------
+   Titres & Introduction
+-----------------------------*/
+.main-title {
+  color: var(--color-text-dark);
+  font-size: 2em;
+  font-family: 'Lora', serif;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.icon-textile {
+  color: var(--color-accent-dark);
+  margin-right: 10px;
+  font-size: 1.2em;
+}
+
+.introduction-text {
+  color: var(--color-text-intro);
+  font-size: 1.1em;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.question-text {
+  font-weight: 600;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+/* ----------------------------
+   Boutons Généraux
+-----------------------------*/
+.btn-action {
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  display: inline-block;
+  text-decoration: none;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
+}
+
+/* Audio */
+.btn-audio {
+  background-color: var(--color-accent-dark);
+  color: white;
+  font-size: 1.1em;
+  margin-bottom: 30px;
+}
+.btn-audio:hover { background-color: #927568; }
+
+/* Valider */
+.btn-valider {
+  background-color: var(--color-accent-light);
+  color: white;
+}
+.btn-valider:hover { background-color: #ff8578; }
+
+/* Aide */
+.btn-aide {
+  background: none;
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+  font-size: 0.9em;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* ----------------------------
+   Zones & blocs
+-----------------------------*/
+.reponse-zone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.reponse-zone input[type="text"] {
+  padding: 12px;
+  border: 1px solid var(--color-secondary-light);
+  border-radius: 8px;
+  width: 250px;
+  font-size: 1em;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.succes-block {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 2px dashed var(--color-secondary-light);
+}
+
+.horaires-block {
+  background-color: var(--color-secondary-light);
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  text-align: left;
+}
+.horaires-block ul {
+  list-style: none;
+  padding: 0;
+}
+
+.video-container { margin-top: 25px; }
+
+/* Suivant */
+.btn-next {
+  background-color: #797658;
+  color: white;
+  margin-top: 40px;
+  padding: 15px 35px;
+  font-size: 1.1em;
+}
+.btn-next:hover { background-color: #908d77; }
+
+/* Feedback */
+.message-feedback {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .reponse-zone { flex-direction: column; }
+  .btn-action { width: 90%; }
+}
+</style>
+</head>
+
+<body>
+<div class="page-container">
+
+  <h1 class="main-title">
+    <span class="icon-textile">📜</span> LA PREMIÈRE TRAME DÉVOILÉE
+  </h1>
+
+  <p class="introduction-text">
+    La navette s'est arrêtée ! Le fil de notre histoire nous mène droit à une ancienne manufacture.<br>
+    Pour découvrir quel savoir-faire s'y cache, écoutez le message qui suit.
+  </p>
+
+  <div class="audio-zone">
+    <button id="btn-ecouter" class="btn-action btn-audio">
+      🎧 Écouter le murmure de la laine
+    </button>
+    <audio id="audio-secret" src="audios/murmure-laine.mp3" style="display:none;"></audio>
+  </div>
+
+  <div class="enigme-box">
+    <p class="question-text">Quel est le mot de passe révélé par le murmure de la laine ?</p>
+
+    <div class="reponse-zone">
+      <input type="text" id="mot-magique" placeholder="Entrez le mot magique..." autocomplete="off">
+      <button id="btn-valider" class="btn-action btn-valider">🔒 Valider</button>
+    </div>
+
+    <p id="message-erreur" class="message-feedback" style="display:none;"></p>
+
+    <button id="btn-indice-secours" class="btn-aide">J'ai besoin d'un murmure d'indice</button>
+    <div id="indice-cache" class="indice-block" style="display:none;">
+      <p><strong>Murmure de Secours :</strong> Vous visitez un lieu qui conserve et expose l'Histoire.</p>
+    </div>
+  </div>
+
+  <div id="zone-succes" class="succes-block" style="display:none;">
+    <h2 class="succes-message">Félicitations ! Vous avez déroulé la trame du matin !</h2>
+
+    <div class="video-container">
+      <iframe 
+        width="100%" height="315"
+        src="https://www.youtube.com/embed/3edMp4qHzes?rel=0"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="horaires-block">
+      <p>Votre première escale est donc : <strong>Le Musée Départemental du Textile de Labastide-Rouairoux.</strong></p>
+      <h4>⏳ Organisation de l'Après-midi</h4>
+      <ul>
+        <li><strong>Heures d'Ouverture :</strong> De 14h00 à 18h00.</li>
+        <li><strong>Visites Guidées :</strong> 14h15, 15h30 et 16h45.</li>
+      </ul>
+    </div>
+
+    <a href="page_enigme_hotel.html" class="btn-action btn-next">
+      Musée terminé, Énigme suivante !
+    </a>
+  </div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const audioSecret = document.getElementById('audio-secret');
+  const btnEcouter = document.getElementById('btn-ecouter');
+  const motMagiqueInput = document.getElementById('mot-magique');
+  const btnValider = document.getElementById('btn-valider');
+  const zoneSucces = document.getElementById('zone-succes');
+  const btnIndice = document.getElementById('btn-indice-secours');
+  const indiceCache = document.getElementById('indice-cache');
+  const messageFeedback = document.getElementById('message-erreur');
+
+  const MOT_DE_PASSE = "MUSEE";
+
+  // 🎧 Écoute de l'audio
+  btnEcouter.addEventListener('click', () => {
+    btnEcouter.textContent = "En cours d'écoute... 🎶";
+    // audioSecret.play(); // Activer quand l'audio est prêt
+    setTimeout(() => {
+      btnEcouter.textContent = "🎧 Écouter le murmure de la laine";
+      alert("Le murmure a été entendu. Entrez le mot !");
+    }, 3000);
+  });
+
+  // 🔒 Validation du mot magique
+  btnValider.addEventListener('click', () => {
+    const tentative = motMagiqueInput.value.toUpperCase().trim().replace('É','E');
+
+    if (tentative === MOT_DE_PASSE) {
+      zoneSucces.style.display = 'block';
+      messageFeedback.style.display = 'none';
+      document.querySelector('.enigme-box').style.display = 'none';
+      zoneSucces.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      messageFeedback.textContent = "❌ Erreur. La laine murmure un autre secret... Réessayez !";
+      messageFeedback.style.color = 'red';
+      messageFeedback.style.display = 'block';
+      motMagiqueInput.value = '';
+    }
+  });
+
+  // 💭 Indice de secours
+  btnIndice.addEventListener('click', () => {
+    indiceCache.style.display = 'block';
+    btnIndice.style.display = 'none';
+  });
+});
+</script>
+</body>
+</html>

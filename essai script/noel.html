@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 Le Premier Secret de l’Année</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  background: url('images/fond-noel.jpg') center/cover no-repeat fixed;
+  color: #3E332C;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* Conteneur principal */
+.contenu {
+  background: rgba(255,250,240,0.92);
+  max-width: 900px;
+  margin: 4vw auto;
+  padding: 4vw;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  transition: opacity 3s ease;
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  color: #B48A64;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+p {
+  line-height: 1.8;
+  margin: 1rem 0;
+}
+
+#demarrer {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #b27745;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Cadeau */
+.cadeau {
+  position: relative;
+  margin: 4vw auto;
+  width: 280px;
+  height: 280px;
+  background: url('images/cadeau.jpg') center/cover no-repeat;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  display: none;
+  cursor: pointer;
+  transition: transform 1.5s ease;
+}
+
+/* Étincelles */
+.etincelles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 180px;
+  height: 180px;
+  transform: translate(-50%, -50%);
+  display: none;
+  pointer-events: none;
+}
+
+/* Ruban animé */
+.cadeau::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 100%;
+  background: rgba(180, 80, 60, 0.8);
+  border-radius: 4px;
+  transition: transform 1.5s ease;
+}
+
+.cadeau.ouvert {
+  transform: scale(1.1) rotateX(15deg);
+  filter: brightness(1.3);
+}
+.cadeau.ouvert::before {
+  transform: translateX(-50%) scaleY(0);
+  opacity: 0;
+}
+
+/* Énigme */
+.enigme {
+  display: none;
+  margin: 2rem auto;
+  background: rgba(255,255,255,0.85);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  max-width: 400px;
+}
+.enigme input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+/* Vidéo */
+#clip {
+  display: none;
+  width: 90%;
+  max-width: 700px;
+  margin: 3vw auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+/* Messages */
+.message {
+  display: none;
+  font-style: italic;
+  margin-top: 1.5rem;
+  color: #b27745;
+  font-weight: 600;
+}
+
+.locked-message {
+  display: none;
+  text-align: center;
+  color: #3E332C;
+  font-weight: 500;
+  background: rgba(255,248,240,0.9);
+  padding: 15px 25px;
+  border-radius: 10px;
+  margin: 30px auto;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+
+.retour {
+  display: none;
+  background: #b27745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: 0.3s;
+}
+.retour:hover { background: #8a552c; }
+
+@media (max-width: 768px) {
+  .contenu { margin: 5vw; padding: 6vw; }
+  h1 { font-size: 1.6rem; }
+  #clip { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+<div class="contenu" id="intro">
+  <h1>🎄 Le Premier Secret de l’Année</h1>
+  <p><strong>Chers Papa et Maman, notre plus beau Millésime...</strong></p>
+  <p>Ce soir de Noël n’est pas tout à fait comme les autres. Le cadeau que vous allez ouvrir n’est pas sous le sapin.</p>
+  <p>Il est immatériel, tissé de temps, d’amour et de mémoire.</p>
+  <p>Pour vos 80 ans, plusieurs générations se sont unies pour vous créer quelque chose à votre image : authentique, simple et profondément précieux.</p>
+  <p>Ce présent ne se déballe pas. Il s’écoute, se ressent, et se découvre doucement... comme une promesse.</p>
+  <p id="demarrer">Votre aventure commence maintenant. 🎧🧡</p>
+</div>
+
+<div class="cadeau" id="cadeau">
+  <img src="images/etincelles.gif" alt="étincelles" class="etincelles" id="etincelles">
+</div>
+
+<div class="enigme" id="enigme">
+  <p>🎁 Pour ouvrir ce cadeau, trouvez le mot magique du réveillon... <br><em>(Indice : pensez à la magie du réveillon ✨)</em></p>
+  <input type="text" id="reponse" placeholder="Mot magique...">
+  <button id="valider">Valider</button>
+</div>
+
+<p class="message" id="bravo">Bravo ! Le secret s’ouvre doucement… 🌟</p>
+
+<video id="clip" controls playsinline>
+  <source src="videos/clip-noel.mp4" type="video/mp4">
+  Votre navigateur ne prend pas en charge la vidéo.
+</video>
+
+<div class="locked-message" id="locked-message"></div>
+
+<a href="accueil.html" class="retour" id="retour">⬅️ Retour à l’accueil</a>
+
+<audio id="feu" src="audios/feu.mp3" loop></audio>
+<audio id="voix" src="audios/message-voix.mp3"></audio>
+<audio id="froissement" src="audios/froissement.mp3"></audio>
+<audio id="clochette" src="audios/clochette.mp3"></audio>
+
+<script>
+const feu = document.getElementById("feu");
+const voix = document.getElementById("voix");
+const cadeau = document.getElementById("cadeau");
+const enigme = document.getElementById("enigme");
+const clip = document.getElementById("clip");
+const bravo = document.getElementById("bravo");
+const retour = document.getElementById("retour");
+const locked = document.getElementById("locked-message");
+const etincelles = document.getElementById("etincelles");
+const froissement = document.getElementById("froissement");
+const clochette = document.getElementById("clochette");
+const intro = document.getElementById("intro");
+
+// 🔥 Feu au chargement
+window.addEventListener("load", () => {
+  feu.volume = 0.2;
+  feu.play();
+});
+
+// 🎧 Démarrage
+document.getElementById("demarrer").addEventListener("click", () => {
+  intro.style.opacity = 0; // disparition lente
+  fadeOutAudio(feu, 3000);
+  voix.play();
+
+  voix.onended = () => {
+    cadeau.style.display = "block";
+    enigme.style.display = "block";
+  };
+});
+
+// 🎁 Validation de l'énigme
+document.getElementById("valider").addEventListener("click", () => {
+  const reponse = document.getElementById("reponse").value.trim().toLowerCase();
+  if (reponse === "noel") {
+    clochette.play();
+    froissement.play();
+    cadeau.classList.add("ouvert");
+    etincelles.style.display = "block";
+    enigme.style.display = "none";
+    setTimeout(() => {
+      bravo.style.display = "block";
+      clip.style.display = "block";
+      clip.requestFullscreen().catch(()=>{});
+      clip.play();
+    }, 1800);
+  } else {
+    alert("Essayez encore 🎄");
+  }
+});
+
+// 🎬 Fin de la vidéo → feu reprend + message final
+clip.addEventListener("ended", () => {
+  fadeInAudio(feu, 2000);
+  retour.style.display = "inline-block";
+  
+  const now = new Date();
+  const unlockDate = new Date("2026-06-01T00:00:00");
+  if (now < unlockDate) {
+    locked.innerHTML = "🔒 Ce chapitre est encore scellé dans le temps…<br>Revenez lorsque le soleil de juin aura réchauffé les cœurs 💛";
+  } else {
+    locked.innerHTML = "🌿 Le temps a fait son œuvre… <a href='voix-du-coeur.html' style='color:#b27745; font-weight:bold;'>Découvrez la suite 💛</a>";
+  }
+  locked.style.display = "block";
+});
+
+// 🔇 Fondu audio
+function fadeOutAudio(audio, duree) {
+  const interval = 50;
+  const decrement = audio.volume / (duree / interval);
+  const fade = setInterval(() => {
+    if (audio.volume > decrement) {
+      audio.volume -= decrement;
+    } else {
+      audio.pause();
+      clearInterval(fade);
+    }
+  }, interval);
+}
+
+// 🔊 Rallumage du feu
+function fadeInAudio(audio, duree) {
+  audio.play();
+  audio.volume = 0;
+  const interval = 50;
+  const increment = 0.2 / (duree / interval);
+  const fade = setInterval(() => {
+    if (audio.volume < 0.2) {
+      audio.volume += increment;
+    } else {
+      clearInterval(fade);
+    }
+  }, interval);
+}
+</script>
+</body>
+</html>

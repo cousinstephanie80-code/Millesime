@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Une aventure tissée à plusieurs mains 💛</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+  background: linear-gradient(180deg, #fffdf9 0%, #f8f4ee 100%);
+  color: #3E332C;
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Raleway', sans-serif;
+  color: #B48A64;
+  margin-top: 5vh;
+  font-size: 1.9rem;
+  letter-spacing: 0.5px;
+}
+
+p.intro {
+  max-width: 700px;
+  margin: 2vh auto 5vh;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #5a4b40;
+}
+
+/* --- Grille centrée --- */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto 6vh;
+  padding: 0 5vw;
+}
+
+/* --- Apparition + hover --- */
+.vignette {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  background: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease forwards;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.vignette:nth-child(1) { animation-delay: 0.1s; }
+.vignette:nth-child(2) { animation-delay: 0.2s; }
+.vignette:nth-child(3) { animation-delay: 0.3s; }
+.vignette:nth-child(4) { animation-delay: 0.4s; }
+.vignette:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.vignette:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.15);
+}
+
+.vignette img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.4s ease;
+}
+
+.vignette:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.05);
+}
+
+.vignette h3 {
+  margin: 1rem 0 0.3rem;
+  color: #B48A64;
+  font-family: 'Raleway', sans-serif;
+}
+
+.vignette p {
+  font-size: 0.9rem;
+  color: #5b4a3c;
+  margin-bottom: 1.2rem;
+  padding: 0 1rem;
+}
+
+/* État verrouillé */
+.vignette.locked {
+  filter: grayscale(0.6) opacity(0.6);
+  cursor: not-allowed;
+}
+
+/* Pop-up verrouillage */
+#popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.popup-content {
+  background: #fffaf4;
+  color: #3E332C;
+  padding: 2rem;
+  border-radius: 14px;
+  max-width: 420px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.popup-content h2 {
+  color: #B48A64;
+  margin-bottom: 0.8rem;
+}
+
+.popup-content button {
+  background: #B48A64;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(10px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+<h1>Une aventure tissée à plusieurs mains,<br>pour deux cœurs en or.</h1>
+<p class="intro">Chaque vignette ouvre un nouveau chapitre du voyage...<br>
+Mais certains secrets dorment encore, jusqu’à ce que le temps les réveille 🌿</p>
+
+<div class="gallery" id="gallery"></div>
+
+<!-- Pop-up verrouillage -->
+<div id="popup">
+  <div class="popup-content">
+    <h2>🔒 Ce chapitre est encore scellé dans le temps…</h2>
+    <p>Revenez lorsque le soleil de juin aura réchauffé les cœurs 💛</p>
+    <button id="closePopup">Fermer</button>
+  </div>
+</div>
+
+<script>
+// -------- CONFIGURATION --------
+const previewMode = true;  // true = tout accessible pour les participants
+const unlockDate = new Date("2026-06-01T00:00:00"); // déverrouillage en juin 2026
+
+const vignettes = [
+  {
+    titre: "Le début d’un secret",
+    phrase: "Là où tout commence, dans le silence d’un hiver…",
+    img: "images/noel.jpg",
+    lien: "noel.html",
+    accessible: true
+  },
+  {
+    titre: "Les voix du cœur",
+    phrase: "Avant la route, écoutez ce que le cœur murmure…",
+    img: "images/voix.jpg",
+    lien: "voix-du-coeur.html",
+    accessible: false
+  },
+  {
+    titre: "La route des souvenirs",
+    phrase: "Chaque virage mène à un souvenir…",
+    img: "images/jour1.jpg",
+    lien: "jour1.html",
+    accessible: false
+  },
+  {
+    titre: "Le secret du millésime",
+    phrase: "Certains secrets ne se dévoilent qu’à maturité…",
+    img: "images/jour2.jpg",
+    lien: "jour2.html",
+    accessible: false
+  },
+  {
+    titre: "Ce que les uns partagent…",
+    phrase: "Le séjour s’achève, mais l’histoire continue de s’écrire.",
+    img: "images/livre.jpg",
+    lien: "livre-or.html",
+    accessible: false
+  }
+];
+
+// -------- GÉNÉRATION DES VIGNETTES --------
+const gallery = document.getElementById("gallery");
+const now = new Date();
+
+vignettes.forEach(v => {
+  const div = document.createElement("div");
+  const isUnlocked = previewMode || v.accessible || now >= unlockDate;
+  div.className = "vignette" + (isUnlocked ? "" : " locked");
+  div.innerHTML = `
+    <img src="${v.img}" alt="${v.titre}">
+    <h3>${v.titre}</h3>
+    <p>${v.phrase}</p>
+  `;
+
+  div.addEventListener("click", () => {
+    if (isUnlocked) {
+      window.location.href = v.lien;
+    } else {
+      document.getElementById("popup").style.display = "flex";
+    }
+  });
+
+  gallery.appendChild(div);
+});
+
+// -------- POPUP --------
+const popup = document.getElementById("popup");
+document.getElementById("closePopup").addEventListener("click", () => {
+  popup.style.display = "none";
+});
+popup.addEventListener("click", e => {
+  if (e.target === popup) popup.style.display = "none";
+});
+</script>
+
+</body>
+</html>
+
+

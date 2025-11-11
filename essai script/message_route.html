@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Nous à Vous – Radio Papou & Manou FM 🎙️</title>
+
+<!-- Polices -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* 🌈 --- STYLE GLOBAL --- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+  background: 
+    linear-gradient(135deg, rgba(173,216,230,0.6) 0%, rgba(255,218,185,0.6) 100%),
+    url('images/fond-radio.jpg') center/cover no-repeat fixed;
+  color: #3E332C;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+/* 🌟 --- TITRE PRINCIPAL --- */
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem;
+  color: #FF6F61;
+  text-shadow: 0 0 8px rgba(255,111,97,0.6);
+  margin-top: 4vh;
+  position: relative;
+}
+
+/* halo lumineux sous le titre */
+h1::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -12px;
+  width: 180px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.8), transparent);
+  filter: blur(6px);
+}
+
+/* --- SOUS-TITRE --- */
+p.subtitle {
+  color: #f0fff0; /* vert très clair */
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+  font-size: 1.2rem;
+  margin-bottom: 3vh;
+}
+
+/* --- MESSAGE D’INDICATION --- */
+p.indication {
+  color: #fffaf0;
+  font-style: italic;
+  font-size: 1rem;
+  margin-bottom: 5vh;
+  line-height: 1.6;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+/* --- ONDES RADIO --- */
+.onde {
+  width: 100%;
+  max-height: 200px;
+  opacity: 0.3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* --- CONTENEUR DES PORTRAITS --- */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: auto;
+  padding: 2rem;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+}
+
+/* --- PORTRAITS EN ROND STYLE VINYLE --- */
+.portrait {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at 30% 30%, #fff8f2, #c1a48f);
+  box-shadow: 0 0 15px rgba(255,111,97,0.3);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.portrait:hover {
+  transform: rotate(5deg) scale(1.05);
+  box-shadow: 0 0 25px rgba(255,111,97,0.6);
+}
+
+/* --- IMAGES RONDES --- */
+.portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* --- LÉGENDE --- */
+.nom {
+  margin-top: 0.6rem;
+  color: #FF6F61; /* corail */
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* --- MESSAGE FINAL --- */
+#messageFinal {
+  opacity: 0;
+  transition: opacity 2s ease;
+  margin-top: 4vh;
+  font-family: 'Cormorant Garamond', serif;
+  color: #3E332C;
+  font-size: 1.3rem;
+}
+
+/* --- BOUTON FINAL --- */
+#boutonSuivant {
+  display: none;
+  margin: 3vh auto;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(90deg, #FF6F61, #FFB6C1);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255,182,193,0.6);
+  transition: all 0.4s ease;
+  animation: pulse 3s infinite;
+}
+
+/* --- EFFET PULSE DOUX --- */
+@keyframes pulse {
+  0% { box-shadow: 0 0 10px rgba(255,182,193,0.4); transform: scale(1); }
+  50% { box-shadow: 0 0 25px rgba(255,182,193,0.8); transform: scale(1.03); }
+  100% { box-shadow: 0 0 10px rgba(255,182,193,0.4); transform: scale(1); }
+}
+
+#boutonSuivant:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,182,193,0.9);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  .portrait { width: 120px; height: 120px; }
+  h1 { font-size: 1.8rem; }
+  p.subtitle { font-size: 1rem; }
+  p.indication { font-size: 0.9rem; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🌊 Onde SVG animée -->
+<img src="images/ondes.svg" alt="ondes radio" class="onde">
+
+<h1>De Nous à Vous 💛</h1>
+<p class="subtitle">Bienvenue sur Radio Papou & Manou FM 🎙️</p>
+
+<p class="indication" aria-label="Aide déverrouillage">
+  Papou & Manou, pour ressentir l'harmonie parfaite de notre petite station, suivez le murmure des années.<br>
+  L'ordre de nos naissances est la clé qui ouvrira le chemin du millésime. 🎶🔑
+</p>
+
+<!-- 🎶 CONTENEUR DES PORTRAITS + AUDIOS -->
+<div class="container" id="container">
+  <div>
+    <div class="portrait"><img src="images/portraits/stephanie.jpg" alt="Stéphanie"></div>
+    <div class="nom">Stéphanie</div>
+    <audio controls src="audios/stephanie.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/dimitri.jpg" alt="Dimitri"></div>
+    <div class="nom">Dimitri</div>
+    <audio controls src="audios/dimitri.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/segolene.jpg" alt="Ségolène"></div>
+    <div class="nom">Ségolène</div>
+    <audio controls src="audios/segolene.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/oceane-thomas.jpg" alt="Océane et Thomas"></div>
+    <div class="nom">Océane & Thomas</div>
+    <audio controls src="audios/oceane-thomas.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/solene.jpg" alt="Solène"></div>
+    <div class="nom">Solène</div>
+    <audio controls src="audios/solene.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/viktor.jpg" alt="Viktor"></div>
+    <div class="nom">Viktor</div>
+    <audio controls src="audios/viktor.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/leontin.jpg" alt="Léontin"></div>
+    <div class="nom">Léontin</div>
+    <audio controls src="audios/leontin.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/sam.jpg" alt="Sam"></div>
+    <div class="nom">Sam</div>
+    <audio controls src="audios/sam.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/felix.jpg" alt="Félix"></div>
+    <div class="nom">Félix</div>
+    <audio controls src="audios/felix.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/edgar.jpg" alt="Edgar"></div>
+    <div class="nom">Edgar</div>
+    <audio controls src="audios/edgar.mp3"></audio>
+  </div>
+
+  <div>
+    <div class="portrait"><img src="images/portraits/zelie.jpg" alt="Zélie"></div>
+    <div class="nom">Zélie</div>
+    <audio controls src="audios/zelie.mp3"></audio>
+  </div>
+</div>
+
+<!-- 🌟 Message final + bouton -->
+<div id="messageFinal">💛 La fréquence est accordée. Votre cœur émet sur la même onde.</div>
+<button id="boutonSuivant" onclick="window.location.href='accueil_jour1.html'">Chaque virage mène à un souvenir…</button>
+
+<!-- 🎧 SCRIPTS AUDIO & INTERACTIONS -->
+<script>
+// --- Lancer le fond sonore ---
+const fond = new Audio('audios/fond-radio.mp3');
+fond.volume = 0.15;
+fond.loop = true;
+fond.play().catch(() => console.log("Lecture auto bloquée (navigateur)."));
+
+// --- Arrêter le fond quand un portrait joue ---
+document.querySelectorAll('audio').forEach(audio => {
+  audio.addEventListener('play', () => fond.pause());
+});
+
+// --- Mélanger les portraits aléatoirement ---
+const container = document.getElementById('container');
+const children = Array.from(container.children);
+children.sort(() => Math.random() - 0.5);
+children.forEach(child => container.appendChild(child));
+
+// --- Mode test : déverrouillage simulé ---
+setTimeout(() => {
+  const msg = document.getElementById('messageFinal');
+  msg.style.opacity = 1;
+  
+  const clic = new Audio('audios/clic.mp3');
+  clic.play();
+
+  setTimeout(() => {
+    const btn = document.getElementById('boutonSuivant');
+    btn.style.display = 'block';
+  }, 2000);
+}, 5000);
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍫 Le Goût Sucré de l’Éternel</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Lato',sans-serif;
+  background:url('https://files.catbox.moe/b74b20.png') no-repeat center center fixed;
+  background-size:cover;
+  backdrop-filter:blur(8px) brightness(0.92);
+  color:#3E332C;
+  margin:0;padding:0;
+  overflow-x:hidden;
+}
+.container{
+  max-width:850px;
+  margin:auto;
+  padding:6vw 5vw;
+}
+.card{
+  background:rgba(247,242,236,0.93);
+  border-radius:18px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  padding:6vw 5vw;
+  margin:5vw 0;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 1s ease;
+}
+.card.visible{opacity:1;transform:translateY(0);}
+h1,h2{
+  font-family:'Cormorant Garamond',serif;
+  text-align:center;
+  margin-bottom:3vw;
+}
+h1{font-size:6vw;color:#4b2b21;}
+h2{font-size:5vw;color:#8c5b3f;}
+p{
+  font-size:4vw;
+  text-align:center;
+  line-height:1.8;
+  margin:3vw auto;
+  max-width:90%;
+}
+input[type=text]{
+  padding:3vw;font-size:4vw;
+  border:1px solid #bbb;
+  border-radius:10px;
+  width:80%;
+  text-align:center;
+  display:block;
+  margin:2vw auto;
+}
+button{
+  background-color:#4b2b21;
+  color:white;
+  border:none;
+  padding:3.5vw 6vw;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:4.2vw;
+  display:block;
+  margin:4vw auto;
+  transition:all .3s ease;
+  font-family:'Lato',sans-serif;
+  font-weight:700;
+}
+button:hover{background-color:#8c5b3f;transform:scale(1.05);}
+.hidden{display:none;}
+em{color:#8c5b3f;}
+@media(min-width:700px){
+  h1{font-size:2.3rem;}h2{font-size:1.9rem;}p{font-size:1.05rem;}
+  button{font-size:1rem;padding:12px 20px;}
+  input[type=text]{font-size:1rem;padding:10px;}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- INTRODUCTION -->
+  <div class="card visible">
+    <h1>🍫 Le Goût Sucré de l’Éternel</h1>
+    <p>
+      Après le vin de la maturité vient le temps de la douceur…  
+      <br><br>
+      Cette journée marque la dernière étape de votre voyage.  
+      Laissez-vous guider par la tendresse, le parfum du cacao  
+      et la promesse d’une découverte gourmande. 🌿
+    </p>
+    <button onclick="showBlock('enigme')">🍬 Déverrouiller l’Ultime Énigme</button>
+  </div>
+
+  <!-- ÉNIGME -->
+  <div id="enigme" class="card hidden">
+    <h2>🔑 L’Énigme Finale – Le Code du Carré Parfait</h2>
+    <p>
+      Après le vin de la maturité vient le temps de la douceur.  
+      <br><br>
+      Pour découvrir votre ultime destination, un dernier calcul s’impose :  
+      Additionnez le nombre de lettres du prénom de votre premier petit-enfant  
+      au numéro du département où vous vous trouvez actuellement… 🍫
+    </p>
+    <input type="text" id="codeInput" placeholder="Entrez le code ici...">
+    <button onclick="checkCode()">Valider</button>
+    <p id="validation-message"></p>
+
+    <div id="adresseBloc" class="hidden">
+      <h3>📍 Adresse finale :</h3>
+      <p>
+        <strong>Musée du Chocolat</strong><br>
+        13 place Paul Saissac<br>
+        81310 Lisle-sur-Tarn<br>
+        ⏰ Horaire : 14h - 18h<br>
+        ⌛ Durée estimée : 1h
+      </p>
+      <button onclick="showBlock('treasure')">✨ Découvrir le Trésor Révélé</button>
+    </div>
+  </div>
+
+  <!-- TRÉSOR RÉVÉLÉ -->
+  <div id="treasure" class="card hidden">
+    <h2>✨ Le Trésor que Vous Avez Trouvé</h2>
+    <p>
+      Le chocolat, c’est le goût de l’enfance, le réconfort,  
+      le luxe du quotidien. C’est l’assemblage parfait de notes simples  
+      qui forment un tout extraordinaire… tout comme votre vie. 🍷💞  
+      <br><br>
+      Ce voyage n’était pas seulement une chasse aux codes :  
+      c’était un parcours à travers tout ce qui fait le  
+      <strong>Millésime de votre couple</strong> — la famille, l’histoire,  
+      la patience et le partage.  
+      <br><br>
+      Le plus beau des cadeaux… c’est vous. ❤️
+    </p>
+    <button onclick="window.location.href='index.html'">🏠 Retour à l’accueil</button>
+  </div>
+
+</div>
+
+<script>
+function fadeIn(el){
+  el.classList.remove('hidden');
+  setTimeout(()=>el.classList.add('visible'),100);
+}
+function showBlock(id){
+  const el=document.getElementById(id);
+  if(el){fadeIn(el);el.scrollIntoView({behavior:'smooth'});}
+}
+
+function checkCode(){
+  const val=document.getElementById('codeInput').value.trim().toLowerCase();
+  const msg=document.getElementById('validation-message');
+  if(val==="87"||val==="quatre-vingt-sept"){
+    msg.textContent="✅ Bravo ! Vous avez trouvé le code parfait.";
+    msg.style.color="green";
+    fadeIn(document.getElementById('adresseBloc'));
+    localStorage.setItem("progression","choco_ok");
+  }else{
+    msg.textContent="❌ Ce n’est pas le bon code… Réessayez !";
+    msg.style.color="red";
+  }
+}
+</script>
+
+</body>
+</html>
+
+

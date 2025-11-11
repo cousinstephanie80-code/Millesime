@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍷 Le Secret de l’Infini</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+  font-family:'Lato',sans-serif;
+  background:#f9f7f2;
+  color:#3E332C;
+  margin:0;padding:0;
+  overflow-x:hidden;
+}
+.container{
+  max-width:950px;
+  margin:auto;
+  padding:6vw 5vw;
+  text-align:center;
+  animation:fadeIn 1.5s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(30px);}
+  to{opacity:1;transform:translateY(0);}
+}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  color:#5d001e;
+  font-size:6vw;
+  margin-bottom:6vw;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:3vw;
+}
+.card{
+  background:#fffdf9;
+  border:1px solid #eaded1;
+  border-radius:18px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeCard 1.2s ease forwards;
+}
+@keyframes fadeCard{
+  to{opacity:1;transform:translateY(0);}
+}
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-bottom:1px solid #eaded1;
+}
+.card-content{
+  padding:4vw 3vw;
+}
+.card h2{
+  font-family:'Cormorant Garamond',serif;
+  color:#5d001e;
+  font-size:4.6vw;
+  margin:2vw 0 4vw;
+}
+button{
+  background-color:#5d001e;
+  color:white;
+  border:none;
+  padding:3vw 5vw;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:4vw;
+  font-weight:700;
+  font-family:'Lato',sans-serif;
+  transition:all .3s ease;
+}
+button:hover{background-color:#7e213d;transform:scale(1.05);}
+button.locked{
+  background-color:#c2b8b8;
+  cursor:not-allowed;
+  color:#fff;
+}
+input[type=text]{
+  padding:3vw;
+  font-size:4vw;
+  border:1px solid #bbb;
+  border-radius:10px;
+  width:80%;
+  text-align:center;
+  margin-top:2vw;
+}
+.hidden{display:none;}
+p{font-size:3.8vw;margin:2vw 0;}
+@media(min-width:700px){
+  h1{font-size:2.3rem;}
+  .card h2{font-size:1.5rem;}
+  button{font-size:1rem;padding:12px 20px;}
+  input[type=text]{font-size:1rem;padding:10px;}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>🍷 Le Secret de l’Infini</h1>
+
+  <div class="grid">
+    <!-- 🍇 L’INFINIMENT NOUS -->
+    <div class="card" id="vinCard">
+      <img src="https://files.catbox.moe/98bx1d.png" alt="L’Infiniment Nous">
+      <div class="card-content">
+        <h2>🍇 L’Infiniment Nous</h2>
+        <button id="vinBtn" onclick="showVinCode()">✨ Découvrez le secret du jour</button>
+        <div id="vinCodeBloc" class="hidden">
+          <p><em>Indice :</em><br>Entrez le nombre d’années d’amour que Manou célèbre cette année 💫</p>
+          <input type="text" id="vinCode" placeholder="Votre code...">
+          <button onclick="checkVin()">Valider</button>
+          <p id="vinMsg"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🍫 LE GOÛT SUCRÉ DE L’ÉTERNEL -->
+    <div class="card" id="chocoCard">
+      <img src="https://files.catbox.moe/b74b20.png" alt="Le Goût Sucré de l’Éternel">
+      <div class="card-content">
+        <h2>🍫 Le Goût Sucré de l’Éternel</h2>
+        <button id="chocoBtn" class="locked" disabled>🔒 Activité verrouillée</button>
+        <div id="chocoCodeBloc" class="hidden">
+          <p><em>Indice :</em><br>Ajoutez le nombre de lettres du prénom du premier petit-enfant au numéro du département 🍫</p>
+          <input type="text" id="chocoCode" placeholder="Votre code...">
+          <button onclick="checkChoco()">Valider</button>
+          <p id="chocoMsg"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 📖 LIVRE D’OR -->
+    <div class="card">
+      <img src="https://files.catbox.moe/nh3eoe.png" alt="Livre d’Or du Voyage">
+      <div class="card-content">
+        <h2>📖 Livre d’Or du Voyage</h2>
+        <button onclick="window.location.href='livredor.html'">📸 Ouvrir le Livre d’Or</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+  // Vérifie la progression sauvegardée
+  const etape=localStorage.getItem("progression");
+  if(etape==="vin_ok"||etape==="choco_ok"){
+    unlockChoco();
+  }
+});
+
+function showVinCode(){
+  document.getElementById('vinCodeBloc').classList.remove('hidden');
+}
+
+function checkVin(){
+  const val=document.getElementById('vinCode').value.trim();
+  const msg=document.getElementById('vinMsg');
+  if(val==="80"){
+    msg.textContent="✅ Bravo ! L’atelier vin est prêt à être découvert.";
+    msg.style.color="green";
+    document.getElementById('vinBtn').textContent="🍇 Accéder à l’Atelier Vin";
+    document.getElementById('vinBtn').onclick=function(){
+      localStorage.setItem("progression","vin_ok");
+      window.location.href='infiniment_nous.html';
+    };
+  }else{
+    msg.textContent="❌ Ce n’est pas le bon code… Essayez encore !";
+    msg.style.color="red";
+  }
+}
+
+function unlockChoco(){
+  const chocoBtn=document.getElementById('chocoBtn');
+  chocoBtn.disabled=false;
+  chocoBtn.classList.remove('locked');
+  chocoBtn.textContent="🍫 Déverrouiller l’Atelier Chocolat";
+  chocoBtn.onclick=function(){
+    document.getElementById('chocoCodeBloc').classList.remove('hidden');
+  };
+}
+
+function checkChoco(){
+  const val=document.getElementById('chocoCode').value.trim().toLowerCase();
+  const msg=document.getElementById('chocoMsg');
+  if(val==="87"||val==="quatre-vingt-sept"){
+    msg.textContent="✅ Parfait ! L’atelier chocolat vous attend.";
+    msg.style.color="green";
+    localStorage.setItem("progression","choco_ok");
+    const chocoBtn=document.getElementById('chocoBtn');
+    chocoBtn.textContent="🍫 Accéder à l’Atelier Chocolat";
+    chocoBtn.onclick=function(){
+      window.location.href='gout_sucre_eternel.html';
+    };
+  }else{
+    msg.textContent="❌ Mauvais code… Réessayez !";
+    msg.style.color="red";
+  }
+}
+</script>
+
+</body>
+</html>
+
