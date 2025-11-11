@@ -68,6 +68,9 @@
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            /* Ajout des styles pour ressembler à une vignette déverrouillée */
+            filter: grayscale(0); /* S'assurer qu'il n'y a pas de filtre de gris */
+            opacity: 1; /* S'assurer qu'elle est entièrement visible */
         }
         
         @media (max-width: 600px) {
@@ -128,67 +131,16 @@
             color: #d89617; 
         }
 
-        /* État verrouillé */
+        /* Suppression de l'état verrouillé car toutes les vignettes sont déverrouillées */
         .vignette.locked {
+            /* Ces styles ne sont plus appliqués par le JS, mais peuvent rester ici sans effet. */
             filter: grayscale(0.8) opacity(0.5);
             cursor: not-allowed;
             background: var(--color-beige-textile);
         }
         .vignette.locked:hover {
-             transform: none;
-             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        /* Pop-up verrouillage */
-        #popup {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .popup-content {
-            background: var(--color-beige-textile);
-            color: var(--color-text-dark);
-            padding: 2rem;
-            border-radius: 14px;
-            max-width: 90%;
-            width: 420px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            animation: fadeIn 0.4s ease forwards;
-            border: 3px solid var(--color-lock-red);
-        }
-
-        .popup-content h2 {
-            color: var(--color-lock-red);
-            margin-bottom: 0.8rem;
-            font-family: 'Cormorant Garamond', serif;
-        }
-
-        .popup-content button {
-            background: var(--color-millésime-gold);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.6rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-        .popup-content button:hover {
-            background: #9d7553;
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(10px);}
-            to {opacity: 1; transform: translateY(0);}
+            transform: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -202,23 +154,10 @@
 
     <div class="gallery" id="gallery"></div>
 
-    <div id="popup">
-        <div class="popup-content">
-            <h2>🔒 En attente de la maturité du Millésime...</h2>
-            <p>Ce chapitre est encore scellé. Les secrets du grand voyage ne se dévoilent qu'à partir de **Juin 2026**.</p>
-            <button id="closePopup">Compris</button>
-        </div>
-    </div>
-
     <script>
-        // -------- CONFIGURATION POUR DOUBLE COMMANDE --------
-        // Si l'URL contient "?preview=true", le mode développeur est activé (tout est accessible).
-        const urlParams = new URLSearchParams(window.location.search);
-        const previewMode = urlParams.get('preview') === 'true'; 
+        // La logique de verrouillage basée sur la date et le mode preview est supprimée.
+        // Toutes les vignettes sont considérées comme déverrouillées.
         
-        const unlockDate = new Date("2026-06-01T00:00:00");
-        const now = new Date();
-
         const vignettes = [
             {
                 titre: "Le Début d'un Secret", // Vignette 1 (Noël)
@@ -231,29 +170,25 @@
                 titre: "💛 Les Voix du Cœur", // Vignette 2 (Juin / Audio)
                 phrase: "Juste avant le départ, un murmure familial pour vous guider sur la route...",
                 img: "images/voix.jpg",
-                lien: "message_route.html", 
-                accessible: false 
+                lien: "message_route.html"
             },
             {
                 titre: "🛣️ La Route des Souvenirs", // Vignette 3 (Jour 1)
                 phrase: "Chaque virage mène à un souvenir.",
                 img: "images/jour1.jpg",
-                lien: "jour1_accueil.html", 
-                accessible: false
+                lien: "jour1_accueil.html"
             },
             {
                 titre: "💎 Le Secret du Millésime", // Vignette 4 (Jour 2)
                 phrase: "Certains secrets ne se dévoilent qu'à maturité.",
                 img: "images/jour2.jpg",
-                lien: "jour2_accueil.html", 
-                accessible: false
+                lien: "jour2_accueil.html"
             },
             {
                 titre: "📜 Ce que les uns partagent", // Vignette 5 (Livre d'Or)
                 phrase: "Le séjour s'achève, mais l'histoire continue de s'écrire.",
                 img: "images/livre.jpg",
-                lien: "livre-or.html",
-                accessible: false
+                lien: "livre-or.html"
             }
         ];
 
@@ -263,15 +198,11 @@
         vignettes.forEach(v => {
             const div = document.createElement("div");
             
-            // Logique de déverrouillage : Noël est toujours déverrouillé OU le mode preview est actif OU la date de juin est atteinte.
-            const isUnlocked = previewMode || v.isNoel || now >= unlockDate;
-            
             let className = "vignette";
             if (v.isNoel) {
                 className += " noel";
-            } else if (!isUnlocked) {
-                className += " locked";
             }
+            // La classe "locked" n'est plus ajoutée.
             
             div.className = className;
             div.innerHTML = `
@@ -281,23 +212,10 @@
             `;
 
             div.addEventListener("click", () => {
-                if (isUnlocked) {
-                    window.location.href = v.lien;
-                } else {
-                    document.getElementById("popup").style.display = "flex";
-                }
+                window.location.href = v.lien;
             });
 
             gallery.appendChild(div);
-        });
-
-        // -------- POPUP --------
-        const popup = document.getElementById("popup");
-        document.getElementById("closePopup").addEventListener("click", () => {
-            popup.style.display = "none";
-        });
-        popup.addEventListener("click", e => {
-            if (e.target === popup) popup.style.display = "none";
         });
     </script>
 
