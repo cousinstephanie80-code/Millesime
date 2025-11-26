@@ -92,32 +92,18 @@
     }
 
     /* Ruban animé */
-    .cadeau::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 40px;
-        height: 100%;
-        background: rgba(180, 80, 60, 0.8);
-        border-radius: 4px;
-        transition: transform 1.5s ease;
-    }
+    
 
     .cadeau.ouvert {
         transform: scale(1.1) rotateX(15deg);
         filter: brightness(1.3);
     }
-    .cadeau.ouvert::before {
-        transform: translateX(-50%) scaleY(0);
-        opacity: 0;
-    }
+    
 
     /* Énigme */
     .enigme {
         display: none;
-        margin: 2rem auto;
+        margin: 15vh auto 2rem;
         background: rgba(255,255,255,0.85);
         padding: 1rem 2rem;
         border-radius: 10px;
@@ -264,7 +250,12 @@
     <img src="images/etincelles.gif" alt="étincelles" class="etincelles" id="etincelles">
 </div>
 
-<p class="message" id="bravo">Bravo ! Le secret s’ouvre doucement… 🌟 Écoutez bien ce qui suit.</p>
+
+<p class="message" id="bravo" style="font-size:1.4rem; color:#D8A24C; cursor:pointer; text-align:center;">
+    🌟 Le voile se lève sur une douce surprise... ✨<br>
+    👉 <span id="startAudio" style="text-decoration:underline;">Ouvrir le Message</span>
+</p>
+
 
 <div class="locked-message" id="locked-message"></div>
 
@@ -341,11 +332,11 @@ document.getElementById("demarrer").addEventListener("click", () => {
     intro.style.opacity = 0;
     setTimeout(() => { intro.style.display = 'none'; }, 3000);
     
-    // 2. Afficher l'énigme immédiatement
+    // 2. Masquer l'intro et afficher l'énigme sans saut de page
     setTimeout(() => {
+        intro.style.display = 'none';
         enigme.style.display = "block";
-        enigme.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 1000);
+    }, 800);
 });
 
 // 3. ✅ Validation de l'énigme → Lance la Vidéo (et plein écran)
@@ -458,6 +449,12 @@ cadeau.addEventListener("click", () => {
         }, 8000); 
     }
 });
+
+document.getElementById("startAudio").addEventListener("click", () => {
+    document.getElementById("bravo").style.display = "none";
+    voix.play();
+});
+
 </script>
 </body>
 </html>
