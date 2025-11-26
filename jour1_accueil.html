@@ -7,14 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        /* Définition des couleurs thématiques */
         :root {
-            --color-cacao-dark: #4F352C;    /* Brun Cacao / Titres */
-            --color-millésime-gold: #B48A64; /* Or/Vin */
-            --color-beige-textile: #F7F4F0; /* Fond principal */
+            --color-cacao-dark: #4F352C;
+            --color-millésime-gold: #B48A64;
+            --color-beige-textile: #F7F4F0;
             --color-text-dark: #3E332C;
-            --color-light-bg: #fffaf4;  /* Fond des conteneurs */
-            --color-lock-red: #924B4B;  /* Couleur de verrouillage */
+            --color-light-bg: #fffaf4;
         }
 
         body {
@@ -24,7 +22,18 @@
             color: var(--color-text-dark);
             text-align: center;
             min-height: 100vh;
-            padding: 5vh 0;
+            padding: 0;
+        }
+
+        /* 🖼️ Bannière haute */
+        .banniere-top {
+            width: 100%;
+            height: 300px;
+            background-image: url('images/banniere_parents.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
         h1 {
@@ -32,247 +41,226 @@
             color: var(--color-cacao-dark);
             font-size: 2.8rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            margin-top: 35px;
+            margin-bottom: 10px;
         }
-        
-        /* Conteneur des vignettes */
+
+        /* ⭐ BLOC TRANSLUCIDE REUTILISABLE */
+        .bloc-translucide {
+            background: rgba(255,250,240,0.75);
+            backdrop-filter: blur(4px);
+            border-radius: 14px;
+            border: 2px solid rgba(180,138,100,0.35);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        }
+
+        /* ⭐ Bandeau d’intro */
+        .bandeau-intro {
+            margin: 30px auto;
+            padding: 18px 25px;
+            max-width: 850px;
+        }
+
+        .bandeau-intro p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--color-cacao-dark);
+            margin: 0;
+        }
+
+        /* 🖼️ Conteneur des vignettes */
         .menu-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
-            max-width: 1000px; /* Espace pour deux colonnes de vignettes */
-            margin: 40px auto;
+            max-width: 1000px;
+            margin: 40px auto 60px;
             padding: 20px;
         }
 
-        /* ⬅️ STYLE VIGNETTE AVEC PHOTO */
+        /* 🔳 Vignettes individuelles */
         .vignette {
             width: 100%;
             max-width: 300px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            background: #fff;
             cursor: pointer;
-            
-            /* ⬅️ RESTAURATION DES STYLES D'APPARITION */
+            padding-bottom: 10px;
             opacity: 0;
             transform: translateY(20px);
             animation: fadeInUp 0.8s ease forwards;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            
-            text-align: left;
             overflow: hidden;
             position: relative;
+            text-align: left;
         }
-        
-        /* ⬅️ ANIMATION DE DÉPART */
+
+        .vignette img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .vignette-content {
+            padding: 15px;
+        }
+
+        .vignette h2 {
+            margin: 0 0 6px 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--color-millésime-gold);
+        }
+
+        .vignette p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--color-text-dark);
+            opacity: 0.85;
+        }
+
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .vignette:hover:not(.locked) {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-        }
-
-        .vignette img {
-            width: 100%;
-            height: 150px; /* Hauteur définie pour toutes les photos */
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .vignette-content {
-            padding: 15px;
-        }
-        
-        .vignette h2 {
-            margin: 0 0 5px 0;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            color: var(--color-millésime-gold);
-        }
-        
-        .vignette p {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--color-text-dark);
-            opacity: 0.8;
-        }
-        
-        /* État verrouillé */
         .locked {
             filter: grayscale(0.8) opacity(0.6);
             cursor: not-allowed;
         }
-        .locked h2 {
-            color: var(--color-lock-red) !important;
-        }
+
         .locked-icon {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 3rem;
-            color: var(--color-lock-red);
-            opacity: 0.8;
-            pointer-events: none;
+            color: #924B4B;
         }
-        
-        /* Bouton Retour */
+
+        /* 🔙 Bouton retour */
         .btn-retour {
             background-color: var(--color-cacao-dark);
-            color: white;
+            color: #fff;
             padding: 12px 25px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 700;
             transition: background-color 0.3s;
-            margin-top: 30px;
+            margin-bottom: 40px;
             display: inline-block;
         }
-        .btn-retour:hover {
-            background-color: #3b2b24;
-        }
 
-        /* Responsive pour les colonnes */
-        @media (max-width: 650px) {
-            .menu-container {
-                flex-direction: column;
-                max-width: 90%;
-            }
-            .vignette {
-                max-width: 100%;
-            }
+        .btn-retour:hover {
+            background-color: #382820;
         }
     </style>
 </head>
 
 <body>
 
-    <main>
-        <h1>JOUR 1 — La Trame à Suivre 🗺️</h1>
-        <p>Sélectionnez une étape pour découvrir le secret ou reprendre votre progression.</p>
+    <div class="banniere-top"></div>
 
-        <div class="menu-container" id="menuContainer">
-            
-            </div>
-        
+    <h1>JOUR 1 — La Trame à Suivre 🗺️</h1>
+
+    <!-- ⭐ BLOC INTRO AVEC CLASSE TRANSLUCIDE -->
+    <div class="bandeau-intro bloc-translucide">
+        <p>Chaque virage mène à un souvenir…<br>Suivez la trame et laissez la magie opérer.</p>
+    </div>
+
+    <main>
+        <div class="menu-container" id="menuContainer"></div>
         <a href="index.html" class="btn-retour">⬅️ Retour à l'Aventure</a>
     </main>
 
 <script>
-// Clés d'état dans le localStorage pour la progression
-const STATE_DEPART_ACCESSIBLE = 'jour1_depart_ok'; 
-const STATE_MUSEE_RESOLU = 'jour1_musee_ok';       
-const STATE_HOTEL_RESOLU = 'jour1_hotel_ok';      
-const STATE_RESTAU_RESOLU = 'jour1_restau_ok';     
-const STATE_JOUR1_FINI = 'jour1_fini';             
+/* 🔐 Système de progression */
+const STATE_DEPART_ACCESSIBLE = 'jour1_depart_ok';
+const STATE_MUSEE_RESOLU = 'jour1_musee_ok';
+const STATE_HOTEL_RESOLU = 'jour1_hotel_ok';
+const STATE_RESTAU_RESOLU = 'jour1_restau_ok';
 
-// Étapes du Menu (5 vignettes) - Intègre la narration et les images validées
 const ETAPES = [
-    {
-        id: 'depart',
-        titre: '1. L\'Écheveau Initial',
-        description: "Débutez la journée, mais n'oubliez pas les haltes sur votre chemin.",
-        img: 'images/vignette_route.jpg',
-        lien: 'jour1_enigme_labastide.html', 
-        requires: [] 
-    },
-    {
-        id: 'musee',
-        titre: '2. Le Savoir-Faire Oublié',
-        description: "Un murmure d'autrefois vous révèlera votre première véritable destination.",
-        img: 'images/vignette_bobine.jpg',
-        lien: 'jour1_enigme_musee_textile.html',
-        requires: [STATE_DEPART_ACCESSIBLE] 
-    },
-    {
-        id: 'hotel',
-        titre: '3. Le Havre de Paix',
-        description: "Votre première récompense : le lieu où le calme et le repos vous attendent.",
-        img: 'images/vignette_paix.jpg',
-        lien: 'jour1_revelation_hotel.html', 
-        requires: [STATE_MUSEE_RESOLU] 
-    },
-    {
-        id: 'restaurant',
-        titre: '4. La Révélation Gourmande',
-        description: "L\'heure de l\'éloge des saveurs. Trouvez l\'adresse de votre dîner.",
-        img: 'images/vignette_plat.jpg',
-        lien: 'jour1_revelation_restau.html', 
-        requires: [STATE_HOTEL_RESOLU] 
-    },
-    {
-        id: 'fin_journee',
-        titre: '5. L\'Heure du Repos',
-        description: "La parenthèse s'achève... Un dernier message avant que la trame ne reprenne demain.",
-        img: 'images/vignette_nuit.jpg',
-        lien: 'jour1_fin.html',
-        requires: [STATE_RESTAU_RESOLU] 
-    }
+    {
+        id: 'depart',
+        titre: "1. L'Écheveau Initial",
+        description: "Débutez la journée, mais n'oubliez pas les haltes sur votre chemin.",
+        img: 'images/vignette_route.jpg',
+        lien: 'jour1_enigme_labastide.html',
+        requires: []
+    },
+    {
+        id: 'musee',
+        titre: "2. Le Savoir-Faire Oublié",
+        description: "Un murmure d'autrefois vous révélera votre première destination.",
+        img: 'images/vignette_bobine.jpg',
+        lien: 'jour1_enigme_musee_textile.html',
+        requires: [STATE_DEPART_ACCESSIBLE]
+    },
+    {
+        id: 'hotel',
+        titre: "3. Le Havre de Paix",
+        description: "Votre première récompense : un lieu de repos.",
+        img: 'images/vignette_paix.jpg',
+        lien: 'jour1_revelation_hotel.html',
+        requires: [STATE_MUSEE_RESOLU]
+    },
+    {
+        id: 'restaurant',
+        titre: "4. La Révélation Gourmande",
+        description: "L'adresse de votre dîner vous attend.",
+        img: 'images/vignette_plat.jpg',
+        lien: 'jour1_revelation_restau.html',
+        requires: [STATE_HOTEL_RESOLU]
+    },
+    {
+        id: 'fin_journee',
+        titre: "5. L'Heure du Repos",
+        description: "Un dernier message avant demain.",
+        img: 'images/vignette_nuit.jpg',
+        lien: 'jour1_fin.html',
+        requires: [STATE_RESTAU_RESOLU]
+    }
 ];
 
-// Vérification du mode preview (URL contient ?preview=true)
-const urlParams = new URLSearchParams(window.location.search);
-const previewMode = urlParams.get('preview') === 'true';
-
-// -----------------------------------------------------------
-// --- LOGIQUE DE L'AFFICHAGE ET DU DÉVERROUILLAGE ---
-// -----------------------------------------------------------
-
 function updateMenu() {
-    const menuContainer = document.getElementById('menuContainer');
-    menuContainer.innerHTML = ''; // Nettoyage
-    
-    ETAPES.forEach(etape => {
-        const div = document.createElement('div');
-        let isUnlocked = true;
-        
-        // Logique de vérification des prérequis
-        if (!previewMode) {
-            etape.requires.forEach(stateKey => {
-                if (localStorage.getItem(stateKey) !== 'true') {
-                    isUnlocked = false;
-                }
-            });
-        }
-        
-        div.className = 'vignette' + (isUnlocked ? '' : ' locked');
-        
-        // Application d'un délai d'animation basé sur l'index
-        const index = ETAPES.indexOf(etape);
-        div.style.animationDelay = `${0.1 + index * 0.1}s`;
+    const cont = document.getElementById('menuContainer');
+    cont.innerHTML = "";
 
-        let htmlContent = `
-            <img src="${etape.img}" alt="${etape.titre}" />
-            <div class="vignette-content">
-                <h2>${etape.titre}</h2>
-                <p>${etape.description}</p>
-            </div>
-        `;
-        
-        // Afficher le cadenas si verrouillé
-        if (!isUnlocked) {
-             htmlContent += `<span class="locked-icon">🔒</span>`;
-        }
-        
-        div.innerHTML = htmlContent;
-        
-        div.addEventListener('click', () => {
-            if (isUnlocked) {
-                // La logique de déverrouillage au clic est maintenant gérée par les pages cibles.
-                window.location.href = etape.lien;
-            }
-        });
-        
-        menuContainer.appendChild(div);
-    });
+    ETAPES.forEach((etape, index) => {
+        const div = document.createElement('div');
+
+        let unlocked = true;
+        etape.requires.forEach(req => {
+            if (localStorage.getItem(req) !== 'true') unlocked = false;
+        });
+
+        div.className = 'vignette bloc-translucide' + (unlocked ? '' : ' locked');
+        div.style.animationDelay = (0.15 * index) + 's';
+
+        let html = `
+            <img src="${etape.img}" alt="${etape.titre}">
+            <div class="vignette-content">
+                <h2>${etape.titre}</h2>
+                <p>${etape.description}</p>
+            </div>
+        `;
+
+        if (!unlocked) {
+            html += `<span class="locked-icon">🔒</span>`;
+        }
+
+        div.innerHTML = html;
+
+        if (unlocked) {
+            div.addEventListener('click', () => {
+                window.location.href = etape.lien;
+            });
+        }
+
+        cont.appendChild(div);
+    });
 }
 
-// Lancement de la mise à jour du menu
 document.addEventListener('DOMContentLoaded', updateMenu);
 </script>
 

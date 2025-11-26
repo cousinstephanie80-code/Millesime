@@ -245,7 +245,11 @@ footer {
       L'air du Languedoc vous guidera ensuite vers le secret qui y est caché...
     </p>
 
-    
+    <div class="choix-halte fade-in">
+      <p>Alors, quel est votre choix ?</p>
+      <a href="#" id="btnPause" class="bouton-action bouton-dejeuner">🍴 Pause Gourmande à Saint-Pons</a>
+      <a href="#" id="btnContinuer" class="bouton-action bouton-continuer">🚀 Le Mystère Nous Attend, Continuons !</a>
+    </div>
   </details>
 
   <details id="dejeuner-st-pons" class="fade-in">
@@ -358,7 +362,7 @@ sonPrincipal.volume = 0.25; 
 
 const sonMix = new Audio('audios/cigales.mp3'); 
 sonMix.loop = true;
-sonMix.volume = 0.10; 
+sonMix.volume = 0.15; 
 
 const sonToggle = document.getElementById("son-toggle");
 let audioInitie = false;
