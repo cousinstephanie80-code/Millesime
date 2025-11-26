@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Nous à Vous – Radio Papou & Manou FM 🎙️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* Définition des couleurs thématiques (pour cohérence, même si le fond est différent) */
+:root {
+    --color-cacao-dark: #4F352C;    /* Brun Cacao / Textile foncé */
+    --color-millésime-gold: #B48A64; /* Or/Vin */
+    --color-beige-textile: #F7F4F0; /* Beige clair */
+    --color-text-dark: #3E332C;
+}
+
+/* 🌈 --- STYLE GLOBAL --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Lato', sans-serif;
+    background: 
+        linear-gradient(135deg, rgba(173,216,230,0.6) 0%, rgba(255,218,185,0.6) 100%),
+        url('images/fond-radio.jpg') center/cover no-repeat fixed;
+    color: var(--color-text-dark);
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* 🌟 --- TITRE PRINCIPAL --- */
+h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    color: #FF6F61;
+    text-shadow: 0 0 8px rgba(255,111,97,0.6);
+    margin-top: 4vh;
+    position: relative;
+}
+
+/* halo lumineux sous le titre */
+h1::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -12px;
+    width: 180px;
+    height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.8), transparent);
+    filter: blur(6px);
+}
+
+/* --- SOUS-TITRE --- */
+p.subtitle {
+    color: #f0fff0; /* vert très clair */
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+    font-size: 1.2rem;
+    margin-bottom: 3vh;
+}
+
+/* --- MESSAGE D’INDICATION --- */
+p.indication {
+    color: #fffaf0;
+    font-style: italic;
+    font-size: 1.rem;
+    margin-bottom: 5vh;
+    line-height: 1.6;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
+}
+
+/* --- ONDES RADIO --- */
+.onde {
+    width: 100%;
+    max-height: 200px;
+    opacity: 0.3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+/* --- CONTENEUR DES PORTRAITS --- */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 1100px;
+    margin: auto;
+    padding: 2rem;
+    opacity: 0;
+    animation: fadeIn 2s ease forwards;
+}
+
+/* --- ÉLÉMENT INDIVIDUEL (pour JS) --- */
+.item {
+    text-align: center;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.item:hover {
+    opacity: 0.8;
+}
+
+/* --- PORTRAITS EN ROND STYLE VINYLE --- */
+.portrait {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: radial-gradient(circle at 30% 30%, #fff8f2, #c1a48f);
+    box-shadow: 0 0 15px rgba(255,111,97,0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border 0.5s ease;
+    border: 5px solid transparent; /* Bordure par défaut */
+}
+
+.portrait:hover {
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 0 25px rgba(255,111,97,0.6);
+}
+
+/* --- FEEDBACK VISUEL : SÉQUENCE CORRECTE (Style Vinyle) --- */
+.portrait.correct {
+    border: 5px solid #FFD700; /* Or */
+    box-shadow: 0 0 20px #FFD700, inset 0 0 10px #FFD700;
+    transform: none; 
+    cursor: default;
+}
+
+/* --- IMAGES RONDES --- */
+.portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* --- LISIBILITÉ DES NOMS --- */
+.nom {
+    margin-top: 0.6rem;
+    color: var(--color-cacao-dark); /* Brun foncé pour un meilleur contraste */
+    background: #fffaf0; /* Fond très clair pour s'assurer qu'il ressort sur l'arrière-plan */
+    padding: 2px 8px;
+    border-radius: 5px;
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* --- MESSAGE FINAL --- */
+#messageFinal {
+    opacity: 0;
+    transition: opacity 2s ease;
+    margin-top: 4vh;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--color-text-dark);
+    font-size: 1.3rem;
+}
+
+/* --- BOUTON FINAL --- */
+#boutonSuivant {
+    display: none;
+    margin: 3vh auto;
+    padding: 1rem 2.2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(90deg, #FF6F61, #FFB6C1);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255,182,193,0.6);
+    transition: all 0.4s ease;
+    animation: pulse 3s infinite;
+}
+
+/* --- EFFET PULSE DOUX --- */
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(255,182,193,0.4); transform: scale(1); }
+    50% { box-shadow: 0 0 25px rgba(255,182,193,0.8); transform: scale(1.03); }
+    100% { box-shadow: 0 0 10px rgba(255,182,193,0.4); transform: scale(1); }
+}
+
+#boutonSuivant:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255,182,193,0.9);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .portrait { width: 120px; height: 120px; }
+    h1 { font-size: 1.8rem; }
+    p.subtitle { font-size: 1rem; }
+    p.indication { font-size: 0.9rem; }
+}
+</style>
+</head>
+
+<body>
+
+<img src="images/ondes.svg" alt="ondes radio" class="onde">
+
+<h1>De Nous à Vous 💛</h1>
+<p class="subtitle">Bienvenue sur Radio Papou & Manou FM 🎙️</p>
+
+<p class="indication" aria-label="Aide déverrouillage">
+    Papou & Manou, pour ressentir l'harmonie parfaite de notre petite station, suivez le murmure des années.<br>
+    L'ordre de nos naissances est la clé qui ouvrira le chemin du millésime. 🎶🔑
+</p>
+
+<div class="container" id="container">
+    </div>
+
+<div id="messageFinal">💛 La fréquence est accordée. Votre cœur émet sur la même onde.</div>
+<button id="boutonSuivant">Chaque virage mène à un souvenir…</button>
+
+<script>
+// --- DATAS : Ordre des Naissances (clés d'identification) ---
+const PORTRAITS_DATA = [
+    { id: 'stephanie', nom: 'Stéphanie', image: 'stephanie.jpg', audio: 'stephanie.mp3' },
+    { id: 'dimitri', nom: 'Dimitri', image: 'dimitri.jpg', audio: 'dimitri.mp3' },
+    { id: 'segolene', nom: 'Ségolène', image: 'segolene.jpg', audio: 'segolene.mp3' },
+    // Océane est la 4ème de la séquence.
+    { id: 'oceane', nom: 'Océane & Thomas', image: 'oceane-thomas.jpg', audio: 'oceane-thomas.mp3' }, 
+    { id: 'solene', nom: 'Solène', image: 'solene.jpg', audio: 'solene.mp3' },
+    // ⬅️ NOM CORRIGÉ ICI : "Viktor et Anna"
+    { id: 'viktor', nom: 'Viktor et Anna', image: 'viktor.jpg', audio: 'viktor.mp3' }, 
+    { id: 'leontin', nom: 'Léontin', image: 'leontin.jpg', audio: 'leontin.mp3' },
+    { id: 'sam', nom: 'Sam', image: 'sam.jpg', audio: 'sam.mp3' },
+    { id: 'felix', nom: 'Félix', image: 'felix.jpg', audio: 'felix.mp3' }, 
+    { id: 'edgar', nom: 'Edgar', image: 'edgar.jpg', audio: 'edgar.mp3' },
+    { id: 'zelie', nom: 'Zélie', image: 'zelie.jpg', audio: 'zelie.mp3' }
+];
+
+// --- ÉLÉMENTS DU DOM ---
+const fondAudio = new Audio('audios/fond-radio.mp3');
+const clicAudio = new Audio('audios/clic.mp3');
+const container = document.getElementById('container');
+const boutonSuivant = document.getElementById('boutonSuivant');
+const messageFinal = document.getElementById('messageFinal');
+
+// --- LOGIQUE DE L'ÉNIGME ---
+const SEQUENCE_CORRECTE = PORTRAITS_DATA.map(p => p.id); 
+let progression = 0; 
+let audioEnCours = null; 
+
+// 1. Démarrage du Fond Sonore (Uniquement au début)
+function demarrerFond() {
+    fondAudio.volume = 0.3; 
+    fondAudio.loop = true;
+    fondAudio.play().catch(() => console.log("Lecture auto du fond bloquée (navigateur)."));
+}
+
+// 2. Génération des Portraits Aléatoires
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function genererPortraits() {
+    const portraitsAleatoires = [...PORTRAITS_DATA];
+    shuffle(portraitsAleatoires);
+
+    portraitsAleatoires.forEach(data => {
+        const item = document.createElement('div');
+        item.className = 'item';
+        item.setAttribute('data-id', data.id); 
+        
+        // Structure HTML (Vinyle + Nom + Audio)
+        item.innerHTML = `
+            <div class="portrait">
+                <img src="images/portraits/${data.image}" alt="${data.nom}">
+            </div>
+            <div class="nom">${data.nom}</div>
+            <audio src="audios/${data.audio}"></audio>
+        `;
+        
+        container.appendChild(item);
+    });
+}
+
+// 3. Gestion du Clic sur un Portrait
+function gererClic(event) {
+    const item = event.currentTarget; 
+    const idClique = item.getAttribute('data-id');
+    const audioElement = item.querySelector('audio');
+    const portraitElement = item.querySelector('.portrait');
+
+    // Si le portrait est déjà correct, on ne fait rien
+    if (portraitElement.classList.contains('correct')) {
+        return;
+    }
+
+    // Arrêter l'audio en cours s'il y en a un
+    if (audioEnCours && !audioEnCours.paused) {
+        audioEnCours.pause();
+        audioEnCours.currentTime = 0;
+    }
+    
+    // Jouer le nouvel audio
+    audioElement.play();
+    audioEnCours = audioElement;
+
+    // Baisser le volume du fond sonore pendant la lecture
+    if (fondAudio) {
+        fondAudio.volume = 0.05; 
+        
+        // Rétablir le volume du fond à la fin de la lecture du portrait
+        audioElement.onended = () => {
+            fondAudio.volume = 0.3;
+        };
+    }
+
+
+    // 4. LOGIQUE DE VÉRIFICATION DE LA SÉQUENCE
+    if (idClique === SEQUENCE_CORRECTE[progression]) {
+        // ✅ Clic Correct
+        portraitElement.classList.add('correct');
+        clicAudio.play();
+        progression++; 
+        
+        // 5. VÉRIFICATION DE LA FIN DE L'ÉNIGME
+        if (progression === SEQUENCE_CORRECTE.length) {
+            deverrouillerChemin();
+        }
+
+    } else {
+        // ❌ Clic Incorrect : Vérifie si c'est une erreur de séquence
+        if (progression > 0) {
+            
+            // Si l'utilisateur clique sur la mauvaise personne, on réinitialise l'affichage 
+            // de toutes les vignettes à partir de l'étape en cours (progression).
+            const tousLesPortraits = document.querySelectorAll('.portrait');
+            tousLesPortraits.forEach(p => {
+                const pId = p.closest('.item').getAttribute('data-id');
+                const indexDansSequence = SEQUENCE_CORRECTE.indexOf(pId);
+                
+                // Si l'élément est au-delà du dernier clic correct, on enlève la classe 'correct'
+                if (indexDansSequence >= progression) {
+                    p.classList.remove('correct');
+                }
+            });
+            
+            // Note: La variable 'progression' n'est pas réinitialisée, conservant la mémoire.
+        }
+    }
+}
+
+// 6. Déverrouillage Final
+function deverrouillerChemin() {
+    fondAudio.pause();
+    
+    messageFinal.style.opacity = 1;
+    clicAudio.play();
+    
+    // Correction du lien final
+    boutonSuivant.setAttribute('onclick', "window.location.href='jour1_accueil.html'");
+    
+    setTimeout(() => {
+        boutonSuivant.style.display = 'block';
+    }, 2000);
+}
+
+// --- INITIALISATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    genererPortraits();
+    demarrerFond();
+
+    // Attacher l'écouteur à tous les éléments '.item' générés
+    document.querySelectorAll('.item').forEach(item => {
+        item.addEventListener('click', gererClic);
+    });
+});
+</script>
+
+</body>
+</html>

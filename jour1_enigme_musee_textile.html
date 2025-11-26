@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📜 Le Murmure de la Haute-Laine</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Définition des couleurs thématiques */
+        :root {
+            --color-cacao-dark: #4F352C;    /* Brun Cacao / Titres */
+            --color-millésime-gold: #B48A64; /* Or/Vin */
+            --color-beige-textile: #F7F4F0; 
+            --color-text-dark: #3E332C;
+            --color-leaf: #7A905D;          /* Couleur verte pour le succès */
+            --color-error-red: #d9534f;
+            --color-light-bg: rgba(255, 250, 240, 0.95); /* Bloc principal très clair */
+            --color-btn-audio: #8C6A5A; 
+        }
+
+        /* 🌿 STYLE GLOBAL */
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--color-text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            
+            /* FOND IMMERSIF : VIGNETTE BOBINE (Textile) */
+            background: url('images/vignette_bobine.jpg') center/cover no-repeat fixed;
+            background-size: cover;
+        }
+
+        /* BLOC CENTRAL DE STYLE "ENVELOPE" */
+        main {
+            max-width: 900px;
+            margin: 4vw auto; 
+            padding: 25px;
+        }
+
+        .bloc-contenu {
+            background: var(--color-light-bg); 
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center; /* Centrage du contenu */
+            max-width: 800px;
+            margin: 4vw auto; 
+        }
+
+        /* TITRES */
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--color-cacao-dark);
+            font-size: 2.8rem; 
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Enigme */
+        .enigme-reponse-zone {
+            margin: 20px auto;
+        }
+        .introduction-text {
+            text-align: center; 
+        }
+        .input-validation-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .input-style {
+            padding: 10px;
+            border-radius: 6px;
+            border: 2px solid var(--color-millésime-gold);
+            width: 60%;
+            max-width: 200px;
+            font-size: 1rem;
+        }
+
+        /* BOUTONS */
+        .btn-action {
+            padding: 12px 25px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-decoration: none; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+            border: none;
+            display: inline-block;
+            margin: 10px;
+        }
+        .btn-audio { 
+            background-color: var(--color-btn-audio); 
+            color: white; 
+        }
+        .btn-audio:hover { background-color: #927568; }
+        .btn-valider { 
+            background-color: var(--color-error-red); 
+            color: white; 
+        }
+        .btn-valider:hover { background-color: #c24541; }
+        .btn-next-enigme {
+             background-color: var(--color-cacao-dark);
+             color: white;
+             padding: 15px 30px;
+             margin-top: 20px;
+             line-height: 1.2; 
+        }
+        .btn-next-enigme:hover { background-color: #3b2b24; }
+
+        /* RÉVÉLATION */
+        #revelation-content {
+            /* ⬅️ Masquage par défaut simple et fiable */
+            display: none; 
+            transition: opacity 1.5s ease;
+            margin-top: 25px;
+            text-align: center; 
+            padding: 0 20px;
+        }
+        
+        .succes-title { 
+            color: var(--color-leaf); 
+            font-size: 1.5rem; 
+            margin-top: 15px;
+            font-family: 'Cormorant Garamond', serif; 
+        }
+        .destination-title { 
+            color: var(--color-cacao-dark); 
+            margin-bottom: 15px; 
+            font-family: 'Cormorant Garamond', serif; 
+        }
+
+        /* Lien Vidéo Direct */
+        .btn-video-link {
+            background-color: #bb0000; /* Rouge YouTube */
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            max-width: 350px;
+            margin: 20px auto;
+            transition: background-color 0.3s;
+        }
+        .btn-video-link:hover {
+            background-color: #8c0000;
+        }
+
+        /* Organisation block */
+        .organisation-block {
+            max-width: 450px;
+            margin: 20px auto; /* Centré */
+            padding: 15px;
+            border: 1px dashed var(--color-leaf);
+            border-radius: 8px;
+            background: var(--color-beige-textile);
+            text-align: left;
+        }
+
+        /* FOOTER & SON */
+        #son-toggle { position: fixed; bottom: 15px; right: 15px; background: #DCD7C9; border: 2px solid var(--color-cacao-dark); color: var(--color-cacao-dark); border-radius: 50%; width: 40px; height: 40px; text-align: center; line-height: 38px; cursor: pointer; font-size: 1.1rem; transition: all 0.3s ease; }
+        #son-toggle:hover { background: #EBE6D8; }
+
+        @media (max-width: 600px) {
+            .bloc-contenu { margin: 5vw; padding: 20px; }
+            .input-validation-group { flex-direction: column; }
+            .input-style { margin-right: 0; margin-bottom: 10px; width: 90%; max-width: 90%; }
+            .btn-valider { width: 90%; }
+            #revelation-content { padding: 0; }
+        }
+    </style>
+</head>
+
+<body class="musee-page">
+    
+    <main>
+        <div class="bloc-contenu">
+            <h1>📜 Le Murmure de la Haute-Laine</h1>
+
+            <p class="introduction-text">
+                La navette du temps s’est posée en ce lieu d’histoires. Le fil d’une mémoire oubliée nous guide vers cette ancienne manufacture.<br>
+                Pour découvrir quel trésor de savoir-faire y est précieusement conservé, laissez-vous porter par le murmure des bobines...
+            </p>
+
+            <div class="audio-zone">
+                <button id="btnAudio" class="btn-action btn-audio">🎙️ Écouter le murmure de la laine</button>
+                <audio id="audioMusee" src="audios/murmure-laine.mp3"></audio>
+            </div>
+            
+            <div class="enigme-reponse-zone" id="enigme-zone">
+                <p class="question-text"><strong>Quel est le mot de passe révélé par le murmure de la laine ?</strong></p>
+                
+                <div class="input-validation-group">
+                    <input type="text" id="motPasse" placeholder="Entrez le mot magique..." class="input-style">
+                    <button id="valider" class="btn-action btn-valider">🧵 Valider</button>
+                </div>
+            </div>
+
+            <p id="message" class="message-feedback"></p>
+
+            <button id="btnAide" class="btn-action btn-audio" style="display:none;">💭 J’ai besoin d’un murmure d’indice</button>
+            <div id="aide" class="indice-block" style="display:none;">
+                <p><strong>Murmure de Secours :</strong> Vous visitez un lieu qui conserve et expose l’Histoire (en français)...</p>
+            </div>
+
+            <div id="revelation-content">
+                <h2 class="succes-title">✨ Félicitations !</h2>
+                <h3 class="destination-title">🏛️ Musée Départemental du Textile de Labastide-Rouairoux</h3>
+                
+                <p>Votre prochaine destination est maintenant claire. Le musée vous attend pour une immersion dans l'histoire de la Haute-Laine.</p>
+
+                <a href="https://www.youtube.com/watch?v=rKJydhNMoeE" target="_blank" class="btn-video-link">
+                    🎬 Laisser YouTube vous raconter l'histoire du Musée
+                </a>
+                
+                <div class="organisation-block">
+                    <strong>⏳ Organisation de l'Après-midi</strong>
+                    <p>Le musée ouvre ses portes cet après-midi : <strong>14h00 – 18h00</strong>.<br>
+                    Visites guidées : <strong>14h15 – 15h30 – 16h45</strong>.</p>
+                    <p style="margin-top: 15px;">Objectif : Profiter de la visite qui vous tente le plus. Les fils de l'histoire n'attendent plus que vous !</p>
+                </div>
+                
+                <a href="jour1_accueil.html" class="btn-action btn-next-enigme" id="btnSuivant">
+                    Musée terminé<br>Le havre de paix nous attends
+                </a>
+            </div>
+        </div>
+    </main>
+    
+    <div id="son-toggle">🔊</div>
+    <audio id="audioFond" src="audios/riviere.mp3" loop></audio>
+
+    <script>
+        const audioMusee = document.getElementById("audioMusee");
+        const btnAudio = document.getElementById("btnAudio");
+        const motPasseInput = document.getElementById("motPasse");
+        const btnValider = document.getElementById("valider");
+        const messageFeedback = document.getElementById("message");
+        const btnAide = document.getElementById("btnAide");
+        const aideBlock = document.getElementById("aide");
+        const revelationContent = document.getElementById("revelation-content");
+        const enigmeZone = document.getElementById("enigme-zone");
+        const fond = document.getElementById("audioFond");
+        const sonToggle = document.getElementById("son-toggle");
+        
+        const STATE_MUSEE_RESOLU = 'jour1_musee_ok'; // Clé de progression
+        let essais = 0;
+
+        // Masquer les blocs de révélation au démarrage
+        revelationContent.style.display = 'none';
+        
+        // --- GESTION DU FOND SONORE ---
+        if (fond) {
+            fond.volume = 0.25;
+            // Fonctionnalité de lancement audio au clic (pour mobile)
+            document.addEventListener('click', () => {
+                if (fond.paused) fond.play().catch(e => console.log("Audio bloqué."));
+            }, { once: true });
+
+            sonToggle.addEventListener("click", () => {
+                if (fond.paused) {
+                    fond.play();
+                    sonToggle.textContent = '🔊';
+                } else {
+                    fond.pause();
+                    sonToggle.textContent = '🔇';
+                }
+            });
+        }
+        
+        // --- LOGIQUE DE L'ÉNIGME ---
+        btnAudio.addEventListener("click", () => {
+            audioMusee.play();
+        });
+
+        btnValider.addEventListener("click", () => {
+            // Mot de passe attendu : MUSEE
+            const rep = motPasseInput.value.toLowerCase().trim().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+            essais++;
+
+            if (rep === "musee") {
+                messageFeedback.innerHTML = "✨ Bravo ! Vous avez trouvé le mot magique !";
+                messageFeedback.style.color = 'green';
+                
+                // 1. Masquer l'énigme et le bouton audio
+                enigmeZone.style.display = 'none';
+                btnAudio.style.display = 'none';
+                
+                // 2. Enregistrer la progression
+                localStorage.setItem(STATE_MUSEE_RESOLU, 'true');
+                
+                // 3. Afficher la révélation avec une transition
+                setTimeout(() => {
+                    revelationContent.style.display = 'block'; // ⬅️ AFFICHAGE CORRIGÉ
+                    revelationContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
+
+            } else {
+                messageFeedback.innerHTML = "Le fil semble encore emmêlé... réécoutez le murmure 🎧";
+                messageFeedback.style.color = 'red';
+                if (essais >= 2) {
+                    btnAide.style.display = "inline-block";
+                }
+            }
+        });
+
+        // Afficher l'indice
+        btnAide.addEventListener("click", () => {
+            aideBlock.style.display = "block";
+            btnAide.style.display = "none";
+        });
+    </script>
+</body>
+</html>
