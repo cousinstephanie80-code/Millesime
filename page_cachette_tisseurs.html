@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cachette des Tisseurs — Version Magique</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{
+  margin:0; padding:0;
+  font-family:'Lato',sans-serif;
+  background:url('images/fond_textile.png') center/cover fixed;
+  color:#3a2f25;
+}
+.conteneur{width:90%;max-width:1100px;margin:40px auto;padding-bottom:60px;}
+/* titre */
+.titre-page{
+  text-align:center;font-family:'Cormorant Garamond',serif;
+  font-size:36px;color:#5a4633;margin-bottom:5px;
+  overflow:hidden;white-space:nowrap;width:100%;
+  animation:encre 4s steps(40,end) forwards;
+}
+@keyframes encre{from{width:0;}to{width:100%;}}
+.navette{
+  width:40px;opacity:.85;position:relative;display:block;margin:0 auto 10px;
+  animation:navette 10s ease-in-out infinite;
+}
+@keyframes navette{
+  0%{left:-5px;}50%{left:5px;}100%{left:-5px;}
+}
+.difficulte{text-align:center;font-size:15px;opacity:.7;}
+.citation{text-align:center;font-style:italic;opacity:.8;margin-bottom:30px;}
+/* intro */
+.bloc-intro{
+  background:rgba(255,255,255,.75);border:2px solid #d1bda3;border-radius:12px;
+  padding:25px;margin-bottom:40px;box-shadow:0 6px 14px rgba(0,0,0,.10);
+}
+/* cles */
+.carte-cles{display:flex;gap:20px;flex-wrap:wrap;}
+.cle{
+  flex:1;min-width:260px;background:rgba(255,255,255,.85);
+  border:2px solid #d1bda3;border-radius:12px;padding:20px;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+  transition:.3s;
+}
+.cle:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.25);}
+.cle h2{font-family:'Cormorant Garamond',serif;font-size:22px;text-align:center;}
+.cle img{width:100%;border-radius:6px;margin-top:10px;}
+/* rituel */
+.section-rituel{
+  margin-top:50px;background:rgba(255,255,255,.85);border:2px solid #d1bda3;
+  border-radius:12px;padding:25px;box-shadow:0 6px 14px rgba(0,0,0,.15);
+}
+.zone-input{text-align:center;margin-top:10px;}
+input[type=text]{
+  padding:12px;width:90%;max-width:350px;border-radius:6px;border:1px solid #7c6a54;
+}
+button{
+  margin-top:12px;padding:12px 25px;font-size:17px;background:#c7b29a;border:2px solid #8d775f;
+  border-radius:8px;cursor:pointer;transition:.3s;
+}
+button:hover{background:#b49a80;}
+/* bouton final tissé */
+#btnSuivant{
+  display:none;margin:25px auto 10px auto;animation:tissage 2s ease-out forwards;
+  opacity:0;
+}
+@keyframes tissage{
+  0%{opacity:0;transform:scale(.95);}
+  100%{opacity:1;transform:scale(1);}
+}
+/* indices parchemin plié */
+#indicesBox{
+  display:none;
+  margin-top:25px;padding:20px;
+  background:url('images/parchemin_plié.png') center/cover;
+  border:2px solid #c3a986;border-radius:12px;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
+  font-style:italic;
+}
+#message{text-align:center;font-weight:bold;}
+.discret{text-align:center;font-size:.85em;opacity:.7;margin-top:8px;}
+</style>
+</head>
+<body>
+
+<div class="conteneur">
+
+<img src="images/navette.png" class="navette">
+<h1 class="titre-page">🗝️ Le Secret de la Double Ville 🐑</h1>
+<p class="difficulte">(Difficulté : 🔍 Facile)</p>
+<p class="citation">"Un seul vent suffit pour dévoiler ce qui a été effacé par les âges..."</p>
+
+<div class="bloc-intro">
+<h2>📜 Le Mystère du Languedoc</h2>
+Votre première destination est un village du Tarn, niché dans un Parc Naturel et célèbre pour son histoire.
+Pour la découvrir, rassemblez les mots-clés cachés dans cette légende.
+</div>
+
+<div class="carte-cles">
+<div class="cle">
+<h2>Clé 1 : Géographie et Espace</h2>
+<img src="images/Parc_naturelle.png">
+Recherchez la cité située au cœur du <b>Parc Naturel Régional du Haut-Languedoc</b> et traversée par la <b>Vallée du Thoré</b>.
+</div>
+
+<div class="cle">
+<h2>Clé 2 : Histoire et Industrie</h2>
+<img src="images/lainage.png">
+Elle fut surnommée la <b>Capitale du Délainage</b>, prospérant grâce à la <b>filature de la laine</b>.
+</div>
+
+<div class="cle">
+<h2>Clé 3 : Nomenclature et Forme</h2>
+<img src="images/double_nom.png">
+Son nom combine une base <b>médiévale</b> et une <b>désignation géographique</b>.
+</div>
+</div>
+
+<div class="section-rituel">
+<h2>🔓 Le Rituel de la Découverte</h2>
+<p style="text-align:center;">Entrez le <b>nom complet</b> du lieu.<br>(accents, tirets, maj/min ignorés)</p>
+
+<div class="zone-input">
+<input type="text" id="reponse"><br>
+<button onclick="verifier()">Valider</button>
+</div>
+
+<p id="message"></p>
+
+<button id="btnSuivant" onclick="location.href='jour1_accueil.html'">Dévoiler le fil suivant</button>
+<p class="discret" id="notice" style="display:none;">
+(La vignette <b>2 — Le savoir-faire oublié</b> est sur la page <b>Accueil Jour 1</b>.)
+</p>
+
+<div id="indicesBox">
+<h3>🦉 Le Dernier Murmure du Hibou</h3>
+"Le vent vous souffle un secret : 'La Bastide' pour le fort, 'Rouairoux' pour le rouge des bois. Cherchez là où le Parc et la Laine se rencontrent."
+</div>
+
+</div>
+</div>
+
+<script>
+let erreurs = 0;
+
+function nettoyer(txt){
+return txt.toLowerCase()
+.normalize("NFD").replace(/[̀-ͯ]/g,"")
+.replace(/[^a-z]/g,"");
+}
+
+function verifier(){
+let saisie = nettoyer(document.getElementById("reponse").value);
+let bonne = nettoyer("La Bastide Rouairoux");
+
+if(saisie===bonne){
+document.getElementById("message").innerHTML="✔ Le fil est juste…";
+document.getElementById("message").style.color="#2d6b3a";
+document.getElementById("btnSuivant").style.display="block";
+document.getElementById("notice").style.display="block";
+}else{
+erreurs++;
+document.getElementById("message").innerHTML="❌ Ce n’est pas encore le bon fil…";
+document.getElementById("message").style.color="#8a1e1e";
+if(erreurs===2){
+document.getElementById("indicesBox").style.display="block";
+}
+}
+}
+</script>
+
+</body>
+</html>
