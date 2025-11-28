@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 Le Premier Secret de l’Année</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* Définition des couleurs thématiques pour la cohérence avec index.html */
+    :root {
+        --color-cacao-dark: #4F352C;    /* Brun Cacao / Textile foncé */
+        --color-millésime-gold: #B48A64; /* Or/Vin */
+        --color-beige-textile: #F7F4F0; /* Beige clair, fond des popups */
+        --color-text-dark: #3E332C;
+        --color-lock-red: #924B4B;
+        --color-accent-gold: #d89617;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Lato', sans-serif;
+        background: url('images/fond-noel.jpg') center/cover no-repeat fixed; 
+        color: var(--color-text-dark);
+        text-align: center;
+        overflow-x: hidden;
+        transition: background 0.5s ease; 
+    }
+
+    /* Conteneur principal */
+    .contenu {
+        background: rgba(255,250,240,0.92);
+        max-width: 900px;
+        margin: 4vw auto;
+        padding: 4vw;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        transition: opacity 3s ease;
+    }
+
+    h1 {
+        font-family: 'Cormorant Garamond', serif;
+        color: var(--color-cacao-dark);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    p {
+        line-height: 1.8;
+        margin: 1rem 0;
+    }
+    
+    .intro-text strong {
+        color: var(--color-accent-gold);
+    }
+
+    #demarrer {
+        display: inline-block;
+        margin-top: 1.5rem;
+        color: var(--color-millésime-gold);
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #demarrer:hover { text-decoration: underline; color: var(--color-accent-gold); }
+
+    /* Cadeau */
+    .cadeau {
+        position: relative;
+        margin: 4vw auto;
+        width: 280px;
+        height: 280px;
+        background: url('images/cadeau.jpg') center/cover no-repeat;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        display: none; 
+        cursor: pointer;
+        transition: transform 1.5s ease;
+    }
+
+    /* Étincelles */
+    .etincelles {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 180px;
+        height: 180px;
+        transform: translate(-50%, -50%);
+        display: none;
+        pointer-events: none;
+    }
+
+    /* Ruban animé */
+    
+
+    .cadeau.ouvert {
+        transform: scale(1.1) rotateX(15deg);
+        filter: brightness(1.3);
+    }
+    
+
+    /* Énigme */
+    .enigme {
+        display: none;
+        margin: 15vh auto 2rem;
+        background: rgba(255,255,255,0.85);
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        max-width: 400px;
+        font-family: 'Cormorant Garamond', serif;
+    }
+    .enigme-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    .enigme input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-top: 0.5rem;
+        flex-grow: 1;
+    }
+    .enigme button {
+        background: var(--color-millésime-gold);
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 6px;
+        margin-top: 0.5rem;
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .enigme button:hover { background: #9d7553; }
+
+    /* Indice */
+    #btnAide, #indice {
+        font-size: 0.9rem;
+        color: var(--color-cacao-dark);
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    #btnAide:hover { text-decoration: underline; }
+
+    /* Vidéo */
+    #clip-container {
+        display: none;
+        width: 90%;
+        max-width: 700px;
+        margin: 3vw auto;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    #clip {
+        width: 100%;
+        height: auto;
+        border-radius: 16px;
+    }
+
+    /* Messages */
+    .message {
+        display: none;
+        font-style: italic;
+        margin-top: 1.5rem;
+        color: var(--color-accent-gold);
+        font-weight: 600;
+        font-family: 'Cormorant Garamond', serif;
+    }
+
+    .locked-message {
+        display: none;
+        text-align: center;
+        color: var(--color-text-dark);
+        font-weight: 500;
+        background: rgba(255,248,240,0.9);
+        padding: 15px 25px;
+        border-radius: 10px;
+        margin: 30px auto;
+        max-width: 600px;
+        box-shadow: 0 0 10px rgba(255,255,255,0.4);
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem;
+    }
+    .locked-message strong {
+        /* Texte uniforme */
+    }
+
+    .retour {
+        display: none;
+        background: var(--color-millésime-gold);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: 0.3s;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .retour:hover { background: #9d7553; }
+
+    @media (max-width: 768px) {
+        .contenu { margin: 5vw; padding: 6vw; }
+        h1 { font-size: 1.6rem; }
+        #clip-container { width: 100%; }
+        .enigme-container { flex-direction: column; }
+    }
+</style>
+</head>
+
+<body>
+<div class="contenu" id="intro">
+    <h1>🎄 Le Premier Secret de l’Année</h1>
+    <p><strong>Chers Papa et Maman, Papou et Manou, notre plus beau Millésime...</strong></p>
+    <p class="intro-text">Ce soir de Noël n’est pas tout à fait comme les autres. Le cadeau que vous allez ouvrir n’est pas sous le sapin.</p>
+    <p class="intro-text">Il est immatériel, tissé de temps, d’amour et de mémoire.</p>
+    <p class="intro-text">Pour vos 80 ans, plusieurs générations se sont unies pour vous créer quelque chose à votre image : authentique, simple et profondément précieux.</p>
+    <p class="intro-text">Ce présent ne se déballe pas. Il s’écoute, se ressent, et se découvre doucement... comme une promesse.</p>
+    <p class="intro-text">Mais attention, ce secret a une date d'échéance : en Juin 2026, préparez vos valises. La trame vous mènera sous le soleil de l'Occitanie ! 🗺️</p>
+    <p id="demarrer">✨ Écoutez le foyer s'animer...</p>
+</div>
+
+<div id="clip-container">
+    <video id="clip" controls playsinline>
+        <source src="videos/clip-noel.mp4" type="video/mp4">
+        Votre navigateur ne prend pas en charge la vidéo.
+    </video>
+</div>
+
+<div class="enigme" id="enigme">
+    <p>🎁 Pour ouvrir ce cadeau et démarrer la projection, trouvez le mot magique du réveillon...</p>
+    
+    <div class="enigme-container">
+        <input type="text" id="reponse" placeholder="Mot magique...">
+        <button id="valider">Ouvrir !</button>
+    </div>
+    
+    <p id="message-erreur" style="display: none;">Le murmure n'est pas clair... Essayez encore 🎄</p>
+
+    <button id="btnAide" style="display: none;">💭 J'ai besoin d'un murmure d'aide</button>
+    <p id="indice" style="display: none;">Indice : Le nom de la fête !</p>
+</div>
+
+<div class="cadeau" id="cadeau">
+    <img src="images/etincelles.gif" alt="étincelles" class="etincelles" id="etincelles">
+</div>
+
+
+<p class="message" id="bravo" style="font-size:1.4rem; color:#D8A24C; cursor:pointer; text-align:center;">
+    🌟 Le voile se lève sur une douce surprise... ✨<br>
+    👉 <span id="startAudio" style="text-decoration:underline;">Ouvrir le Message</span>
+</p>
+
+
+<div class="locked-message" id="locked-message"></div>
+
+<a href="index.html" class="retour" id="retour">⬅️ Retour à l’accueil</a>
+
+<audio id="feu" src="audios/feu.mp3" loop></audio>
+<audio id="voix" src="audios/message-voix.mp3"></audio>
+<audio id="froissement" src="audios/froissement.mp3"></audio>
+<audio id="clochette" src="audios/clochette.mp3"></audio>
+
+<script>
+const feu = document.getElementById("feu");
+const voix = document.getElementById("voix");
+const cadeau = document.getElementById("cadeau");
+const enigme = document.getElementById("enigme");
+const clipContainer = document.getElementById("clip-container");
+const clip = document.getElementById("clip");
+const bravo = document.getElementById("bravo");
+const retour = document.getElementById("retour");
+const locked = document.getElementById("locked-message");
+const etincelles = document.getElementById("etincelles");
+const froissement = document.getElementById("froissement");
+const clochette = document.getElementById("clochette");
+const intro = document.getElementById("intro");
+const inputReponse = document.getElementById("reponse");
+const btnAide = document.getElementById("btnAide");
+const indice = document.getElementById("indice");
+const btnValider = document.getElementById("valider");
+const messageErreur = document.getElementById("message-erreur");
+
+let tentatives = 0;
+let cadeauOuvert = false; 
+
+const MOTS_DE_PASSE = ["noel", "reveillon"]; 
+const UNLOCK_DATE = new Date("2026-06-01T00:00:00");
+
+// --- FONCTIONS AUDIO ---
+function fadeOutAudio(audio, duree) {
+    const interval = 50;
+    const decrement = audio.volume / (duree / interval);
+    const fade = setInterval(() => {
+        if (audio.volume > decrement) {
+            audio.volume -= decrement;
+        } else {
+            audio.pause();
+            clearInterval(fade);
+        }
+    }, interval);
+}
+
+function fadeInAudio(audio, duree) {
+    audio.play();
+    audio.volume = 0;
+    const interval = 50;
+    const increment = 0.2 / (duree / interval);
+    const fade = setInterval(() => {
+        if (audio.volume < 0.2) {
+            audio.volume += increment;
+        } else {
+            clearInterval(fade);
+        }
+    }, interval);
+}
+
+// --- LOGIQUE DE LA PAGE ---
+
+// 2. 🎧 Démarrage (Clic sur 'Que la magie opère...')
+document.getElementById("demarrer").addEventListener("click", () => {
+    // LANCEMENT DU FEU AU CLIC DÉMARRER
+    feu.volume = 0.4; 
+    feu.play(); 
+    
+    // 1. Disparition de l'intro
+    intro.style.opacity = 0;
+    setTimeout(() => { intro.style.display = 'none'; }, 3000);
+    
+    // 2. Masquer l'intro et afficher l'énigme sans saut de page
+    setTimeout(() => {
+        intro.style.display = 'none';
+        enigme.style.display = "block";
+    }, 800);
+});
+
+// 3. ✅ Validation de l'énigme → Lance la Vidéo (et plein écran)
+btnValider.addEventListener("click", () => {
+    const reponse = inputReponse.value.trim().toLowerCase();
+    messageErreur.style.display = 'none'; // Cache l'erreur précédente
+    
+    if (MOTS_DE_PASSE.includes(reponse)) {
+        // SUCCÈS
+        fadeOutAudio(feu, 500); 
+        enigme.style.display = "none";
+        
+        // Lance la Vidéo et demande le plein écran
+        clipContainer.style.display = "block";
+        clip.load(); 
+        clip.play(); 
+        
+        // PLEIN ÉCRAN DIRECTEMENT SUR LA VIDÉO
+        if (clip.requestFullscreen) {
+            clip.requestFullscreen();
+        } else if (clip.webkitRequestFullscreen) {
+            clip.webkitRequestFullscreen();
+        } else if (clip.msRequestFullscreen) {
+            clip.msRequestFullscreen();
+        }
+        clipContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+    } else {
+        // ÉCHEC
+        tentatives++;
+        messageErreur.style.display = 'block'; // AFFICHE L'ERREUR PERSONNALISÉE
+        
+        if (tentatives >= 2) {
+            btnAide.style.display = "inline-block";
+        }
+    }
+});
+
+// 4. 🎬 Fin de la Vidéo → Révélation Cadeau + Sons (délai 8s)
+clip.addEventListener("ended", () => {
+    // Quitte le mode plein écran à la fin de la vidéo
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { 
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { 
+        document.msExitFullscreen();
+    }
+
+    // ⬅️ FAIT DISPARAÎTRE LE CONTENEUR VIDÉO
+    clipContainer.style.display = 'none'; 
+
+    if (!cadeauOuvert) {
+        // 1. Affiche le cadeau
+        cadeau.style.display = "block";
+        cadeau.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // 2. Ouvre le cadeau et lance les sons (froissement et clochette)
+        cadeau.classList.add("ouvert");
+        froissement.play();
+        clochette.play();
+        
+        // 3. Lance le message de la voix APRÈS DÉLAI
+        setTimeout(() => {
+            bravo.style.display = "block";
+            voix.volume = 1.5; // Assure le volume maximum
+            voix.play(); 
+        }, 8000); // ⬅️ DÉLAI FINAL À 8s
+    }
+});
+
+// 5. 🔊 Fin de l'Audio → Message Poétique + Retour
+voix.onended = () => {
+    bravo.style.display = "none";
+    fadeInAudio(feu, 2000); // Rallume le feu
+
+    // Affichage du message de fin poétique / verrouillé
+    const now = new Date();
+    
+    if (now < UNLOCK_DATE) {
+        // Message verrouillé (texte uniforme)
+        locked.innerHTML = "🔒 Le secret a murmuré son message. Patientez, nos cœurs sont pleins d'impatience ! L'aventure tissée ne se poursuit qu'avec le retour des <strong>premiers bourgeons</strong> et l'arrivée de la <strong>maturité</strong>.";
+    } else {
+        // Message déverrouillé 
+        locked.innerHTML = "🌿 Le temps a fait son œuvre... La trame se déroule enfin. <br>Le chemin vers la prochaine étape est désormais déverrouillé sur la page d'accueil.";
+    }
+    locked.style.display = "block";
+    retour.style.display = "block";
+    locked.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+// 6. 💭 Affichage de l'indice
+btnAide.addEventListener("click", () => {
+    indice.style.display = "block";
+    btnAide.style.display = "none";
+});
+
+// 7. Séquence de secours si la vidéo échoue (clic sur cadeau)
+cadeau.addEventListener("click", () => {
+    if (clipContainer.style.display === "block" && clip.paused) {
+        // Si la vidéo est affichée mais ne s'est pas lancée ou a échoué
+        cadeau.classList.add("ouvert");
+        froissement.play();
+        clochette.play();
+        
+        setTimeout(() => {
+            bravo.style.display = "block";
+            voix.volume = 1.5; // Assure le volume maximum
+            voix.play(); 
+        }, 8000); 
+    }
+});
+
+document.getElementById("startAudio").addEventListener("click", () => {
+    document.getElementById("bravo").style.display = "none";
+    voix.play();
+});
+
+</script>
+</body>
+</html>
+</html>
