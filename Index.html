@@ -263,7 +263,8 @@
         vignettes.forEach(v => {
             const div = document.createElement("div");
             
-            // Logique de déverrouillage : Noël est toujours déverrouillé OU le mode preview est actif OU la date de juin est atteinte.
+            // LIGNE MODIFIÉE : Le mode previewMode (URL ?preview=true) est maintenant le premier critère pour déverrouiller.
+            // Si l'URL contient ?preview=true, isUnlocked devient TRUE, peu importe la date.
             const isUnlocked = previewMode || v.isNoel || now >= unlockDate;
             
             let className = "vignette";

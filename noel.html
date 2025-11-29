@@ -14,7 +14,7 @@
         --color-beige-textile: #F7F4F0; /* Beige clair, fond des popups */
         --color-text-dark: #3E332C;
         --color-lock-red: #924B4B;
-        --color-accent-gold: #d89617;
+        --color-accent-gold: #d89617; /* Original : #d89617 */
     }
 
     body {
@@ -84,6 +84,8 @@
         display: none; 
         cursor: pointer;
         transition: transform 1.5s ease;
+        z-index: 10; /* AJOUTÉ: S'assure qu'il est au premier plan */
+        filter: none; /* AJOUTÉ: Supprime tout filtre de transparence héritée */
     }
 
     /* Étincelles */
@@ -177,38 +179,76 @@
         font-family: 'Cormorant Garamond', serif;
     }
     
-    /* NOUVEAU BLOC CHANSON TEASER */
+    /* NOUVEAU BLOC CHANSON TEASER - Styles de base conservés pour le placement/affichage */
     #chanson-teaser {
         display: none;
-        background: rgba(255, 255, 255, 0.95); /* Blanc semi-transparent */
         max-width: 500px;
         margin: 10vh auto; /* Centré verticalement */
-        padding: 30px;
         border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         font-family: 'Cormorant Garamond', serif;
     }
+    
+    /* NOUVELLES RÈGLES POUR LE BLOC FINAL / LETTRE (assurant la visibilité) */
+    #chanson-teaser.final-teaser {
+        /* MODIFIÉ : Fond beige rosé lumineux (couleur #F7E4D9 en RGBA avec 85% d'opacité) */
+        background: rgba(247, 228, 217, 0.85); 
+        max-width: 600px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    
+    /* Redéfinition des styles pour le texte dans ce bloc */
     #chanson-teaser p {
-        font-size: 1.2rem;
-        margin-bottom: 20px;
-        line-height: 1.6;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.2rem; 
+        margin: 5px 0;
+        line-height: 1.3;
         color: var(--color-text-dark);
     }
-    #btnChanson {
-        background: var(--color-accent-gold); /* Bouton doré */
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 8px;
-        cursor: pointer;
+    
+    .final-text-line {
+        font-size: 1.5rem; 
         font-weight: 700;
+    }
+
+    .final-click-prompt {
         font-size: 1.1rem;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        transition: 0.3s;
+        font-weight: 600;
+        margin-top: 30px;
+        color: var(--color-text-dark);
     }
-    #btnChanson:hover {
-        background: #b67f13;
+    
+    /* Styles pour l'image cliquable (l'enveloppe) */
+    .envelope-trigger {
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 15px;
+        transition: transform 0.3s ease;
     }
+
+    .envelope-trigger:hover {
+        transform: scale(1.05); 
+    }
+
+    .envelope-image {
+        width: 100%;
+        max-width: 280px; 
+        height: auto;
+        border-radius: 8px; 
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        background: none; 
+        border: none; 
+    }
+    
+    /* Suppression des styles spécifiques à l'ancien bouton (car #btnChanson est maintenant un div/image) */
+    #btnChanson {
+        background: none;
+        border: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
 
     .locked-message {
         display: none;
@@ -296,11 +336,25 @@
     👉 <span id="startAudio" style="text-decoration:underline;">Ouvrir le Message</span>
 </p>
 
-<div id="chanson-teaser" class="contenu">
-    <p>Toutes les histoires ont une bande-son…</p>
-    <p>Le cœur de ce secret est juste à un clic…</p>
-    <button id="btnChanson">Fermez les yeux… et écoutez l’Infiniment Nous</button>
+<div id="chanson-teaser" class="contenu final-teaser">
+    <p class="final-text-line">Il y avait quelque chose que nous voulions vous dire</p>
+    <p class="final-text-line">depuis longtemps.</p>
+    
+    <br>
+
+    <p class="final-text-line">Pas avec une clé.</p>
+    <p class="final-text-line">Pas avec un code.</p>
+    <p class="final-text-line">Mais avec le cœur.</p>
+    
+    <br>
+
+    <p class="final-click-prompt">Touchez la lettre pour l'ouvrir.</p>
+
+    <div id="btnChanson" class="envelope-trigger">
+        <img src="images/enveloppe_finale.png" alt="Lettre scellée" class="envelope-image">
+    </div>
 </div>
+
 <div class="locked-message" id="locked-message"></div>
 
 <a href="index.html" class="retour" id="retour">⬅️ Retour à l’accueil</a>
@@ -330,7 +384,7 @@ const indice = document.getElementById("indice");
 const btnValider = document.getElementById("valider");
 const messageErreur = document.getElementById("message-erreur");
 const chansonTeaser = document.getElementById("chanson-teaser"); // NOUVEL ÉLÉMENT
-const btnChanson = document.getElementById("btnChanson"); // NOUVEL ÉLÉMENT
+const btnChanson = document.getElementById("btnChanson"); // ID conservé sur le div/image
 const body = document.body; // Pour changer le fond
 
 let tentatives = 0;
@@ -471,7 +525,7 @@ voix.onended = () => {
     // La logique de fin (locked message + retour) est déplacée dans l'écouteur de la chanson.
 };
 
-// 6. 🎶 Clic sur le bouton Chanson
+// 6. 🎶 Clic sur le bouton Chanson (maintenant l'image/div)
 btnChanson.addEventListener("click", () => {
     // Démarrage de la chanson avec fondu
     fadeInAudio(chansonFinale, 4000, 0.8); // 4 secondes de fondu vers un volume de 0.8 (à ajuster)
