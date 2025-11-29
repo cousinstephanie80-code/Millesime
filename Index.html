@@ -26,10 +26,12 @@
         }
 
         h1 {
-            font-family: 'Cormorant Garamond', serif;
+            /* Uniformisation de la police */
+            font-family: 'Lato', sans-serif;
             color: var(--color-cacao-dark);
             margin-top: 5vh;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            /* Uniformisation de la taille du titre */
+            font-size: 36px;
             letter-spacing: 1px;
             font-weight: 700;
         }
@@ -107,7 +109,8 @@
         .vignette h3 {
             margin: 1rem 0 0.3rem;
             color: var(--color-millésime-gold);
-            font-family: 'Cormorant Garamond', serif;
+            /* Uniformisation de la police */
+            font-family: 'Lato', sans-serif;
             font-weight: 600;
         }
 
@@ -168,7 +171,8 @@
         .popup-content h2 {
             color: var(--color-lock-red);
             margin-bottom: 0.8rem;
-            font-family: 'Cormorant Garamond', serif;
+            /* Uniformisation de la police */
+            font-family: 'Lato', sans-serif;
         }
 
         .popup-content button {
@@ -189,6 +193,14 @@
         @keyframes fadeIn {
             from {opacity: 0; transform: translateY(10px);}
             to {opacity: 1; transform: translateY(0);}
+        }
+
+        /* RÈGLE MOBILE POUR L'UNIFORMISATION */
+        @media (max-width: 600px) {
+            h1 {
+                /* Uniformisation de la taille du titre sur mobile */
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>

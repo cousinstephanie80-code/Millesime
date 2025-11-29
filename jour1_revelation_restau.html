@@ -3,150 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jour 1 - Révélation Gourmande</title>
+    <title>Jour 1 - Énigme & Festin Gastronomique</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- VARIABLES MILLÉSIME --- */
         :root {
-            --color-primary: #B48A64; /* Brun chaud/Doré */
-            --color-secondary: #9C7A55; /* Marron moyen */
-            --color-cacao-dark: #4F352C; /* Texte foncé/Titre principal */
-            --color-card-background: #fffdf9; /* Fond des blocs principal */
-            --color-border-subtle: rgba(180,138,100,0.4); /* Séparateur */
-            --color-menu-card: #FAF5E8; /* Fond des cartes de menu */
-            --color-leaf: #7A905D; /* Vert feuille/Herbe */
+            --color-primary: #B48A64;
+            --color-secondary: #9C7A55;
+            --color-cacao-dark: #4F352C;
+            --color-leaf: #7A905D;
             --color-text-dark: #333;
         }
 
-        /* --- STYLES GÉNÉRAUX --- */
         body {
             font-family: 'Lato', sans-serif;
             color: var(--color-text-dark);
             margin: 0;
-            background-image: url('images/vignette_plat.jpg'); 
+            background-image: url('images/vignette_plat.jpg');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
         }
 
-        .fade-in {animation: fadeIn 1s ease forwards;}
-        @keyframes fadeIn {from {opacity: 0; transform: translateY(15px);} to {opacity: 1; transform: translateY(0);}}
-
+        /* SECTION AVEC TRANSPARENCE MIXTE */
         .section {
             max-width: 900px;
             margin: 6vw auto;
             padding: 5vw;
-            background: var(--color-card-background) url('images/fond_restaurant.png') repeat; 
+
+            background:
+                rgba(255, 253, 249, 0.25),
+                url('images/fond_restaurant.png') repeat;
+            background-blend-mode: lighten;
+
             border-radius: 18px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             position: relative;
         }
 
-        h1, h2, h3 {
-            font-family: 'Cormorant Garamond', serif;
-            color: var(--color-primary);
-            text-align: center;
-            margin-bottom: 1vw;
-        }
-        h1 { 
-            font-size: 32px; 
-            color: var(--color-cacao-dark); 
+        h1, h2, h3, h4 { text-align: center; }
+
+        h1 {
+            font-family: 'Lato', sans-serif;
+            font-size: 36px;
             margin-bottom: 5px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: var(--color-cacao-dark);
         }
-        h2 {font-size: 26px;}
-        h3 {font-size: 22px; color: var(--color-secondary);}
-        p {font-size: 15px; line-height: 1.7; text-align: center; margin: 2vw auto; max-width: 720px;}
-        
-        /* --- DÉCORATION DU TITRE --- */
-        .intro-deco {
-            display: block;
-            margin: 0 auto 20px;
-            height: 32px;
-            width: 32px;
+
+        /* ⭐ TITRE "La Révélation du Dîner" PLUS CLAIR */
+        .titre-clair {
+            color: #f5e9d6 !important;
         }
-        
-        /* --- INFO RESTAURANT ET MENU --- */
-        .info-restau {
-            background: rgba(255, 255, 255, 0.85);
-            border: 2px solid var(--color-primary);
-            padding: 25px;
-            border-radius: 12px;
-            margin: 30px auto;
-            max-width: 400px;
+
+        h2 { font-size: 28px; color: var(--color-leaf); }
+        h3 { font-size: 22px; color: var(--color-secondary); }
+
+        p {
+            font-size: 15px;
+            line-height: 1.7;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .info-restau strong { color: var(--color-secondary); font-size: 1.1rem;}
-        .nom-restau-decrypte {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 30px;
-            color: var(--color-cacao-dark);
-            letter-spacing: 1px;
-            margin-top: 10px;
-            margin-bottom: 15px;
-            font-weight: 700;
+            margin: 2vw auto;
+            max-width: 720px;
         }
 
-        /* --- CARDS DE MENU --- */
-        .menu-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        .menu-card {
-            flex: 1 1 200px;
-            max-width: 250px;
-            background: var(--color-menu-card);
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: left;
-            border-top: 5px solid var(--color-leaf);
-            transition: transform 0.3s;
-        }
-        .menu-card:hover {
-            transform: translateY(-5px);
-        }
-        .menu-card h4 {
-            font-family: 'Cormorant Garamond', serif;
-            color: var(--color-cacao-dark);
-            font-size: 1.4rem;
-            margin-top: 5px;
-            margin-bottom: 12px;
-            text-align: left;
-        }
-        .menu-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            font-size: 0.95rem;
-        }
-        .menu-card ul li {
-            margin-bottom: 8px;
-            border-bottom: 1px dotted rgba(0,0,0,0.1);
-            padding-bottom: 5px;
-        }
-        .menu-card ul li:last-child { border-bottom: none; padding-bottom: 0;}
-
-        /* --- ÉNIGME INLINE --- */
-        .enigme-inline {
-            background: var(--color-menu-card);
+        /* BLOC ENIGME */
+        #blocEnigme {
+            text-align: center;
+            background: rgba(250, 245, 232, 0.55);
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            border: 1px solid var(--color-border-subtle);
+            border: 1px solid rgba(180,138,100,0.4);
             margin: 30px auto;
-            max-width: 450px;
-            text-align: center;
+            max-width: 550px;
         }
-        .enigme-inline h3 {
-            color: var(--color-cacao-dark);
-            margin-top: 0;
-        }
-        .enigme-inline input {
+
+        #blocEnigme input {
             padding: 12px 15px;
             border-radius: 8px;
             border: 2px solid var(--color-secondary);
@@ -154,10 +85,8 @@
             text-align: center;
             margin-bottom: 15px;
             font-size: 1.1rem;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
 
-        /* --- BOUTON PROGRESSION/CLÔTURE --- */
         .btn {
             display: inline-block;
             background: var(--color-primary);
@@ -166,275 +95,264 @@
             border-radius: 10px;
             font-weight: 700;
             cursor: pointer;
-            text-decoration: none;
-            transition: all .3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             margin-top: 20px;
             border: none;
             font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
         }
-        .btn:hover {
-            background: var(--color-secondary);
-        }
-        .btn-retour {
-            background: none; 
-            color: var(--color-cacao-dark); 
-            box-shadow: none; 
-            padding: 5px 10px; 
-            margin-top: 0; 
-            font-weight: 400;
-            display: inline-block;
-        }
+        .btn:hover { background: var(--color-secondary); }
+
         .btn-cloture {
             background: var(--color-cacao-dark);
         }
-        .btn-cloture:hover {
-            background: #3b2b24;
-        }
-        
-        /* --- BLOC CLÔTURE ET JOUR 2 (Style de l'image) --- */
-        #blocCloture {
-            display: none;
-            margin-top: 50px;
-            padding: 30px 50px; /* Plus d'espace autour du texte */
-            border-top: 2px dashed var(--color-border-subtle);
-            background: #fff; 
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
-        .cloture-titre {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            color: var(--color-primary);
+        .btn-cloture:hover { background: #3b2b24; }
+
+        /* INFO RESTAURANT */
+        .info-restau {
+            background: rgba(255,255,255,0.85);
+            border: 2px solid var(--color-primary);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 30px auto;
+            max-width: 450px;
             text-align: center;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .cloture-paragraphe {
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 10px;
-        }
-        .btn-jour2 {
-            background: var(--color-primary); 
-            font-size: 18px;
-            padding: 18px 40px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .petit-texte {
-            font-size: 13px;
-            color: var(--color-secondary);
-            font-style: italic;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .tag-fin-journee {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 8px 15px;
-            border-radius: 5px;
-            display: inline-block;
-            font-weight: 700;
+
+        .nom-restau-decrypte {
+            font-size: 30px;
             color: var(--color-cacao-dark);
-            margin: 10px 0;
+            font-weight: 700;
+        }
+
+        /* MENU */
+        .menu-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .menu-card {
+            flex: 1 1 200px;
+            max-width: 250px;
+            background: #FAF5E8;
+            border-radius: 10px;
+            padding: 20px;
+            border-top: 5px solid var(--color-leaf);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .menu-card h4 {
+            font-size: 1.4rem;
+            color: var(--color-cacao-dark);
+            margin-bottom: 12px;
+        }
+
+        .menu-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .menu-card ul li {
+            margin-bottom: 8px;
+            border-bottom: 1px dotted rgba(0,0,0,0.1);
+            padding-bottom: 5px;
+        }
+
+        /* --- CARROUSEL --- */
+        .carousel-container {
+            width: 100%;
+            max-width: 750px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-track img {
+            width: 100%;
+            display: block;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.7);
+            border: none;
+            font-size: 32px;
+            padding: 5px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            color: #4F352C;
+            font-weight: bold;
+        }
+
+        .carousel-btn.prev { left: 10px; }
+        .carousel-btn.next { right: 10px; }
+        .carousel-btn:hover { background: rgba(255,255,255,0.9); }
+
+        @media (max-width: 600px) {
+            .section { padding: 30px 5vw; margin: 5vw auto; }
+            h1 { font-size: 1.8rem; }
+            .menu-grid { flex-direction: column; }
         }
     </style>
 </head>
 <body>
 
-<div class="section fade-in">
-    <button id="btnRetour" class="btn-retour">⬅️ Retour</button>
+<div class="section">
 
-    <div id="blocEnigme" class="enigme-inline">
-        <h1>La Révélation du Festin</h1>
-        <img src="images/fourchette.ico" alt="Icône de couverts entrelacés" class="intro-deco" style="margin-top: 0;">
+    <!-- BLOC ENIGME -->
+    <div id="blocEnigme">
+        <h1>Le Dernier Écho du Jour 1</h1>
 
-        <p>
-            Après cette journée d’aventure et de découvertes, le temps est venu de savourer le fruit de notre histoire. Pour déverrouiller le lieu de notre dîner, répondez à l'énigme de notre Millésime.
-        </p>
+        <p>Avant de rejoindre la table, confirmez le numéro de votre cocon…</p>
 
-        <h3><img src="images/icone_clef.ico" alt="Icône de Clé" style="height: 20px; vertical-align: middle; margin-right: 8px;"> L'Énigme du Cœur</h3>
-        <p style="font-size: 15px; color: var(--color-cacao-dark); margin-bottom: 25px;">
-            Je suis le **nombre de lettres** dans le prénom de celui/celle qui a toujours été ton unique.
-            Quel est ce **nombre magique** ?
-        </p>
-        
-        <input id="enigmeInput" type="text" placeholder="Entrez le nombre...">
-        <button id="btnValiderEnigme" class="btn">🔓 Déverrouiller le Festin</button>
-        <p id="messageErreur" style="color: #c94b4b; display: none; font-size: 14px; margin-top: 15px;">Ce n'est pas le bon nombre... Réessayez !</p>
+        <h3>9. Le Sceau du Refuge</h3>
+
+        <p>Quel numéro porte votre chambre ?</p>
+
+        <input id="roomNumberInput" type="number" placeholder="Entrez le chiffre magique">
+        <button id="btnValiderEnigme" class="btn">✨ Révéler la Table Secrète ✨</button>
+        <p id="messageErreur" style="color: #c94b4b; display:none;">Veuillez entrer un numéro.</p>
     </div>
-    
-    <div id="blocRevelationRestau" style="display:none;" class="fade-in">
-        <h1>Le Festin de votre Millésime est Révélé</h1>
-        <p style="font-style: italic;">
-            Félicitations ! Votre réponse a ouvert les portes du délice. Laissez-vous guider vers notre table.
+
+    <!-- REVELATION -->
+    <div id="blocRevelationRestau" style="display:none;">
+
+        <h1 class="titre-clair">La Révélation du Dîner</h1>
+
+        <p style="font-style: italic; font-size: 1.2rem; color: var(--color-leaf);">
+            Félicitations, le sésame est levé…
         </p>
-        
+
         <div class="info-restau">
-            <h3 style="margin-top: 0; color: var(--color-leaf);">✨ Notre Table Secrète ✨</h3>
+            <h3>🌟 Le Lieu d'Exception 🌟</h3>
             <span class="nom-restau-decrypte">L'Ispiens</span>
-            <hr style="border-top: 1px dashed var(--color-border-subtle); width: 80%; margin: 15px auto;">
-            <strong>Heure : 19h30</strong> <br>
-            <strong>Adresse : 2 Route de Jourdes – Le Verdier</strong>
+            <hr style="width:80%; margin:15px auto;">
+            <strong>⏰ 19h30</strong><br>
+            <strong>📍 2 Route de Jourdes – Le Verdier</strong>
         </div>
-        
-        <h3 style="margin-top: 40px; color: var(--color-cacao-dark);">🥂 Le Menu de Dégustation 🥂</h3>
-        
+
+        <h2 style="color: var(--color-cacao-dark);">Un Voyage Culinaire en Trois Actes</h2>
+
+        <!-- CARDS MENU -->
         <div class="menu-grid">
             <div class="menu-card">
-                <h4>🍞 Le Prélude</h4>
+                <h4>🍴 Acte I : Le Prélude</h4>
                 <ul>
-                    <li>Foie gras à l’ancienne</li>
+                    <li>Foie gras mi-cuit</li>
                     <li>Gravlax de saumon</li>
-                    <li>Escargots en cassolette</li>
+                    <li>Escargots de Bourgogne</li>
                 </ul>
             </div>
+
             <div class="menu-card">
-                <h4>🍖 L’Apogée</h4>
+                <h4>🍖 Acte II : L'Apogée</h4>
                 <ul>
-                    <li>Ris de veau</li>
-                    <li>Cuisse de canard confite</li>
-                    <li>Dorade grillée à la plancha</li>
+                    <li>Ris de veau doré</li>
+                    <li>Confit de canard</li>
+                    <li>Dorade royale grillée</li>
                 </ul>
             </div>
+
             <div class="menu-card">
-                <h4>🍮 L’Épilogue</h4>
+                <h4>🍮 Acte III : L'Épilogue</h4>
                 <ul>
-                    <li>Fondant au chocolat</li>
+                    <li>Fondant chocolat</li>
                     <li>Crème brûlée</li>
-                    <li>Fromages du pays</li>
+                    <li>Fromages locaux</li>
                 </ul>
             </div>
+        </div>
+
+        <!-- CARROUSEL -->
+        <div class="carousel-container">
+            <button class="carousel-btn prev">‹</button>
+
+            <div class="carousel-track">
+                <img src="images/plat1.jpeg" alt="Plat 1">
+                <img src="images/plat2.jpg" alt="Plat 2">
+                <img src="images/plat3.jpeg" alt="Plat 3">
+                <img src="images/plat4.jpg" alt="Plat 4">
+            </div>
+
+            <button class="carousel-btn next">›</button>
         </div>
 
         <div style="text-align:center;">
-            <button id="btnTerminerDiner" class="btn btn-cloture">🌙 Nous avons terminé notre dîner</button>
+            <p style="font-style: italic;">Que ce dîner soit à la hauteur de votre Millésime…</p>
+            <button id="btnTerminerDiner" class="btn btn-cloture">✨ Direction le repos ✨</button>
         </div>
+
     </div>
-    
-    <div id="blocCloture" class="fade-in">
-        <p class="cloture-titre">
-            <span style="font-size: 38px;">&#x1F319;</span> Quand le silence s'installe...
-        </p>
-        <p class="cloture-paragraphe">
-            La journée s'achève, riche de découvertes et de tendresse.<br>
-            Le calme revient, les pensées se posent, et le sommeil approche doucement.
-        </p>
 
-        <p class="cloture-paragraphe" style="font-weight: 700; margin-top: 20px;">
-            Bonne nuit à vous deux...
-        </p>
-        <p class="cloture-paragraphe">
-            Que cette parenthèse vous berce encore au réveil,<br>
-            et vous guide vers une nouvelle aventure au goût d'infini. <span style="font-size: 18px;">&#x1F347;</span>
-        </p>
-        
-        <p class="tag-fin-journee">
-            Fin de journée – Chambre
-        </p>
-
-        <p class="petit-texte">
-            Le silence s'installe... le matin révèlera une nouvelle aventure : la naissance d'un grand cru.
-            <span style="font-size: 18px; display: block; margin-top: 5px;">&#x1F377;</span>
-        </p>
-
-        <a href="index.html" id="btnJour2" class="btn btn-jour2">
-            <span style="font-size: 18px; margin-right: 8px;">&#x2728;</span> Rendez-vous au Jour 2 : Rencontre avec l'Infiniment Nous
-        </a>
-    </div>
 </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // --- CONFIGURATION ENIGME ---
-    const NOM_PARTENAIRE = "Pierre"; // <-- ⚠️ MODIFIER ICI AVEC LE PRÉNOM DU DESTINATAIRE
-    const REPONSE_CORRECTE = String(NOM_PARTENAIRE.length); // Ex: "6" pour Pierre
 
-    // --- CONSTANTES DE STOCKAGE ---
-    const KEY_RESTAU_RESOLU = "jour1_restau_ok"; // Clé pour dire que l'énigme/menu a été vu
-    const KEY_CLOTURE_VUE = "jour1_cloture_vue"; // Clé pour dire que la clôture a été vue
-    const KEY_INDEX_JOUR2 = "index_vignette_jour2_deverrouillee"; 
+    const KEY = "jour1_restau_resolu";
 
-    // --- ÉLÉMENTS ---
-    const blocEnigme = document.getElementById('blocEnigme');
-    const enigmeInput = document.getElementById('enigmeInput');
-    const btnValiderEnigme = document.getElementById('btnValiderEnigme');
-    const messageErreur = document.getElementById('messageErreur');
-    const blocRevelationRestau = document.getElementById('blocRevelationRestau');
-    const blocCloture = document.getElementById('blocCloture');
-    const btnTerminerDiner = document.getElementById('btnTerminerDiner');
-    const btnJour2 = document.getElementById('btnJour2');
-    
-    // --- LOGIQUE DE RESTAURATION (Affichage de la bonne étape au rechargement) ---
-    const isRestauResolved = localStorage.getItem(KEY_RESTAU_RESOLU) === "true";
-    const isClotureVue = localStorage.getItem(KEY_CLOTURE_VUE) === "true";
+    const blocEnigme = document.getElementById("blocEnigme");
+    const blocRevelation = document.getElementById("blocRevelationRestau");
+    const input = document.getElementById("roomNumberInput");
+    const btnValider = document.getElementById("btnValiderEnigme");
+    const msgErreur = document.getElementById("messageErreur");
+    const btnFin = document.getElementById("btnTerminerDiner");
 
-    if (isClotureVue) {
-        // Le message de bonne nuit a déjà été vu
-        blocEnigme.style.display = "none";
-        blocRevelationRestau.style.display = "none"; 
-        blocCloture.style.display = "block";
-    } else if (isRestauResolved) {
-        // Le menu a été déverrouillé mais le repas n'est pas terminé
-        blocEnigme.style.display = "none";
-        blocRevelationRestau.style.display = "block";
-        blocCloture.style.display = "none";
-    } else {
-        // Début de l'énigme
-        blocEnigme.style.display = "block";
-        blocRevelationRestau.style.display = "none";
-        blocCloture.style.display = "none";
-    }
-
-    // --- VALIDATION ÉNIGME (Passe à l'Étape 2) ---
-    btnValiderEnigme.addEventListener('click', () => {
-        const input = enigmeInput.value.trim().replace(/\s/g, ''); 
-        
-        if (input === REPONSE_CORRECTE) {
-            messageErreur.style.display = "none";
-
-            // 1. Masquer l'énigme
+    btnValider.addEventListener("click", () => {
+        if (input.value.trim() !== "") {
             blocEnigme.style.display = "none";
-
-            // 2. Afficher la révélation (Menu + Infos)
-            blocRevelationRestau.style.display = "block";
-            blocRevelationRestau.scrollIntoView({ behavior: 'smooth' });
-            
-            // 3. ENREGISTRER L'ÉTAPE DU RESTAURANT COMME RÉSOLUE
-            localStorage.setItem(KEY_RESTAU_RESOLU, "true"); 
-            
+            blocRevelation.style.display = "block";
+            blocRevelation.scrollIntoView({ behavior: "smooth" });
+            localStorage.setItem(KEY, "true");
         } else {
-            messageErreur.style.display = "block"; // Affiche l'erreur
+            msgErreur.style.display = "block";
         }
     });
 
-    // --- CLÔTURE DU DÎNER (Passe à l'Étape 3) ---
-    btnTerminerDiner.addEventListener('click', () => {
-        // 1. Masquer le bloc du menu
-        blocRevelationRestau.style.display = "none";
-
-        // 2. Afficher le bloc de clôture (texte de bonne nuit et bouton Jour 2)
-        blocCloture.style.display = "block";
-        blocCloture.scrollIntoView({ behavior: 'smooth' });
-        
-        // 3. ENREGISTRER LA VUE DE LA CLÔTURE
-        localStorage.setItem(KEY_CLOTURE_VUE, "true"); 
-    });
-    
-    // --- NAVIGATION JOUR 2 (DÉVERROUILLAGE et Redirection) ---
-    btnJour2.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // 1. Définir la clé du Jour 2 pour déverrouiller la vignette sur l'index
-        localStorage.setItem(KEY_INDEX_JOUR2, "true"); 
-        
-        // 2. Naviguer vers l'accueil 
-        window.location.href = 'index.html';
+    btnFin.addEventListener("click", () => {
+        window.location.href = "jour1_accueil.html";
     });
 
-    // --- NAVIGATION RETOUR ---
-    btnRetour.addEventListener('click', () => {
-        window.location.href = 'jour1_accueil.html';
+    /* --- CARROUSEL --- */
+    const track = document.querySelector(".carousel-track");
+    const slides = Array.from(track.children);
+    const nextBtn = document.querySelector(".carousel-btn.next");
+    const prevBtn = document.querySelector(".carousel-btn.prev");
+    let index = 0;
+
+    function updateCarousel() {
+        const slideWidth = slides[0].getBoundingClientRect().width;
+        track.style.transform = `translateX(-${index * slideWidth}px)`;
+    }
+
+    nextBtn.addEventListener("click", () => {
+        index = (index + 1) % slides.length;
+        updateCarousel();
     });
+
+    prevBtn.addEventListener("click", () => {
+        index = (index - 1 + slides.length) % slides.length;
+        updateCarousel();
+    });
+
+    window.addEventListener("resize", updateCarousel);
+
 });
 </script>
+
 </body>
 </html>

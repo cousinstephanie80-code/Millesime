@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jour 1 - Heure du Repos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- STYLES RÉCUPÉRÉS ET ADAPTÉS --- */
+        :root {
+            --color-primary: #B48A64;
+            --color-secondary: #9C7A55;
+            --color-cacao-dark: #4F352C;
+            --color-card-background: #fffdf9;
+            --color-border-subtle: rgba(180,138,100,0.4);
+            --color-text-dark: #333;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--color-text-dark);
+            margin: 0;
+            background-image: url('images/vignette_plat.jpg'); 
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .section {
+            max-width: 900px;
+            margin: 6vw auto;
+            padding: 5vw;
+            background: var(--color-card-background); 
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        /* --- STYLES SPÉCIFIQUES CLÔTURE (Basés sur le bloc original) --- */
+        .cloture-titre {
+            font-family: 'Lato', sans-serif;
+            font-size: 36px;
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .cloture-paragraphe {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            max-width: 600px;
+            margin: 10px auto;
+        }
+        .btn {
+            display: inline-block;
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            margin-top: 20px;
+            border: none;
+        }
+        .btn-jour2 {
+            background: var(--color-primary); 
+            font-size: 18px;
+            padding: 18px 40px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .btn-jour2:hover {
+            background: var(--color-secondary);
+        }
+        .petit-texte {
+            font-size: 13px;
+            color: var(--color-secondary);
+            font-style: italic;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .tag-fin-journee {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: 700;
+            color: var(--color-cacao-dark);
+            margin: 20px 0;
+            border: 1px solid var(--color-border-subtle);
+        }
+        h1 {font-size: 2.5em; color: var(--color-cacao-dark);}
+    </style>
+</head>
+<body>
+
+<div class="section">
+    <p class="cloture-titre">
+        <span style="font-size: 38px;">&#x1F319;</span> Quand le silence s'installe...
+    </p>
+    <p class="cloture-paragraphe">
+        La journée s'achève, riche de découvertes et de tendresse.<br>
+        Le calme revient, les pensées se posent, et le sommeil approche doucement.
+    </p>
+
+    <p class="cloture-paragraphe" style="font-weight: 700; margin-top: 20px;">
+        Bonne nuit à vous deux...
+    </p>
+    <p class="cloture-paragraphe">
+        Que cette parenthèse vous berce encore au réveil,<br>
+        et vous guide vers une nouvelle aventure au goût d'infini. <span style="font-size: 18px;">&#x1F347;</span>
+    </p>
+    
+    <p class="tag-fin-journee">
+        Fin de journée – Chambre
+    </p>
+
+    <p class="petit-texte">
+        Le silence s'installe... le matin révèlera une nouvelle aventure : la naissance d'un grand cru.
+        <span style="font-size: 18px; display: block; margin-top: 5px;">&#x1F377;</span>
+    </p>
+
+    <a href="index.html" id="btnJour2" class="btn btn-jour2">
+        <span style="font-size: 18px; margin-right: 8px;">&#x2728;</span> Rendez-vous au Jour 2 : Rencontre avec l'Infiniment Nous
+    </a>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Clé pour déverrouiller la VIGNETTE 5 sur la page Index (Accueil 1)
+    const KEY_INDEX_JOUR2 = "index_vignette_jour2_deverrouillee"; 
+    
+    const btnJour2 = document.getElementById('btnJour2');
+
+    // --- NAVIGATION JOUR 2 (DÉVERROUILLAGE et Redirection) ---
+    btnJour2.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        // 1. Définir la clé du Jour 2 pour déverrouiller la vignette 5 sur l'index
+        localStorage.setItem(KEY_INDEX_JOUR2, "true"); 
+        
+        // 2. Naviguer vers l'accueil 
+        window.location.href = 'index.html';
+    });
+});
+</script>
+</body>
+</html>

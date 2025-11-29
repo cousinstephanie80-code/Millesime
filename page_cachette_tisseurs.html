@@ -4,83 +4,136 @@
 <meta charset="UTF-8">
 <title>Cachette des Tisseurs — Version Magique</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-body{
+body {
   margin:0; padding:0;
   font-family:'Lato',sans-serif;
   background:url('images/fond_textile.png') center/cover fixed;
   color:#3a2f25;
 }
-.conteneur{width:90%;max-width:1100px;margin:40px auto;padding-bottom:60px;}
-/* titre */
-.titre-page{
-  text-align:center;font-family:'Cormorant Garamond',serif;
-  font-size:36px;color:#5a4633;margin-bottom:5px;
-  overflow:hidden;white-space:nowrap;width:100%;
+.conteneur {
+  width:90%; max-width:1100px; margin:40px auto; padding-bottom:60px;
+}
+
+/* TITRE */
+.titre-page {
+  text-align:center;
+  font-family:'Lato',sans-serif;
+  font-size:36px;
+  color:#5a4633;
+  margin-bottom:5px;
+  overflow:hidden;
+  white-space:nowrap;
+  width:100%;
   animation:encre 4s steps(40,end) forwards;
 }
-@keyframes encre{from{width:0;}to{width:100%;}}
-.navette{
-  width:40px;opacity:.85;position:relative;display:block;margin:0 auto 10px;
+@keyframes encre { from{width:0;} to{width:100%;} }
+
+@media (max-width: 600px) {
+  .titre-page {
+    font-size:1.8rem;
+    white-space:normal;
+    width:100%;
+    animation:none;
+  }
+}
+
+/* NAVETTE ANIMÉE */
+.navette {
+  width:40px; opacity:.85; position:relative; display:block; margin:0 auto 10px;
   animation:navette 10s ease-in-out infinite;
 }
-@keyframes navette{
-  0%{left:-5px;}50%{left:5px;}100%{left:-5px;}
+@keyframes navette {
+  0%{left:-5px;} 50%{left:5px;} 100%{left:-5px;}
 }
-.difficulte{text-align:center;font-size:15px;opacity:.7;}
-.citation{text-align:center;font-style:italic;opacity:.8;margin-bottom:30px;}
-/* intro */
-.bloc-intro{
-  background:rgba(255,255,255,.75);border:2px solid #d1bda3;border-radius:12px;
-  padding:25px;margin-bottom:40px;box-shadow:0 6px 14px rgba(0,0,0,.10);
+
+.difficulte { text-align:center; font-size:15px; opacity:.7; }
+.citation { text-align:center; font-style:italic; opacity:.8; margin-bottom:30px; }
+
+/* INTRO */
+.bloc-intro {
+  background:rgba(255,255,255,.75);
+  border:2px solid #d1bda3;
+  border-radius:12px;
+  padding:25px;
+  margin-bottom:40px;
+  box-shadow:0 6px 14px rgba(0,0,0,.10);
 }
-/* cles */
-.carte-cles{display:flex;gap:20px;flex-wrap:wrap;}
-.cle{
-  flex:1;min-width:260px;background:rgba(255,255,255,.85);
-  border:2px solid #d1bda3;border-radius:12px;padding:20px;
+.bloc-intro h2 {
+  font-family:'Lato',sans-serif;
+  font-size:1.5rem;
+}
+
+/* CARTES CLÉS */
+.carte-cles {
+  display:flex; gap:20px; flex-wrap:wrap;
+}
+.cle {
+  flex:1;
+  min-width:260px;
+  background:rgba(255,255,255,.85);
+  border:2px solid #d1bda3;
+  border-radius:12px;
+  padding:20px;
   box-shadow:0 6px 14px rgba(0,0,0,.15);
   transition:.3s;
 }
-.cle:hover{transform:translateY(-5px);box-shadow:0 10px 20px rgba(0,0,0,.25);}
-.cle h2{font-family:'Cormorant Garamond',serif;font-size:22px;text-align:center;}
-.cle img{width:100%;border-radius:6px;margin-top:10px;}
-/* rituel */
-.section-rituel{
-  margin-top:50px;background:rgba(255,255,255,.85);border:2px solid #d1bda3;
-  border-radius:12px;padding:25px;box-shadow:0 6px 14px rgba(0,0,0,.15);
+.cle:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 20px rgba(0,0,0,.25);
 }
-.zone-input{text-align:center;margin-top:10px;}
-input[type=text]{
-  padding:12px;width:90%;max-width:350px;border-radius:6px;border:1px solid #7c6a54;
+.cle h2 {
+  font-family:'Lato',sans-serif;
+  font-size:22px;
+  text-align:center;
 }
-button{
-  margin-top:12px;padding:12px 25px;font-size:17px;background:#c7b29a;border:2px solid #8d775f;
-  border-radius:8px;cursor:pointer;transition:.3s;
+.cle img {
+  width:100%; border-radius:6px; margin-top:10px;
 }
-button:hover{background:#b49a80;}
-/* bouton final tissé */
-#btnSuivant{
-  display:none;margin:25px auto 10px auto;animation:tissage 2s ease-out forwards;
-  opacity:0;
+
+/* RITUEL */
+.section-rituel {
+  margin-top:50px;
+  background:rgba(255,255,255,.85);
+  border:2px solid #d1bda3;
+  border-radius:12px;
+  padding:25px;
+  box-shadow:0 6px 14px rgba(0,0,0,.15);
 }
-@keyframes tissage{
-  0%{opacity:0;transform:scale(.95);}
-  100%{opacity:1;transform:scale(1);}
+
+.zone-input { text-align:center; margin-top:10px; }
+input[type=text] {
+  padding:12px; width:90%; max-width:350px;
+  border-radius:6px; border:1px solid #7c6a54;
 }
-/* indices parchemin plié */
-#indicesBox{
-  display:none;
-  margin-top:25px;padding:20px;
+button {
+  margin-top:12px; padding:12px 25px; font-size:17px;
+  background:#c7b29a; border:2px solid #8d775f;
+  border-radius:8px; cursor:pointer; transition:.3s;
+}
+button:hover { background:#b49a80; }
+
+#btnSuivant {
+  display:none; margin:25px auto 10px auto;
+  animation:tissage 2s ease-out forwards; opacity:0;
+}
+@keyframes tissage { 0%{opacity:0; transform:scale(.95);} 100%{opacity:1; transform:scale(1);} }
+
+#indicesBox {
+  display:none; margin-top:25px; padding:20px;
   background:url('images/parchemin_plié.png') center/cover;
-  border:2px solid #c3a986;border-radius:12px;
+  border:2px solid #c3a986; border-radius:12px;
   box-shadow:0 6px 14px rgba(0,0,0,.15);
   font-style:italic;
 }
-#message{text-align:center;font-weight:bold;}
-.discret{text-align:center;font-size:.85em;opacity:.7;margin-top:8px;}
+
+#message { text-align:center; font-weight:bold; }
+.discret { text-align:center; font-size:.85em; opacity:.7; margin-top:8px; }
 </style>
 </head>
+
 <body>
 
 <div class="conteneur">
@@ -97,6 +150,7 @@ Pour la découvrir, rassemblez les mots-clés cachés dans cette légende.
 </div>
 
 <div class="carte-cles">
+
 <div class="cle">
 <h2>Clé 1 : Géographie et Espace</h2>
 <img src="images/Parc_naturelle.png">
@@ -114,6 +168,7 @@ Elle fut surnommée la <b>Capitale du Délainage</b>, prospérant grâce à la <
 <img src="images/double_nom.png">
 Son nom combine une base <b>médiévale</b> et une <b>désignation géographique</b>.
 </div>
+
 </div>
 
 <div class="section-rituel">
@@ -128,13 +183,15 @@ Son nom combine une base <b>médiévale</b> et une <b>désignation géographique
 <p id="message"></p>
 
 <button id="btnSuivant" onclick="location.href='jour1_accueil.html'">Dévoiler le fil suivant</button>
+
 <p class="discret" id="notice" style="display:none;">
-(La vignette <b>2 — Le savoir-faire oublié</b> est sur la page <b>Accueil Jour 1</b>.)
+(La vignette <b>2 — Le savoir-faire oublié</b> est débloquée sur la page <b>Accueil Jour 1</b>.)
 </p>
 
 <div id="indicesBox">
 <h3>🦉 Le Dernier Murmure du Hibou</h3>
-"Le vent vous souffle un secret : 'La Bastide' pour le fort, 'Rouairoux' pour le rouge des bois. Cherchez là où le Parc et la Laine se rencontrent."
+"Le vent vous souffle un secret : 'La Bastide' pour le fort, 'Rouairoux' pour le rouge des bois.
+Cherchez là où le Parc et la Laine se rencontrent."
 </div>
 
 </div>
@@ -142,31 +199,69 @@ Son nom combine une base <b>médiévale</b> et une <b>désignation géographique
 
 <script>
 let erreurs = 0;
+const STATE_DEPART_ACCESSIBLE = 'jour1_depart_ok';
 
-function nettoyer(txt){
-return txt.toLowerCase()
-.normalize("NFD").replace(/[̀-ͯ]/g,"")
-.replace(/[^a-z]/g,"");
+/* Nettoyage universel : rend toutes les orthographes valides */
+function nettoyer(texte) {
+    return texte
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // supprime accents
+        .replace(/[^a-z]/g, ""); // supprime espaces, tirets, apostrophes, etc.
 }
 
-function verifier(){
-let saisie = nettoyer(document.getElementById("reponse").value);
-let bonne = nettoyer("La Bastide Rouairoux");
+/* Quand c'est réussi */
+function reussite(message) {
+    document.getElementById("message").innerHTML = "✔ " + message;
+    document.getElementById("message").style.color = "#2d6b3a";
+    document.getElementById("btnSuivant").style.display = "block";
+    document.getElementById("notice").style.display = "block";
+    localStorage.setItem(STATE_DEPART_ACCESSIBLE, 'true');
 
-if(saisie===bonne){
-document.getElementById("message").innerHTML="✔ Le fil est juste…";
-document.getElementById("message").style.color="#2d6b3a";
-document.getElementById("btnSuivant").style.display="block";
-document.getElementById("notice").style.display="block";
-}else{
-erreurs++;
-document.getElementById("message").innerHTML="❌ Ce n’est pas encore le bon fil…";
-document.getElementById("message").style.color="#8a1e1e";
-if(erreurs===2){
-document.getElementById("indicesBox").style.display="block";
+    // Empêche de recommencer
+    document.querySelector('.zone-input button').disabled = true;
+    document.getElementById("reponse").disabled = true; // Désactive l'input
 }
+
+/* Quand c'est faux */
+function echec(msg) {
+    document.getElementById("message").innerHTML = "❌ " + msg;
+    document.getElementById("message").style.color = "#8a1e1e";
 }
+
+function verifier() {
+    const saisie = nettoyer(document.getElementById("reponse").value);
+    // Les différentes formes acceptées par la fonction nettoyer
+    const bonne = nettoyer("La Bastide-Rouairoux");
+
+    if (saisie === bonne) {
+        reussite("Le fil est juste…");
+        return;
+    }
+
+    erreurs++;
+
+    if (erreurs === 1) {
+        // Première erreur : Affiche l'indice
+        echec("Ce n’est pas encore le bon fil… Un souffle du vent vous guide… Consultez l’indice.");
+        document.getElementById("indicesBox").style.display = "block";
+    }
+    else if (erreurs === 2) {
+        // Deuxième erreur : Affiche la réponse et la valide automatiquement
+        reussite("Le vent vous souffle la réponse : La Bastide-Rouairoux.");
+        document.getElementById("indicesBox").style.display = "block";
+    }
+    else if (erreurs >= 3) {
+        // Si l'utilisateur clique encore après l'affichage de la réponse, assure la validation
+        reussite("Vous avez déjà trouvé la destination : La Bastide-Rouairoux.");
+    }
 }
+
+/* * MODIFICATION : 
+* J'ai retiré le bloc document.addEventListener('DOMContentLoaded', ...) pour ne pas masquer le formulaire d'entrée
+* si l'énigme a déjà été résolue dans une session précédente.
+* Pour rejouer, l'utilisateur devra effacer le localStorage manuellement (F12 > Application > Local Storage)
+* ou simplement recharger le fichier.
+*/
 </script>
 
 </body>

@@ -33,8 +33,10 @@ body::before {
     border:2px solid rgba(180,138,100,0.35);
 }
 h1 {
-    font-family:'Cormorant Garamond',serif;
-    font-size:2.6rem;
+    /* Uniformisation de la police */
+    font-family:'Lato',sans-serif;
+    /* Uniformisation de la taille du titre */
+    font-size: 36px;
     text-align:center;
     margin-bottom:10px;
 }
@@ -48,7 +50,8 @@ details {
     font-size:1.1rem;
 }
 summary {
-    font-family:'Cormorant Garamond',serif;
+    /* Uniformisation de la police */
+    font-family:'Lato',sans-serif;
     font-size:1.4rem;
     cursor:pointer;
 }
@@ -65,6 +68,31 @@ summary {
     font-size:1.2rem;
     box-shadow:0 4px 10px rgba(0,0,0,0.2);
 }
+
+/* --- OPTIMISATION MOBILE ET UNIFORMISATION --- */
+@media (max-width: 600px) {
+    .bloc {
+        margin: 5vw; 
+        padding: 20px;
+    }
+    h1 {
+        /* Uniformisation de la taille du titre sur mobile */
+        font-size: 1.8rem;
+    }
+    summary {
+        font-size: 1.25rem;
+    }
+    details {
+        font-size: 1.0rem;
+    }
+    p {
+        font-size: 1.1rem !important; 
+    }
+    .btn-suite {
+        font-size: 1.1rem;
+    }
+}
+/* --- FIN OPTIMISATION MOBILE --- */
 </style>
 </head>
 <body>

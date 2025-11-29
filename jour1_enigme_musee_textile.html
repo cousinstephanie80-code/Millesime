@@ -54,9 +54,11 @@
 
         /* TITRES */
         h1 {
-            font-family: 'Cormorant Garamond', serif;
+            /* Uniformisation de la police */
+            font-family: 'Lato', sans-serif;
             color: var(--color-cacao-dark);
-            font-size: 2.8rem; 
+            /* Uniformisation de la taille du titre */
+            font-size: 36px;
             font-weight: 700;
             margin-bottom: 20px;
         }
@@ -119,7 +121,6 @@
 
         /* RÉVÉLATION */
         #revelation-content {
-            /* ⬅️ Masquage par défaut simple et fiable */
             display: none; 
             transition: opacity 1.5s ease;
             margin-top: 25px;
@@ -131,12 +132,14 @@
             color: var(--color-leaf); 
             font-size: 1.5rem; 
             margin-top: 15px;
-            font-family: 'Cormorant Garamond', serif; 
+            /* Uniformisation de la police */
+            font-family: 'Lato', sans-serif; 
         }
         .destination-title { 
             color: var(--color-cacao-dark); 
             margin-bottom: 15px; 
-            font-family: 'Cormorant Garamond', serif; 
+            /* Uniformisation de la police */
+            font-family: 'Lato', sans-serif; 
         }
 
         /* Lien Vidéo Direct */
@@ -173,6 +176,8 @@
 
         @media (max-width: 600px) {
             .bloc-contenu { margin: 5vw; padding: 20px; }
+            /* Uniformisation de la taille du titre sur mobile */
+            h1 { font-size: 1.8rem; }
             .input-validation-group { flex-direction: column; }
             .input-style { margin-right: 0; margin-bottom: 10px; width: 90%; max-width: 90%; }
             .btn-valider { width: 90%; }
@@ -301,7 +306,7 @@
                 
                 // 3. Afficher la révélation avec une transition
                 setTimeout(() => {
-                    revelationContent.style.display = 'block'; // ⬅️ AFFICHAGE CORRIGÉ
+                    revelationContent.style.display = 'block'; 
                     revelationContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 500);
 
