@@ -273,6 +273,52 @@ function updateMenu() {
 }
 
 document.addEventListener('DOMContentLoaded', updateMenu);
+<!-- 🔓 VERSION FAMILLE : tout déverrouillé -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // 🟢 1. On neutralise tout le localStorage lié aux verrous
+    localStorage.setItem('jour1_depart_ok', 'true');
+    localStorage.setItem('jour1_musee_resolu', 'true');
+    localStorage.setItem('jour1_labastide_resolu', 'true');
+    localStorage.setItem('jour1_hotel_resolu', 'true');
+    localStorage.setItem('jour1_restau_resolu', 'true');
+    localStorage.setItem('jour1_repos_resolu', 'true');
+
+    // 🟢 2. On neutralise les fonctions de contrôle du menu
+    window.checkUnlockState = () => true;
+
+    // 🟢 3. On remplace updateMenu() par une version “toujours tout ouvert”
+    window.updateMenu = function () {
+        const cont = document.getElementById('menuContainer');
+        cont.innerHTML = "";
+
+        ETAPES.forEach(etape => {
+            const div = document.createElement('div');
+            div.className = "vignette";  // on retire locked automatiquement
+
+            // contenu vignette
+            let html = `
+                <img src="images/${etape.image}">
+                <div class="vignette-content">
+                    <h2>${etape.titre}</h2>
+                    <p>${etape.description}</p>
+                </div>
+            `;
+            div.innerHTML = html;
+
+            // 👉 clique autorisé directement
+            div.addEventListener('click', () => {
+                window.location.href = etape.lien;
+            });
+
+            cont.appendChild(div);
+        });
+    };
+
+    // 🟢 4. On appelle immédiatement la version famille du menu
+    updateMenu();
+});
 </script>
 
 </body>
