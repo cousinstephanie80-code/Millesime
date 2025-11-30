@@ -504,10 +504,10 @@ clip.addEventListener("ended", () => {
         
         // 3. Lance le message de la voix APRÈS DÉLAI
         setTimeout(() => {
-            bravo.style.display = "block";
-            voix.volume = 1.0; // Assure le volume maximum
-            voix.play(); 
-        }, 8000); // ⬅️ DÉLAI FINAL À 8s
+    bravo.style.display = "block";
+    // ❌ On ne lance pas l’audio automatiquement
+    // Le son ne partira que lorsque l’utilisateur clique sur "Ouvrir le Message"
+}, 8000);
     }
 });
 
@@ -582,15 +582,15 @@ cadeau.addEventListener("click", () => {
         
         setTimeout(() => {
             bravo.style.display = "block";
-            voix.volume = 1.0; // Assure le volume maximum
-            voix.play(); 
+                // Aucun son ici 
         }, 8000); 
     }
 });
 
 document.getElementById("startAudio").addEventListener("click", () => {
     document.getElementById("bravo").style.display = "none";
-    voix.play();
+    voix.volume = 1.0;  // 🔥 Volume remis à fond au moment du clic
+    voix.play();        // 🎧 Lancement
 });
 
 </script>
