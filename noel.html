@@ -527,6 +527,10 @@ voix.onended = () => {
 
 // 6. 🎶 Clic sur le bouton Chanson (maintenant l'image/div)
 btnChanson.addEventListener("click", () => {
+
+// 🔥 Dès que la chanson démarre, on enlève tout le bloc écrit
+    chansonTeaser.style.display = "none";
+
     // Démarrage de la chanson avec fondu
     fadeInAudio(chansonFinale, 4000, 0.8); // 4 secondes de fondu vers un volume de 0.8 (à ajuster)
     btnChanson.style.display = "none"; // Optionnel : désactiver ou masquer le bouton
