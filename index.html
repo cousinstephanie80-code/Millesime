@@ -26,11 +26,9 @@
         }
 
         h1 {
-            /* Uniformisation de la police */
             font-family: 'Lato', sans-serif;
             color: var(--color-cacao-dark);
             margin-top: 5vh;
-            /* Uniformisation de la taille du titre */
             font-size: 36px;
             letter-spacing: 1px;
             font-weight: 700;
@@ -71,11 +69,9 @@
             animation: fadeInUp 0.8s ease forwards;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
-        
+
         @media (max-width: 600px) {
-            .vignette {
-                max-width: 90%; 
-            }
+            .vignette { max-width: 90%; }
         }
 
         .vignette:nth-child(1) { animation-delay: 0.1s; }
@@ -99,6 +95,7 @@
             height: 180px;
             object-fit: cover;
             transition: transform 0.5s ease, filter 0.4s ease;
+            display: block;
         }
 
         .vignette:hover img {
@@ -109,7 +106,6 @@
         .vignette h3 {
             margin: 1rem 0 0.3rem;
             color: var(--color-millésime-gold);
-            /* Uniformisation de la police */
             font-family: 'Lato', sans-serif;
             font-weight: 600;
         }
@@ -124,25 +120,82 @@
 
         /* --- Styles Spécifiques --- */
         .vignette.noel {
-            border: 3px solid #ffaa00; /* Bordure festive pour UX */
+            border: 3px solid #ffaa00;
             box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
         }
-        .vignette.noel h3 {
-            color: #d89617; 
-        }
+        .vignette.noel h3 { color: #d89617; }
 
-        /* État verrouillé */
+        /* =====================================================
+           ✅ ÉTAT VERROUILLÉ (NOUVEAU : plus chaleureux + sans titres)
+           Objectif : image “voilée” dorée, sans texte visible
+        ===================================================== */
         .vignette.locked {
-            filter: grayscale(0.8) opacity(0.5);
             cursor: not-allowed;
-            background: var(--color-beige-textile);
-        }
-        .vignette.locked:hover {
-             transform: none;
-             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            background: #fff;
         }
 
-        /* Pop-up verrouillage */
+        /* Flou + chaleur UNIQUEMENT sur l’image */
+        .vignette.locked img {
+            filter:
+                blur(6px)
+                brightness(0.98)
+                saturate(1.15)
+                sepia(0.35)
+                contrast(0.95);
+            transform: scale(1.05);
+        }
+
+        /* Voile chaud par-dessus l’image (effet cocooning) */
+        .vignette.locked::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 30% 20%, rgba(180,138,100,0.35), transparent 55%),
+                linear-gradient(180deg, rgba(247,244,240,0.15), rgba(180,138,100,0.22));
+            pointer-events: none;
+        }
+
+        /* On garde la place (bande/étiquette), mais on cache le contenu */
+.vignette.locked h3,
+.vignette.locked p {
+    visibility: hidden;
+}
+
+
+        /* Petit badge cadenas (discret et chaleureux) */
+        .vignette.locked::after {
+            content: "🔒";
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 999px;
+            background: rgba(255, 253, 249, 0.80);
+            border: 1px solid rgba(180,138,100,0.35);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        .vignette.locked:hover {
+            transform: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .vignette.locked:hover img {
+            transform: scale(1.05); /* on garde le voile stable */
+            filter:
+                blur(6px)
+                brightness(0.98)
+                saturate(1.15)
+                sepia(0.35)
+                contrast(0.95);
+        }
+
+        /* --- Pop-up verrouillage --- */
         #popup {
             position: fixed;
             top: 0;
@@ -171,7 +224,6 @@
         .popup-content h2 {
             color: var(--color-lock-red);
             margin-bottom: 0.8rem;
-            /* Uniformisation de la police */
             font-family: 'Lato', sans-serif;
         }
 
@@ -186,21 +238,15 @@
             font-weight: bold;
             transition: background 0.3s;
         }
-        .popup-content button:hover {
-            background: #9d7553;
-        }
+        .popup-content button:hover { background: #9d7553; }
 
         @keyframes fadeIn {
             from {opacity: 0; transform: translateY(10px);}
             to {opacity: 1; transform: translateY(0);}
         }
 
-        /* RÈGLE MOBILE POUR L'UNIFORMISATION */
         @media (max-width: 600px) {
-            h1 {
-                /* Uniformisation de la taille du titre sur mobile */
-                font-size: 1.8rem;
-            }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -226,8 +272,8 @@
         // -------- CONFIGURATION POUR DOUBLE COMMANDE --------
         // Si l'URL contient "?preview=true", le mode développeur est activé (tout est accessible).
         const urlParams = new URLSearchParams(window.location.search);
-        const previewMode = urlParams.get('preview') === 'true'; 
-        
+        const previewMode = urlParams.get('preview') === 'true';
+
         const unlockDate = new Date("2026-06-01T00:00:00");
         const now = new Date();
 
@@ -243,21 +289,21 @@
                 titre: "💛 Les Voix du Cœur", // Vignette 2 (Juin / Audio)
                 phrase: "Juste avant le départ, un murmure familial pour vous guider sur la route...",
                 img: "images/voix.jpg",
-                lien: "message_route.html", 
-                accessible: false 
+                lien: "message_route.html",
+                accessible: false
             },
             {
                 titre: "🛣️ La Route des Souvenirs", // Vignette 3 (Jour 1)
                 phrase: "Chaque virage mène à un souvenir.",
                 img: "images/jour1.jpg",
-                lien: "jour1_accueil.html", 
+                lien: "jour1_accueil.html",
                 accessible: false
             },
             {
                 titre: "💎 Le Secret du Millésime", // Vignette 4 (Jour 2)
                 phrase: "Certains secrets ne se dévoilent qu'à maturité.",
                 img: "images/jour2.jpg",
-                lien: "jour2_accueil.html", 
+                lien: "jour2_accueil.html",
                 accessible: false
             },
             {
@@ -271,21 +317,20 @@
 
         // -------- LOGIQUE DES VIGNETTES --------
         const gallery = document.getElementById("gallery");
-        
+
         vignettes.forEach(v => {
             const div = document.createElement("div");
-            
-            // LIGNE MODIFIÉE : Le mode previewMode (URL ?preview=true) est maintenant le premier critère pour déverrouiller.
+
             // Si l'URL contient ?preview=true, isUnlocked devient TRUE, peu importe la date.
             const isUnlocked = previewMode || v.isNoel || now >= unlockDate;
-            
+
             let className = "vignette";
             if (v.isNoel) {
                 className += " noel";
             } else if (!isUnlocked) {
                 className += " locked";
             }
-            
+
             div.className = className;
             div.innerHTML = `
                 <img src="${v.img}" alt="${v.titre}">
