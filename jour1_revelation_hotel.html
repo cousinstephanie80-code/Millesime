@@ -10,11 +10,11 @@
         :root {
             --color-primary: #B48A64; /* Brun chaud/Doré */
             --color-secondary: #9C7A55; /* Marron moyen */
-            --color-background-opac: rgba(255, 254, 253, 0.85); 
+            --color-background-opac: rgba(255, 254, 253, 0.85);
             --color-background-light: #fffefd;
-            --color-background-dark: #fde8d8; 
-            --color-text-dark: #3E332C; 
-            --color-card-background: #fffdf9; 
+            --color-background-dark: #fde8d8;
+            --color-text-dark: #3E332C;
+            --color-card-background: #fffdf9;
             --color-border-subtle: rgba(180,138,100,0.3);
         }
 
@@ -36,11 +36,11 @@
             max-width: 900px;
             margin: 6vw auto;
             padding: 5vw;
-            background: var(--color-background-opac); 
+            background: var(--color-background-opac);
             border-radius: 18px;
             box-shadow: 0 6px 14px rgba(0,0,0,0.15);
             position: relative;
-            border: 2px solid rgba(180,138,100,0.4); 
+            border: 2px solid rgba(180,138,100,0.4);
         }
 
         .separator {
@@ -52,7 +52,7 @@
         }
 
         h2, h3 {font-family: 'Lato', sans-serif; color: var(--color-primary); text-align: center; margin-bottom: 1vw;}
-        h2 {font-size: 36px; letter-spacing: 1.5px;} 
+        h2 {font-size: 36px; letter-spacing: 1.5px;}
         h3 {font-size: 22px; color: var(--color-secondary); font-weight: 600;}
         p {font-size: 16px; line-height: 1.7; text-align: center; margin: 2vw auto; max-width: 720px;}
 
@@ -81,11 +81,11 @@
 
         /* --- BLOC ÉNIGME (Le Parchemin) (inchangé) --- */
         #blocEnigme {
-            padding: 30px; background: var(--color-background-opac); 
+            padding: 30px; background: var(--color-background-opac);
             border-radius: 14px; border: 1px solid var(--color-primary);
             box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
         }
-        
+
         .heritage-list {list-style: none; padding: 0; margin: 3vw auto; max-width: 450px;}
         .heritage-list li {
             font-family: 'Lato', sans-serif; font-size: 18px; color: var(--color-text-dark);
@@ -100,7 +100,7 @@
             margin-bottom: 10px; font-family: 'Lato', sans-serif; font-weight: 600; color: var(--color-secondary);
         }
         #btnRepas {padding: 14px 25px; font-size: 16px;}
-        
+
         /* Style pour le bloc d'aide (details) (inchangé) */
         details {text-align: center; margin: 3vw auto 1vw auto; max-width: fit-content;}
         summary {
@@ -136,6 +136,63 @@
             font-size: 18px; font-weight: 700; line-height: 1.5;
         }
         .adresse-bloc span {display: block; margin-top: 5px;}
+
+        /* --- NOUVEAU : ENCADRÉ "CLÉS DU SÉJOUR" --- */
+        .cles-box {
+            background: var(--color-card-background);
+            border: 1px solid rgba(180,138,100,0.45);
+            border-radius: 14px;
+            padding: 22px;
+            max-width: 650px;
+            margin: 3vw auto 2vw auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .cles-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--color-secondary);
+            letter-spacing: 0.4px;
+            margin: 0 0 12px 0;
+        }
+        .cles-text {
+            text-align: center;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0 auto 14px auto;
+            max-width: 560px;
+        }
+        .cles-subtext {
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 12px auto 0 auto;
+            max-width: 560px;
+            color: rgba(62, 51, 44, 0.95);
+        }
+        .cles-reveal {
+            margin-top: 14px;
+            display: none; /* affiché après action */
+        }
+        .cles-reveal p {
+            margin: 10px auto;
+            text-align: center;
+        }
+        .cles-label {
+            font-weight: 800;
+            color: var(--color-secondary);
+        }
+        .cles-value {
+            font-weight: 800;
+            color: var(--color-text-dark);
+            letter-spacing: 0.5px;
+        }
+        .btn-secondary {
+            background: var(--color-secondary);
+        }
+        .btn-secondary:hover {
+            background: var(--color-primary);
+        }
 
         /* --- RÈGLE MOBILE POUR L'UNIFORMISATION (inchangée) --- */
         @media (max-width: 600px) {
@@ -182,38 +239,86 @@
                     **L'addition donne 14.**
                 </div>
             </details>
-            
+
             <div style="text-align:center; margin-top:2vw;">
-                <input id="hotelInput" type="number" placeholder="Le Chiffre d'Héritage"
-                    style="margin-bottom: 10px;">
+                <input id="hotelInput" type="number" placeholder="Le Chiffre d'Héritage" style="margin-bottom: 10px;">
                 <button id="btnRepas" class="btn">🔓 Valider le Code</button>
             </div>
-            <p id="messageErreur" style="color: #c94b4b; display: none;">Code incorrect. Murmure encore un peu...</p>
+            <p id="messageErreur" style="color: #c94b4b; display: none;">Code incorrect. Murmurez encore un peu…</p>
         </div>
     </div>
-    
+
     <div class="separator"></div>
 
     <div id="blocRevelation" style="display:none;" class="fade-in">
-        <h3>La Clé est Juste ! Le chiffre **14** résonne avec l'écho de votre histoire.</h3>
-        
-        <p>
-            Laissez-nous vous souhaiter la bienvenue à...
-        </p>
-        
-        <h2 style="font-size: 36px; margin-top: 15px;">🗝️ L'Hôtel du Millésime 🗝️</h2>
+        <h3>La clé est juste ! Le chiffre **14** résonne avec l'écho de votre histoire.</h3>
 
+        <p>
+            Laissez-nous vous souhaiter la bienvenue à…
+        </p>
+
+        <!-- NOM AFFICHÉ (gardé) -->
+        <h2 style="font-size: 36px; margin-top: 15px;">🗝️ Hôtel du Millésime 🗝️</h2>
+
+        <!-- NOM RÉEL (ajout) -->
+        <p style="font-size: 18px; font-weight: 800; color: var(--color-secondary); margin-top: 10px;">
+            Bastide La Guilhabertie
+        </p>
+
+        <!-- ADRESSE (modifiée) -->
         <div class="adresse-bloc">
-            📍 **Votre chambre est prête au :**
-            <span>123 Rue de la Douceur, 81140 Le Verdier, France</span>
+            📍 <strong>Votre chambre est prête au :</strong>
+            <span>2 Route de Jourdes</span>
+            <span>81140 Le Verdier</span>
         </div>
 
+        <!-- NOUVEAU : ENCADRÉ "CLÉS DU SÉJOUR" -->
+        <div class="cles-box" id="clesBox">
+            <div class="cles-title">🔐 Les Clés de Votre Parenthèse</div>
+
+            <p class="cles-text">
+                Certains secrets ne se livrent qu’à ceux qui savent prendre le temps.<br>
+                Derrière cette porte se trouvent les détails pratiques de votre refuge,<br>
+                ceux qui transforment un lieu en véritable havre.<br><br>
+                Lorsque vous vous sentirez prêts,<br>
+                il suffira d’un geste pour les révéler.
+            </p>
+
+            <div style="text-align:center;">
+                <button class="btn btn-secondary" id="btnRevelerCles">👉 Révéler les clés du séjour</button>
+            </div>
+
+            <div class="cles-reveal fade-in" id="clesReveal">
+                <p style="margin-top: 16px;">
+                    Les portes s’ouvrent, les chiffres prennent sens, et le séjour peut commencer.
+                </p>
+
+                <p>
+                    <span class="cles-label">Numéro de réservation</span><br>
+                    <span style="font-size: 13px; opacity: 0.85;">La trace officielle de votre escale hors du temps.</span><br>
+                    <span class="cles-value" id="reservationValue">5051706142</span>
+                </p>
+
+                <p>
+                    <span class="cles-label">Code d’accès : 8572</span><br>
+                    <span style="font-size: 13px; opacity: 0.85;">La clé discrète qui vous ouvre le passage vers le repos.</span><br>
+                    <span class="cles-value" id="codeAccesValue">••••</span>
+                </p>
+
+                <p class="cles-subtext">
+                    Gardez ces informations précieusement.<br>
+                    Elles sont le dernier fil entre l’attente… et la douceur du moment.
+                </p>
+            </div>
+        </div>
+
+        <!-- CARROUSEL (option A : noms fixes) -->
         <div class="carousel-container">
             <div class="carousel-slide" id="carouselSlide">
-                <img src="images/hotel_1.jpg" alt="Façade de L'Hôtel du Millésime">
-                <img src="images/hotel_2.jpg" alt="Intérieur de L'Hôtel du Millésime">
-                <img src="images/hotel_3.jpg" alt="Chambre de L'Hôtel du Millésime">
-                <img src="images/hotel_4.jpg" alt="Vue du jardin de L'Hôtel du Millésime">
+                <img src="images/hotel_1.jpg" alt="Façade – Bastide La Guilhabertie">
+                <img src="images/hotel_2.jpg" alt="Intérieur – Bastide La Guilhabertie">
+                <img src="images/hotel_3.jpg" alt="Chambre – Bastide La Guilhabertie">
+                <img src="images/hotel_4.jpg" alt="Jardin / vue – Bastide La Guilhabertie">
             </div>
             <button class="carousel-btn" id="prevBtn">❮</button>
             <button class="carousel-btn" id="nextBtn">❯</button>
@@ -240,6 +345,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const CODE_CORRECT = "14";
     const KEY_HOTEL_RESOLU = "jour1_hotel_ok";
 
+    // NOUVEAU : persistance des "clés du séjour"
+    const KEY_CLES_REVELEES = "jour1_hotel_cles_revelees";
+
+    // 👉 À REMPLACER PAR TON VRAI CODE CONFIDENTIEL
+    const CODE_ACCES_HOTEL = "A_REMPLACER"; // ex: "7391" ou "ABCD-1234"
+
     const blocOuvertureEnigme = document.getElementById('blocOuvertureEnigme');
     const btnOuvrirEnigme = document.getElementById('btnOuvrirEnigme');
     const blocEnigmeContainer = document.getElementById('blocEnigmeContainer');
@@ -248,35 +359,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const messageErreur = document.getElementById('messageErreur');
     const blocRevelation = document.getElementById('blocRevelation');
     const blocRestaurant = document.getElementById('blocRestaurant');
-    
+
+    // Carrousel
     const carouselSlide = document.getElementById('carouselSlide');
     const images = carouselSlide.querySelectorAll('img');
     let index = 0;
 
+    // NOUVEAU : éléments encart "clés"
+    const btnRevelerCles = document.getElementById('btnRevelerCles');
+    const clesReveal = document.getElementById('clesReveal');
+    const codeAccesValue = document.getElementById('codeAccesValue');
+
     // --- LOGIQUE DE RESTAURATION (SI DÉJÀ RÉSOLU) ---
     const isHotelResolved = localStorage.getItem(KEY_HOTEL_RESOLU) === "true";
+    const areClesRevelees = localStorage.getItem(KEY_CLES_REVELEES) === "true";
 
     // Masquage par défaut des éléments dynamiques
     blocEnigmeContainer.style.display = "none";
     blocRevelation.style.display = "none";
     blocRestaurant.style.display = "none";
-    blocOuvertureEnigme.style.display = "block"; // Par défaut, le bouton d'ouverture est visible
+    blocOuvertureEnigme.style.display = "block";
 
-    // MODIFICATION CLÉ : Logique pour gérer la REVENU sur la page après résolution.
-    // Si l'énigme est résolue, on affiche le bloc de l'hôtel (révélation + lien vers l'accueil)
-    // mais on laisse le bloc d'ouverture d'énigme masqué pour éviter la redondance
+    // Si l'énigme est déjà résolue, on affiche directement la révélation + le bouton "continuer"
     if (isHotelResolved) {
         blocOuvertureEnigme.style.display = "none";
         blocRevelation.style.display = "block";
-        blocRestaurant.style.display = "block"; // Affichage direct du bouton "Continuer"
+        blocRestaurant.style.display = "block";
     }
 
     // 🎞️ LOGIQUE CARROUSEL
     const totalImages = images.length;
     const updateCarousel = () => {
-        carouselSlide.style.transform = `translateX(${-index * 100}%)`; 
+        carouselSlide.style.transform = `translateX(${-index * 100}%)`;
     };
-    
+
     document.getElementById('prevBtn').addEventListener('click', () => {
         index = (index - 1 + totalImages) % totalImages;
         updateCarousel();
@@ -286,17 +402,14 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCarousel();
     });
 
-
     // 🔓 OUVERTURE DU BLOC ÉNIGME
     btnOuvrirEnigme.addEventListener('click', () => {
-        // Si l'énigme a déjà été résolue, on affiche directement la révélation
         if (isHotelResolved) {
-             blocOuvertureEnigme.style.display = "none";
-             blocRevelation.style.display = "block";
-             blocRestaurant.style.display = "block";
-             blocRevelation.scrollIntoView({ behavior: 'smooth' });
+            blocOuvertureEnigme.style.display = "none";
+            blocRevelation.style.display = "block";
+            blocRestaurant.style.display = "block";
+            blocRevelation.scrollIntoView({ behavior: 'smooth' });
         } else {
-            // Sinon, on affiche le bloc d'énigme pour la première tentative
             blocEnigmeContainer.style.display = "block";
             blocOuvertureEnigme.style.display = "none";
             blocEnigmeContainer.scrollIntoView({ behavior: 'smooth' });
@@ -308,28 +421,55 @@ document.addEventListener("DOMContentLoaded", () => {
         const input = hotelInput.value.trim();
         const inputNormalized = input.replace(/\s/g, '').toLowerCase();
 
-        if (inputNormalized === CODE_CORRECT || inputNormalized === 'vingtquatre') {
-            
+        if (inputNormalized === CODE_CORRECT) {
             // Masquer l'énigme
             blocEnigmeContainer.style.display = "none";
             messageErreur.style.display = "none";
-            
-            // 1. Afficher la révélation (Adresse + Carrousel)
+
+            // 1. Afficher la révélation
             blocRevelation.style.display = "block";
             blocRevelation.scrollIntoView({ behavior: 'smooth' });
 
             // 2. ENREGISTRER LA CLÉ DE PROGRESSION
             localStorage.setItem(KEY_HOTEL_RESOLU, "true");
 
-            // 3. LOGIQUE DE DÉLAI pour la transition vers le bouton "Continuer"
+            // 3. Afficher ensuite le bloc "Continuer"
             setTimeout(() => {
                 blocRestaurant.style.display = "block";
                 blocRestaurant.scrollIntoView({ behavior: 'smooth' });
-            }, 2000); 
-            
+            }, 2000);
         } else {
             messageErreur.style.display = "block";
         }
+    });
+
+    // 🔐 NOUVEAU : RÉVÉLATION DES "CLÉS DU SÉJOUR" (persistant)
+    const applyClesReveleesUI = () => {
+        // On affiche les infos
+        clesReveal.style.display = "block";
+
+        // On masque le bouton
+        btnRevelerCles.style.display = "none";
+
+        // On injecte le code (si tu as remplacé A_REMPLACER)
+        if (CODE_ACCES_HOTEL && CODE_ACCES_HOTEL !== "A_REMPLACER") {
+            codeAccesValue.textContent = CODE_ACCES_HOTEL;
+        } else {
+            // Si tu n'as pas encore remplacé, on laisse les points
+            codeAccesValue.textContent = "••••";
+        }
+    };
+
+    // Si déjà révélé (au rechargement), on restaure l'affichage
+    if (areClesRevelees) {
+        applyClesReveleesUI();
+    }
+
+    // Au clic, on révèle et on mémorise
+    btnRevelerCles.addEventListener('click', () => {
+        localStorage.setItem(KEY_CLES_REVELEES, "true");
+        applyClesReveleesUI();
+        clesReveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
 
     // ⬅️ Bouton retour vers le menu d'accueil
