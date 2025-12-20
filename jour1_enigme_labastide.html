@@ -277,6 +277,17 @@ body::before {
   .cle img { height: 160px; }
   .char-hint { font-size: 1.1rem; letter-spacing: 1px; }
 }
+/* ✅ Correctif clavier smartphone (iOS / Android) */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll !important;
+  }
+
+  body::before {
+    position: absolute;
+  }
+}
+
 </style>
 </head>
 
