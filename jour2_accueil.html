@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 2 — Le Secret de l’Infini</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Montserrat:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --ink:#3e332c;
+    --gold:#b48a64;
+    --paper:#f4f1ea;
+    --shadow:0 15px 35px rgba(62,51,44,0.15);
+    --wax-dark:#8a2323;
+    --wax-light:#c75050;
+}
+
+body{
+    margin:0;
+    font-family:'Montserrat',sans-serif;
+    background-color:var(--paper);
+    background-image:
+        radial-gradient(circle at 50% 0%, rgba(180,138,100,.10), transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(120,70,55,.07), transparent 60%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    color:var(--ink);
+    text-align:center;
+    min-height:100vh;
+    padding-bottom:80px;
+}
+
+.banniere-top{
+    height:340px;
+    background:url('images/banniere_parents.jpg') center/cover;
+    border-bottom:5px solid var(--gold);
+    box-shadow:0 10px 40px rgba(0,0,0,.25);
+}
+
+h1{
+    font-family:'Great Vibes',cursive;
+    color:var(--gold);
+    font-size:clamp(3.5rem,8vw,5.5rem);
+    margin:50px 0 10px;
+}
+
+.intro-text{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.6rem;
+    max-width:760px;
+    margin:0 auto 70px;
+    line-height:1.6;
+    opacity:.9;
+}
+
+.menu-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:60px;
+    max-width:1200px;
+    margin:0 auto;
+    padding:20px;
+}
+
+.vignette{
+    background:#fff;
+    border:1px solid rgba(180,138,100,.25);
+    padding:20px;
+    box-shadow:var(--shadow);
+    position:relative;
+    cursor:pointer;
+    opacity:0;
+    transform:translateY(40px);
+    animation:fadeUp .8s ease forwards;
+}
+
+.vignette:hover{
+    transform:translateY(-10px);
+    box-shadow:0 30px 60px rgba(180,138,100,.35);
+}
+
+.img-wrapper{
+    height:220px;
+    overflow:hidden;
+    margin-bottom:25px;
+    box-shadow:inset 0 0 20px rgba(0,0,0,.1);
+}
+
+.img-wrapper img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:sepia(30%) contrast(.95);
+    transition:.7s;
+}
+
+.vignette:hover img{
+    transform:scale(1.1);
+    filter:none;
+}
+
+.vignette h2{
+    font-family:'Cormorant Garamond',serif;
+    text-transform:uppercase;
+    letter-spacing:2px;
+    margin:0 0 10px;
+}
+
+.sep{
+    width:60px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    margin:10px auto;
+}
+
+.poetique{
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    margin-bottom:10px;
+}
+
+.vignette p{
+    font-size:.95rem;
+    color:#7a6a5d;
+}
+
+.locked{
+    filter:sepia(.8) brightness(.9) blur(.4px);
+    pointer-events:none;
+}
+
+.locked::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(62,51,44,.15);
+}
+
+.wax-seal{
+    position:absolute;
+    top:-18px;
+    right:-18px;
+    width:62px;
+    height:62px;
+    border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,var(--wax-light),var(--wax-dark));
+    box-shadow:0 8px 15px rgba(0,0,0,.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.wax-seal::after{
+    content:"🗝️";
+    font-size:1.6rem;
+}
+
+@keyframes fadeUp{
+    to{opacity:1;transform:none;}
+}
+
+/* ===== Bouton carnet ===== */
+.btn-retour{
+    display:inline-block;
+    margin-top:70px;
+    padding:18px 45px 18px 60px;
+    border-radius:50px;
+    background:linear-gradient(135deg,var(--gold),#8f6d4f);
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    box-shadow:0 10px 25px rgba(180,138,100,.4);
+    position:relative;
+    overflow:hidden;
+}
+
+.btn-retour::before{
+    content:"📓";
+    position:absolute;
+    left:22px;
+    top:50%;
+    transform:translateY(-50%) rotate(-6deg);
+    font-size:1.25rem;
+    transition:.35s;
+}
+
+.btn-retour::after{
+    content:"";
+    position:absolute;
+    inset:-40% -60%;
+    background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.45),transparent 55%);
+    opacity:0;
+    transition:.45s;
+}
+
+.btn-retour:hover{
+    transform:translateY(-3px);
+}
+
+.btn-retour:hover::before{
+    transform:translateY(-50%) rotate(0deg) scale(1.08);
+}
+
+.btn-retour:hover::after{
+    opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="banniere-top"></div>
+
+<h1>Le Secret de l’Infini</h1>
+<p class="intro-text">Laissez les arômes guider vos pas… et les souvenirs faire le reste.</p>
+
+<main>
+    <div class="menu-container" id="menuContainer"></div>
+    <a href="index.html" class="btn-retour">Retrouver le fil du voyage</a>
+
+    <br><br>
+    <button onclick="localStorage.clear(); location.reload();"
+        style="opacity:0.2; border:none; background:none; cursor:pointer;
+               font-size:10px; color:var(--ink);">
+        Reset progression
+    </button>
+
+</main>
+
+<script>
+const ETAPES=[
+{
+    id:'vin',
+    titre:"1. L’Infiniment Nous",
+    description:"Un cépage unique pour une histoire unique.",
+    poetique:"Un arôme… et tout revient.",
+    img:'images/j2_vin.jpg',
+    lien:'jour2_Infiniment_Nous.html',
+    requires:[]
+},
+{
+    id:'chocolat',
+    titre:"2. Le Goût Sucré de l’Éternel",
+    description:"Une douceur à partager.",
+    poetique:"La douceur a parfois un secret.",
+    img:'images/j2_choco.jpg',
+    lien:'jour2_chocolat.html',
+    requires:['j2_vin_ok']
+},
+{
+    id:'livredor',
+    titre:"3. Livre d’Or du Voyage",
+    description:"Laisser une trace du chemin parcouru.",
+    poetique:"Écrire, c’est sceller l’instant.",
+    img:'images/j2_livredor.jpg',
+    lien:'livre_or.html',
+    requires:[]
+}
+];
+
+function updateMenu(){
+    const cont=document.getElementById('menuContainer');
+    cont.innerHTML='';
+    ETAPES.forEach((e,i)=>{
+        const d=document.createElement('div');
+        const unlocked=e.requires.every(r=>localStorage.getItem(r)==='true');
+        d.className='vignette'+(unlocked?'':' locked');
+        d.style.animationDelay=(.15*i)+'s';
+        d.innerHTML=`
+        <div class="img-wrapper"><img src="${e.img}" alt=""></div>
+        <h2>${e.titre}</h2>
+        <div class="sep"></div>
+        <div class="poetique">${e.poetique}</div>
+        <p>${e.description}</p>
+        ${unlocked?'':'<div class="wax-seal"></div>'}
+        `;
+        if(unlocked) d.onclick=()=>location.href=e.lien;
+        cont.appendChild(d);
+    });
+}
+document.addEventListener('DOMContentLoaded',updateMenu);
+</script>
+
+</body>
+</html>

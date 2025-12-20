@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOUR 2 — Le Secret de l’Infini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-cacao-dark: #4F352C; /* Ou #5d001e pour garder ta teinte lie-de-vin si tu préfères */
+            --color-millésime-gold: #B48A64;
+            --color-beige-textile: #F7F4F0;
+            --color-text-dark: #3E332C;
+            --color-light-bg: #fffaf4;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--color-beige-textile);
+            color: var(--color-text-dark);
+            text-align: center;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* 🖼️ Bannière haute (Même style que J1) */
+        .banniere-top {
+            width: 100%;
+            height: 300px;
+            /* Assure-toi d'avoir une image ici, ou garde celle du J1 par défaut */
+            background-image: url('images/banniere_parents.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif; /* Changé pour ta police titre J2 */
+            color: var(--color-cacao-dark);
+            font-size: 36px;
+            font-weight: 700;
+            margin-top: 35px;
+            margin-bottom: 10px;
+        }
+
+        /* ⭐ BLOC TRANSLUCIDE (Style J1) */
+        .bloc-translucide {
+            background: rgba(255,250,240,0.75);
+            backdrop-filter: blur(4px);
+            border-radius: 14px;
+            border: 2px solid rgba(180,138,100,0.35);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+        }
+
+        /* ⭐ Bandeau d’intro */
+        .bandeau-intro {
+            margin: 30px auto;
+            padding: 18px 25px;
+            max-width: 850px;
+        }
+
+        .bandeau-intro p {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.6rem;
+            color: var(--color-cacao-dark);
+            margin: 0;
+        }
+
+        /* 🖼️ Conteneur des vignettes */
+        .menu-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1000px;
+            margin: 40px auto 60px;
+            padding: 20px;
+        }
+
+        /* 🔳 Vignettes individuelles */
+        .vignette {
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+            padding-bottom: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            text-align: left;
+        }
+
+        .vignette img {
+            width: 100%;
+            height: 200px; /* Un peu plus haut comme sur ton J2 */
+            object-fit: cover;
+            border-bottom: 1px solid rgba(180,138,100,0.35);
+        }
+
+        .vignette-content {
+            padding: 15px;
+        }
+
+        .vignette h2 {
+            margin: 0 0 6px 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            color: var(--color-cacao-dark); /* Plus foncé pour le contraste */
+        }
+
+        .vignette p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--color-text-dark);
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* État verrouillé */
+        .locked {
+            filter: grayscale(0.8) opacity(0.6);
+            cursor: not-allowed;
+        }
+
+        .locked-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            color: #924B4B;
+        }
+
+        /* 🔙 Bouton retour */
+        .btn-retour {
+            background-color: var(--color-cacao-dark);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background-color 0.3s;
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+
+        .btn-retour:hover {
+            background-color: #382820;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="banniere-top"></div>
+
+    <h1>🍷 Le Secret de l’Infini</h1>
+
+    <div class="bandeau-intro bloc-translucide">
+        <p>Aujourd'hui, nous célébrons l'amour qui se bonifie avec le temps.<br>Suivez les saveurs...</p>
+    </div>
+
+    <main>
+        <div class="menu-container" id="menuContainer"></div>
+        <a href="index.html" class="btn-retour">⬅️ Retour à l'Aventure</a>
+    </main>
+
+<script>
+/* 🔐 Système de progression J2 */
+// IMPORTANT : Sur les pages 'jour2_Infiniment_Nous.html' et 'jour2_chocolat.html',
+// tu devras ajouter une ligne JS pour valider l'étape quand l'énigme est réussie.
+// Ex: localStorage.setItem('j2_vin_ok', 'true');
+
+const STATE_VIN_RESOLU = 'j2_vin_ok'; 
+const STATE_CHOCO_RESOLU = 'j2_choco_ok';
+
+const ETAPES = [
+    {
+        id: 'vin',
+        titre: "1. L’Infiniment Nous",
+        description: "Un cépage unique pour une histoire unique. Commencez votre dégustation ici.",
+        img: 'images/j2_vin.jpg', // ⚠️ Place ton image ici
+        lien: 'jour2_Infiniment_Nous.html',
+        requires: [] // Toujours accessible au début
+    },
+    {
+        id: 'chocolat',
+        titre: "2. Le Goût Sucré de l’Éternel",
+        description: "Après le vin, place à la douceur. Une activité gourmande vous attend.",
+        img: 'images/j2_choco.jpg', // ⚠️ Place ton image ici
+        lien: 'jour2_chocolat.html',
+        requires: [STATE_VIN_RESOLU] // Nécessite que le vin soit validé
+    },
+    {
+        id: 'livredor',
+        titre: "3. Livre d’Or du Voyage",
+        description: "Laissez une trace indélébile de cette journée mémorable.",
+        img: 'images/j2_livredor.jpg', // ⚠️ Place ton image ici
+        lien: 'livre_or.html',
+        requires: [] // Accessible tout le temps (ou ajoute STATE_CHOCO_RESOLU si tu veux le bloquer avant la fin)
+    }
+];
+
+function updateMenu() {
+    const cont = document.getElementById('menuContainer');
+    cont.innerHTML = "";
+
+    // 1. ON VÉRIFIE SI LE MODE TEST EST ACTIVÉ
+    const isTestMode = localStorage.getItem('modeTestActif') === 'true';
+
+    ETAPES.forEach((etape, index) => {
+        const div = document.createElement('div');
+        let unlocked = true;
+
+        // 2. SI ON N'EST PAS EN TEST, ON VÉRIFIE LES VRAIES CONDITIONS
+        // (Si on est en mode test, 'unlocked' reste VRAI pour tout le monde)
+        if (!isTestMode) {
+            etape.requires.forEach(req => {
+                if (localStorage.getItem(req) !== 'true') unlocked = false;
+            });
+        }
+
+        div.className = 'vignette bloc-translucide' + (unlocked ? '' : ' locked');
+        div.style.animationDelay = (0.15 * index) + 's';
+
+        let html = `
+            <img src="${etape.img}" alt="${etape.titre}">
+            <div class="vignette-content">
+                <h2>${etape.titre}</h2>
+                <p>${etape.description}</p>
+            </div>
+        `;
+
+        if (!unlocked) {
+            html += `<span class="locked-icon">🔒</span>`;
+        }
+
+        div.innerHTML = html;
+
+        if (unlocked) {
+            div.addEventListener('click', () => {
+                window.location.href = etape.lien;
+            });
+        }
+
+        cont.appendChild(div);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', updateMenu);
+</script>
+
+<script src="config.js"></script>
+
+</body>
+</html>

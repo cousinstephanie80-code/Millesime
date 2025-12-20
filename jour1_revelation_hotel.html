@@ -1,482 +1,344 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jour 1 - Révélation de l'Hôtel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- VARIABLES MILLÉSIME (inchangées) --- */
-        :root {
-            --color-primary: #B48A64; /* Brun chaud/Doré */
-            --color-secondary: #9C7A55; /* Marron moyen */
-            --color-background-opac: rgba(255, 254, 253, 0.85);
-            --color-background-light: #fffefd;
-            --color-background-dark: #fde8d8;
-            --color-text-dark: #3E332C;
-            --color-card-background: #fffdf9;
-            --color-border-subtle: rgba(180,138,100,0.3);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jour 1 — Cap sur la Nuit</title>
 
-        /* --- STYLES GÉNÉRAUX (inchangés) --- */
-        body {
-            font-family: 'Lato', sans-serif;
-            color: var(--color-text-dark);
-            margin: 0;
-            background-image: url('images/vignette_paix.jpg');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
-        .fade-in {animation: fadeIn 1s ease forwards;}
-        @keyframes fadeIn {from {opacity: 0; transform: translateY(15px);} to {opacity: 1; transform: translateY(0);}}
-
-        .section {
-            max-width: 900px;
-            margin: 6vw auto;
-            padding: 5vw;
-            background: var(--color-background-opac);
-            border-radius: 18px;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.15);
-            position: relative;
-            border: 2px solid rgba(180,138,100,0.4);
-        }
-
-        .separator {
-            height: 1px;
-            background: var(--color-border-subtle);
-            width: 80%;
-            margin: 5vw auto;
-            border-radius: 50%;
-        }
-
-        h2, h3 {font-family: 'Lato', sans-serif; color: var(--color-primary); text-align: center; margin-bottom: 1vw;}
-        h2 {font-size: 36px; letter-spacing: 1.5px;}
-        h3 {font-size: 22px; color: var(--color-secondary); font-weight: 600;}
-        p {font-size: 16px; line-height: 1.7; text-align: center; margin: 2vw auto; max-width: 720px;}
-
-        /* --- ÉLÉMENTS D'ACTION (inchangés) --- */
-        .btn {
-            display: inline-block; background: var(--color-primary); color: #fff; border: none;
-            padding: 12px 22px; border-radius: 10px; font-weight: 600; cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15); transition: all .3s; font-family: 'Lato', sans-serif;
-            text-decoration: none; font-size: 15px; text-align: center; margin: 10px;
-        }
-        .btn:hover {background: var(--color-secondary); transform: scale(1.03);}
-
-        #btnRetour {
-            position: absolute; top: 1vw; left: 1vw; background: #fff; color: var(--color-primary);
-            border: 2px solid var(--color-primary); font-size: 14px; padding: 8px 14px; border-radius: 8px;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; transition: all .3s;
-        }
-        #btnRetour:hover {background:#f3e8de;}
-
-        /* --- BOUTON DE DÉMARRAGE STYLISÉ (Sceau) (inchangé) --- */
-        #btnOuvrirEnigme {
-            font-size: 18px; padding: 18px 30px; border-radius: 12px;
-            background: var(--color-secondary); color: #fff; margin-top: 3vw;
-        }
-        #btnOuvrirEnigme:hover {background: var(--color-primary); box-shadow: 0 6px 12px rgba(0,0,0,0.25); transform: scale(1.05);}
-
-        /* --- BLOC ÉNIGME (Le Parchemin) (inchangé) --- */
-        #blocEnigme {
-            padding: 30px; background: var(--color-background-opac);
-            border-radius: 14px; border: 1px solid var(--color-primary);
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
-        }
-
-        .heritage-list {list-style: none; padding: 0; margin: 3vw auto; max-width: 450px;}
-        .heritage-list li {
-            font-family: 'Lato', sans-serif; font-size: 18px; color: var(--color-text-dark);
-            margin: 15px 0; line-height: 1.4; display: flex; align-items: center; text-align: left;
-        }
-        .heritage-list li::before {content: '♦'; color: var(--color-primary); font-size: 20px; margin-right: 15px; font-weight: 700;}
-
-        /* --- ZONE DE SAISIE (La Serrure) (inchangée) --- */
-        #hotelInput {
-            padding: 12px 18px; font-size: 18px; border-radius: 10px;
-            border: 2px solid var(--color-primary); width: 160px; text-align: center;
-            margin-bottom: 10px; font-family: 'Lato', sans-serif; font-weight: 600; color: var(--color-secondary);
-        }
-        #btnRepas {padding: 14px 25px; font-size: 16px;}
-
-        /* Style pour le bloc d'aide (details) (inchangé) */
-        details {text-align: center; margin: 3vw auto 1vw auto; max-width: fit-content;}
-        summary {
-            list-style: none; cursor: pointer; padding: 10px 18px; background: var(--color-card-background);
-            border: 1px solid var(--color-border-subtle); border-radius: 8px; color: var(--color-secondary);
-            font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: background .3s;
-        }
-        summary:hover {background: #fcf1e8;}
-        .aide-contenu {
-            margin-top: 15px; padding: 15px; border: 1px dashed var(--color-secondary);
-            border-radius: 8px; background: #fffdf9; font-size: 14px; line-height: 1.6; text-align: left;
-        }
-
-        /* --- CARROUSEL (inchangé) --- */
-        .carousel-container {
-            position: relative; width: 100%; overflow: hidden; border-radius: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); margin-top: 3vw; border: 4px solid var(--color-primary);
-            max-height: 400px;
-        }
-        .carousel-slide {display: flex; transition: transform 0.8s ease;}
-        .carousel-slide img {width: 100%; flex-shrink: 0; object-fit: cover; height: 400px;}
-        .carousel-btn {
-            position: absolute; top: 50%; transform: translateY(-50%); background: transparent;
-            color: var(--color-primary); border: 2px solid var(--color-primary); font-size: 24px;
-            padding: 4px 8px; border-radius: 50%; cursor: pointer; transition: all .3s;
-        }
-        .carousel-btn:hover {background: rgba(180,138,100,0.1); transform: translateY(-50%) scale(1.1);}
-
-        /* --- BLOC ADRESSE (Révélation) (inchangé) --- */
-        .adresse-bloc {
-            background: var(--color-background-dark); border: 1px solid var(--color-secondary);
-            padding: 20px; border-radius: 10px; margin: 3vw auto; max-width: 500px;
-            font-size: 18px; font-weight: 700; line-height: 1.5;
-        }
-        .adresse-bloc span {display: block; margin-top: 5px;}
-
-        /* --- NOUVEAU : ENCADRÉ "CLÉS DU SÉJOUR" --- */
-        .cles-box {
-            background: var(--color-card-background);
-            border: 1px solid rgba(180,138,100,0.45);
-            border-radius: 14px;
-            padding: 22px;
-            max-width: 650px;
-            margin: 3vw auto 2vw auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-        }
-        .cles-title {
-            text-align: center;
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--color-secondary);
-            letter-spacing: 0.4px;
-            margin: 0 0 12px 0;
-        }
-        .cles-text {
-            text-align: center;
-            font-size: 15px;
-            line-height: 1.7;
-            margin: 0 auto 14px auto;
-            max-width: 560px;
-        }
-        .cles-subtext {
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.6;
-            margin: 12px auto 0 auto;
-            max-width: 560px;
-            color: rgba(62, 51, 44, 0.95);
-        }
-        .cles-reveal {
-            margin-top: 14px;
-            display: none; /* affiché après action */
-        }
-        .cles-reveal p {
-            margin: 10px auto;
-            text-align: center;
-        }
-        .cles-label {
-            font-weight: 800;
-            color: var(--color-secondary);
-        }
-        .cles-value {
-            font-weight: 800;
-            color: var(--color-text-dark);
-            letter-spacing: 0.5px;
-        }
-        .btn-secondary {
-            background: var(--color-secondary);
-        }
-        .btn-secondary:hover {
-            background: var(--color-primary);
-        }
-
-        /* --- RÈGLE MOBILE POUR L'UNIFORMISATION (inchangée) --- */
-        @media (max-width: 600px) {
-            .section {padding: 30px 5vw; margin: 5vw auto;}
-            h2 {font-size: 1.8rem;}
-            #btnRetour {top: 5px; left: 5px; padding: 6px 10px; font-size: 12px;}
-        }
-    </style>
+<style>
+/* --- STYLE IDENTIQUE (Seul le texte change) --- */
+:root{
+  --fond-voile: rgba(255, 253, 250, 0.70); 
+  --brun-doux: #8f6d4f;
+  --brun-fonce: #3e332c;
+  --or-luxe: #b48a64;
+  --rouge-erreur: #a85a5a;
+}
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family: "Montserrat", sans-serif;
+  color: var(--brun-fonce);
+  background: url("images/Fond_Hotel.jpg") center / cover no-repeat fixed;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+main{
+  max-width: 850px;
+  width: 90%;
+  margin: 4vh auto;
+  padding: 40px;
+  background: var(--fond-voile);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+h1,h2,h3{
+  font-family: "Cormorant Garamond", serif;
+  text-align:center;
+  color: var(--brun-doux);
+  margin: 0.5em 0;
+}
+h1{ font-size: clamp(2.2rem, 5vw, 3rem); letter-spacing: 1px; }
+h2{ font-size: clamp(1.5rem, 4vw, 2.2rem); }
+h3{ font-size: clamp(1.2rem, 3.5vw, 1.8rem); color: var(--brun-fonce); }
+p{
+  text-align:center;
+  line-height:1.8;
+  margin: 1em auto;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.separator{
+  height:1px;
+  width:150px;
+  margin: 2.5em auto;
+  background: linear-gradient(90deg, transparent, var(--or-luxe), transparent);
+}
+.btn{
+  display:inline-block;
+  padding: 15px 35px;
+  border-radius: 2px;
+  background: var(--brun-doux);
+  color:#fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.9rem;
+  text-decoration:none;
+  font-weight:600;
+  border: 1px solid var(--brun-doux);
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(143, 109, 79, 0.2);
+  margin-top: 15px;
+}
+.btn:hover{ 
+    background: transparent; 
+    color: var(--brun-doux); 
+    border-color: var(--brun-doux);
+}
+.btn-retour { 
+    background: var(--brun-fonce); 
+    border-color: var(--brun-fonce);
+    margin-top: 40px; 
+}
+.btn-retour:hover { color: var(--brun-fonce); }
+.center{ text-align:center; }
+.hidden{ display:none; }
+.enveloppe{
+  border-top: 1px solid var(--or-luxe);
+  border-bottom: 1px solid var(--or-luxe);
+  padding: 2em 0;
+  margin-top: 2em;
+}
+input[type="number"] {
+  padding: 15px;
+  font-size: 1.3rem;
+  background: rgba(255,255,255,0.8);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  width: 160px;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: bold;
+  color: var(--brun-fonce);
+  outline: none;
+  transition: 0.3s;
+}
+input:focus { border-color: var(--or-luxe); box-shadow: 0 0 10px rgba(180,138,100,0.2); }
+.msg-erreur {
+  color: var(--rouge-erreur);
+  font-style: italic;
+  margin-top: 15px;
+}
+.reception-card {
+  margin: 3em auto;
+  padding: 30px;
+  max-width: 550px;
+  background: linear-gradient(135deg, #fffbf2 0%, #fff 100%);
+  border: 2px solid var(--or-luxe);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: left;
+}
+.reception-card::before {
+    content: "DESTINATION"; /* Changé pour indiquer le but du voyage */
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    color: var(--or-luxe);
+    opacity: 0.6;
+    border: 1px solid var(--or-luxe);
+    padding: 2px 5px;
+}
+.card-title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.8rem;
+    color: var(--brun-doux);
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ddd;
+    padding-bottom: 5px;
+}
+.info-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 1px;
+}
+.info-data {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--brun-fonce);
+}
+.carousel{
+  overflow:hidden;
+  border-radius: 4px;
+  margin-top: 3em;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  border: 4px solid #fff;
+}
+.carousel-track{
+  display:flex;
+  transition: transform 1.5s ease-in-out;
+}
+.carousel img{
+  width:100%;
+  flex-shrink:0;
+  object-fit:cover;
+  height: 400px;
+}
+.reveal-anim { animation: fadeIn 1.2s ease forwards; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(30px); } to { opacity:1; transform: translateY(0); } }
+@media(max-width:600px){
+  .carousel img{ height: 250px; }
+  h1 { font-size: 2rem; }
+  .reception-card { text-align: center; }
+  .info-row { flex-direction: column; text-align: center; }
+}
+</style>
 </head>
+
 <body>
 
-<div class="section fade-in">
-    <button id="btnRetour">⬅️ Accueil de la Journée</button>
+<main>
 
-    <h2>✨ L'Écrin Secret : Arrivée et Douceur du Millésime</h2>
+  <h1>Vers votre Refuge</h1>
+  
+  <p>
+    Laissez derrière vous les fils et les étoffes...<br>
+    L'heure est venue de rejoindre votre havre de paix pour la nuit.
+  </p>
 
+  <div class="separator"></div>
+
+  <div id="bloc-enigme" class="enveloppe center">
+    <h2>Le Sésame du Départ</h2>
+    
+    <p style="font-style: italic; opacity: 0.9;">
+      "Pour découvrir la route qui vous attend,<br>
+      rappelez-nous le millésime qui a tout commencé..."
+    </p>
+    
+    <div style="margin: 20px 0;">
+        <input id="inputCode" type="number" placeholder="????" onkeypress="handleEnter(event)">
+    </div>
+    
+    <button class="btn" onclick="verifierCode()">Dévoiler la destination</button>
+
+    <p id="erreur" class="msg-erreur hidden">
+      Ce n'est pas la bonne année. Cherchez dans vos souvenirs.
+    </p>
+  </div>
+
+  <div id="bloc-instruction-physique" class="enveloppe center hidden">
+    <h2 style="color:var(--or-luxe);">La Route s'ouvre</h2>
+    
     <p>
-        Le chemin des secrets vous a menés au seuil de votre havre. Cet endroit est une parenthèse, une page blanche où le temps ralentit. Mais tout lieu précieux est protégé. Pour que ses portes s'ouvrent, vous devez murmurer son code, un chiffre tissé dans la trame intime de votre histoire commune.
+      Le code est correct. Votre destination est désormais à portée de main.
+    </p>
+    
+    <p style="font-size: 1.25rem; font-weight: bold; margin: 2em 0;">
+      Ouvrez maintenant l'enveloppe <br><br>
+      <span style="font-family:'Cormorant Garamond'; font-size:2rem; color:var(--brun-doux); border-bottom:1px solid var(--or-luxe);">"HÔTEL"</span>
+    </p>
+    
+    <p>
+      Vous y découvrirez l'adresse exacte où vous rendre.
+    </p>
+    
+    <button class="btn" onclick="revelerInfos()">J'ai l'adresse, je suis prêt !</button>
+  </div>
+
+  <div id="revelation" class="hidden">
+
+    <p style="font-size: 1.5rem; color: var(--or-luxe); font-family: 'Cormorant Garamond', serif; margin-bottom: 0.5em;">
+      ✦ Mettez le Cap ✦
+    </p>
+    
+    <p style="font-size: 0.95rem; font-style: italic; opacity: 0.8;">
+        Entrez cette adresse dans votre GPS. Votre suite vous attend.
     </p>
 
-    <div id="blocOuvertureEnigme" style="text-align:center;">
-        <button id="btnOuvrirEnigme">
-            🗝️ Ouvrir le Livre des Secrets du Repos
-        </button>
-    </div>
-
-    <div id="blocEnigmeContainer" style="margin-top:5vw; display:none;" class="fade-in">
-        <div id="blocEnigme">
-            <h3>🔑 Le Code de l'Hôtel</h3>
-            <p>
-                L'hôtel exige le sceau de votre histoire. Pour composer la clé, assemblez ces deux pièces d'héritage, comme on assemble les chiffres d'un millésime :
-            </p>
-
-            <ul class="heritage-list">
-                <li>**Le Souffle Initial** : Le compte des lettres du prénom de votre tout premier petit-enfant (l'aîné).</li>
-                <li>**La Constellation Familiale** : Le nombre total d'étoiles (petits-enfants) qui illuminent votre foyer.</li>
-            </ul>
-
-            <details>
-                <summary>💡 J'ai besoin d'un coup de pouce</summary>
-                <div class="aide-contenu">
-                    Le nombre de lettres du prénom du premier petit-enfant est **6**.<br>
-                    Le nombre total de petits-enfants est **8**.<br>
-                    **L'addition donne 14.**
-                </div>
-            </details>
-
-            <div style="text-align:center; margin-top:2vw;">
-                <input id="hotelInput" type="number" placeholder="Le Chiffre d'Héritage" style="margin-bottom: 10px;">
-                <button id="btnRepas" class="btn">🔓 Valider le Code</button>
-            </div>
-            <p id="messageErreur" style="color: #c94b4b; display: none;">Code incorrect. Murmurez encore un peu…</p>
+    <div class="reception-card">
+        <div class="card-title">Votre Point de Chute</div>
+        
+        <div class="info-row">
+            <span class="info-label">Lieu</span>
+            <span class="info-data">Bastide La Guilhabertie</span>
+        </div>
+        
+        <div class="info-row">
+            <span class="info-label">Adresse GPS</span>
+            <span class="info-data">2 Route de Jourdes<br>81140 Le Verdier</span>
+        </div>
+        
+        <div class="info-row" style="border:none;">
+            <span class="info-label">Code d'accès (à l'arrivée)</span>
+            <span class="info-data" style="color: var(--or-luxe); font-size: 1.5rem;">🔑 8572</span>
         </div>
     </div>
 
-    <div class="separator"></div>
+    <p>Bonne route. Profitez des paysages.</p>
 
-    <div id="blocRevelation" style="display:none;" class="fade-in">
-        <h3>La clé est juste ! Le chiffre **14** résonne avec l'écho de votre histoire.</h3>
-
-        <p>
-            Laissez-nous vous souhaiter la bienvenue à…
-        </p>
-
-        <!-- NOM AFFICHÉ (gardé) -->
-        <h2 style="font-size: 36px; margin-top: 15px;">🗝️ Hôtel du Millésime 🗝️</h2>
-
-        <!-- NOM RÉEL (ajout) -->
-        <p style="font-size: 18px; font-weight: 800; color: var(--color-secondary); margin-top: 10px;">
-            Bastide La Guilhabertie
-        </p>
-
-        <!-- ADRESSE (modifiée) -->
-        <div class="adresse-bloc">
-            📍 <strong>Votre chambre est prête au :</strong>
-            <span>2 Route de Jourdes</span>
-            <span>81140 Le Verdier</span>
-        </div>
-
-        <!-- NOUVEAU : ENCADRÉ "CLÉS DU SÉJOUR" -->
-        <div class="cles-box" id="clesBox">
-            <div class="cles-title">🔐 Les Clés de Votre Parenthèse</div>
-
-            <p class="cles-text">
-                Certains secrets ne se livrent qu’à ceux qui savent prendre le temps.<br>
-                Derrière cette porte se trouvent les détails pratiques de votre refuge,<br>
-                ceux qui transforment un lieu en véritable havre.<br><br>
-                Lorsque vous vous sentirez prêts,<br>
-                il suffira d’un geste pour les révéler.
-            </p>
-
-            <div style="text-align:center;">
-                <button class="btn btn-secondary" id="btnRevelerCles">👉 Révéler les clés du séjour</button>
-            </div>
-
-            <div class="cles-reveal fade-in" id="clesReveal">
-                <p style="margin-top: 16px;">
-                    Les portes s’ouvrent, les chiffres prennent sens, et le séjour peut commencer.
-                </p>
-
-                <p>
-                    <span class="cles-label">Numéro de réservation</span><br>
-                    <span style="font-size: 13px; opacity: 0.85;">La trace officielle de votre escale hors du temps.</span><br>
-                    <span class="cles-value" id="reservationValue">5051706142</span>
-                </p>
-
-                <p>
-                    <span class="cles-label">Code d’accès : 8572</span><br>
-                    <span style="font-size: 13px; opacity: 0.85;">La clé discrète qui vous ouvre le passage vers le repos.</span><br>
-                    <span class="cles-value" id="codeAccesValue">••••</span>
-                </p>
-
-                <p class="cles-subtext">
-                    Gardez ces informations précieusement.<br>
-                    Elles sont le dernier fil entre l’attente… et la douceur du moment.
-                </p>
-            </div>
-        </div>
-
-        <!-- CARROUSEL (option A : noms fixes) -->
-        <div class="carousel-container">
-            <div class="carousel-slide" id="carouselSlide">
-                <img src="images/hotel_1.jpg" alt="Façade – Bastide La Guilhabertie">
-                <img src="images/hotel_2.jpg" alt="Intérieur – Bastide La Guilhabertie">
-                <img src="images/hotel_3.jpg" alt="Chambre – Bastide La Guilhabertie">
-                <img src="images/hotel_4.jpg" alt="Jardin / vue – Bastide La Guilhabertie">
-            </div>
-            <button class="carousel-btn" id="prevBtn">❮</button>
-            <button class="carousel-btn" id="nextBtn">❯</button>
-        </div>
+    <div class="carousel">
+      <div class="carousel-track" id="track">
+        <img src="images/hotel_1.jpg" alt="Aperçu du lieu 1">
+        <img src="images/hotel_2.jpg" alt="Aperçu du lieu 2">
+        <img src="images/hotel_3.jpg" alt="Aperçu du lieu 3">
+        <img src="images/hotel_4.jpg" alt="Aperçu du lieu 4">
+      </div>
     </div>
 
-    <div id="blocRestaurant" style="display:none;" class="fade-in">
-        <div class="separator"></div>
-        <h2>✅ Mission Accomplie : Le Programme Vous Attend</h2>
-        <p>
-            Votre mission est accomplie pour l'instant. Prenez le temps d'une pause bien méritée, de défaire vos valises et de vous rafraîchir. Le programme du dîner vous attend désormais sur la page d'accueil de la journée.
-        </p>
-
-        <a href="jour1_accueil.html" id="btnSuivant" class="btn">
-            ➡️ Continuer : Retour à l'Accueil de la Journée
-        </a>
+    <div class="center">
+        <a href="jour1_accueil.html" class="btn btn-retour">📍 Revenir à la Carte</a>
     </div>
 
-</div>
+  </div>
+
+</main>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-    // --- CONSTANTES & ÉLÉMENTS ---
-    const CODE_CORRECT = "14";
-    const KEY_HOTEL_RESOLU = "jour1_hotel_ok";
+const CODE_ATTENDU = "1969"; 
 
-    // NOUVEAU : persistance des "clés du séjour"
-    const KEY_CLES_REVELEES = "jour1_hotel_cles_revelees";
+// Étape 1 vers Étape 2
+function verifierCode(){
+  const input = document.getElementById("inputCode");
+  const val = input.value.trim();
+  
+  if(val === CODE_ATTENDU){
+    document.getElementById("bloc-enigme").style.display="none";
+    const etape2 = document.getElementById("bloc-instruction-physique");
+    etape2.classList.remove("hidden");
+    etape2.classList.add("reveal-anim");
+  } else {
+    document.getElementById("erreur").classList.remove("hidden");
+    input.style.borderColor = "var(--rouge-erreur)";
+  }
+}
 
-    // 👉 À REMPLACER PAR TON VRAI CODE CONFIDENTIEL
-    const CODE_ACCES_HOTEL = "A_REMPLACER"; // ex: "7391" ou "ABCD-1234"
+// Étape 2 vers Étape 3
+function revelerInfos(){
+    document.getElementById("bloc-instruction-physique").style.display="none";
+    const rev = document.getElementById("revelation");
+    rev.style.display="block";
+    rev.classList.add("reveal-anim");
+    localStorage.setItem('jour1_hotel_ok', 'true');
+    setTimeout(() => {
+        rev.scrollIntoView({behavior:"smooth", block: "start"});
+    }, 100);
+}
 
-    const blocOuvertureEnigme = document.getElementById('blocOuvertureEnigme');
-    const btnOuvrirEnigme = document.getElementById('btnOuvrirEnigme');
-    const blocEnigmeContainer = document.getElementById('blocEnigmeContainer');
-    const hotelInput = document.getElementById('hotelInput');
-    const btnRepas = document.getElementById('btnRepas');
-    const messageErreur = document.getElementById('messageErreur');
-    const blocRevelation = document.getElementById('blocRevelation');
-    const blocRestaurant = document.getElementById('blocRestaurant');
+function handleEnter(e){
+  if(e.key === 'Enter') verifierCode();
+}
 
-    // Carrousel
-    const carouselSlide = document.getElementById('carouselSlide');
-    const images = carouselSlide.querySelectorAll('img');
-    let index = 0;
-
-    // NOUVEAU : éléments encart "clés"
-    const btnRevelerCles = document.getElementById('btnRevelerCles');
-    const clesReveal = document.getElementById('clesReveal');
-    const codeAccesValue = document.getElementById('codeAccesValue');
-
-    // --- LOGIQUE DE RESTAURATION (SI DÉJÀ RÉSOLU) ---
-    const isHotelResolved = localStorage.getItem(KEY_HOTEL_RESOLU) === "true";
-    const areClesRevelees = localStorage.getItem(KEY_CLES_REVELEES) === "true";
-
-    // Masquage par défaut des éléments dynamiques
-    blocEnigmeContainer.style.display = "none";
-    blocRevelation.style.display = "none";
-    blocRestaurant.style.display = "none";
-    blocOuvertureEnigme.style.display = "block";
-
-    // Si l'énigme est déjà résolue, on affiche directement la révélation + le bouton "continuer"
-    if (isHotelResolved) {
-        blocOuvertureEnigme.style.display = "none";
-        blocRevelation.style.display = "block";
-        blocRestaurant.style.display = "block";
-    }
-
-    // 🎞️ LOGIQUE CARROUSEL
-    const totalImages = images.length;
-    const updateCarousel = () => {
-        carouselSlide.style.transform = `translateX(${-index * 100}%)`;
-    };
-
-    document.getElementById('prevBtn').addEventListener('click', () => {
-        index = (index - 1 + totalImages) % totalImages;
-        updateCarousel();
-    });
-    document.getElementById('nextBtn').addEventListener('click', () => {
-        index = (index + 1) % totalImages;
-        updateCarousel();
-    });
-
-    // 🔓 OUVERTURE DU BLOC ÉNIGME
-    btnOuvrirEnigme.addEventListener('click', () => {
-        if (isHotelResolved) {
-            blocOuvertureEnigme.style.display = "none";
-            blocRevelation.style.display = "block";
-            blocRestaurant.style.display = "block";
-            blocRevelation.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            blocEnigmeContainer.style.display = "block";
-            blocOuvertureEnigme.style.display = "none";
-            blocEnigmeContainer.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-
-    // 🔑 VALIDATION DU CODE DE L'HÔTEL
-    btnRepas.addEventListener('click', () => {
-        const input = hotelInput.value.trim();
-        const inputNormalized = input.replace(/\s/g, '').toLowerCase();
-
-        if (inputNormalized === CODE_CORRECT) {
-            // Masquer l'énigme
-            blocEnigmeContainer.style.display = "none";
-            messageErreur.style.display = "none";
-
-            // 1. Afficher la révélation
-            blocRevelation.style.display = "block";
-            blocRevelation.scrollIntoView({ behavior: 'smooth' });
-
-            // 2. ENREGISTRER LA CLÉ DE PROGRESSION
-            localStorage.setItem(KEY_HOTEL_RESOLU, "true");
-
-            // 3. Afficher ensuite le bloc "Continuer"
-            setTimeout(() => {
-                blocRestaurant.style.display = "block";
-                blocRestaurant.scrollIntoView({ behavior: 'smooth' });
-            }, 2000);
-        } else {
-            messageErreur.style.display = "block";
-        }
-    });
-
-    // 🔐 NOUVEAU : RÉVÉLATION DES "CLÉS DU SÉJOUR" (persistant)
-    const applyClesReveleesUI = () => {
-        // On affiche les infos
-        clesReveal.style.display = "block";
-
-        // On masque le bouton
-        btnRevelerCles.style.display = "none";
-
-        // On injecte le code (si tu as remplacé A_REMPLACER)
-        if (CODE_ACCES_HOTEL && CODE_ACCES_HOTEL !== "A_REMPLACER") {
-            codeAccesValue.textContent = CODE_ACCES_HOTEL;
-        } else {
-            // Si tu n'as pas encore remplacé, on laisse les points
-            codeAccesValue.textContent = "••••";
-        }
-    };
-
-    // Si déjà révélé (au rechargement), on restaure l'affichage
-    if (areClesRevelees) {
-        applyClesReveleesUI();
-    }
-
-    // Au clic, on révèle et on mémorise
-    btnRevelerCles.addEventListener('click', () => {
-        localStorage.setItem(KEY_CLES_REVELEES, "true");
-        applyClesReveleesUI();
-        clesReveal.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-
-    // ⬅️ Bouton retour vers le menu d'accueil
-    document.getElementById('btnRetour').addEventListener('click', () => {
-        window.location.href = 'jour1_accueil.html';
-    });
-});
+let index=0;
+setInterval(()=>{
+  const track=document.getElementById("track");
+  if(track){
+    index=(index+1)%4; 
+    track.style.transform=`translateX(-${index*100}%)`;
+  }
+}, 7000); 
 </script>
+
 </body>
 </html>

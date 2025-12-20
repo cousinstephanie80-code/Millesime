@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Infiniment Nous — Jour 2</title>
+
+  <!-- ✅ TYPO FIXE JOUR 2 : Great Vibes (manuscrit) / Cormorant (poétique) / Montserrat (fonctionnel) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Voile pour laisser passer l'image (plus doux) */
+      --bg-overlay: rgba(20, 10, 5, 0.22);
+
+      /* Palette Millésime Jour 2 */
+      --ink: #2c1e16;
+      --muted: #4e3d35;
+      --accent: #800020;      /* bordeaux */
+      --gold: #b48a64;        /* or Millésime */
+      --paper: #f4f1ea;
+
+      /* Glass réchauffé (papier/champagne) */
+      --glass: rgba(244, 241, 234, 0.68);
+      --glass-2: rgba(255, 253, 248, 0.55);
+
+      --shadow: 0 20px 50px rgba(0,0,0,0.18);
+    }
+
+    /* ===== BASE ===== */
+    body{
+      margin: 0;
+      padding: 20px;
+      font-family: 'Montserrat', sans-serif; /* ✅ fonctionnel */
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* Image + atmosphère papier + grain subtil */
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(180,138,100,.12), transparent 55%),
+        radial-gradient(circle at 50% 120%, rgba(120,70,55,.08), transparent 60%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E"),
+        url('images/header-bg.jpg');
+      background-size: auto, auto, auto, cover;
+      background-position: center, center, center, center;
+      background-attachment: scroll, scroll, scroll, fixed;
+    }
+
+    body::before{
+      content:'';
+      position: fixed;
+      inset: 0;
+      background: var(--bg-overlay);
+      z-index: -1;
+    }
+
+    /* ===== CARTE PRINCIPALE (glass warm) ===== */
+    .card-container{
+      background: linear-gradient(180deg, var(--glass) 0%, var(--glass-2) 100%);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(180,138,100,0.25);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 760px;
+      padding: 52px 42px;
+      border-radius: 24px;
+      text-align: center;
+      position: relative;
+      animation: slideUp 1s ease-out;
+    }
+
+    @keyframes slideUp{
+      from{ opacity:0; transform: translateY(40px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* ===== TYPO ===== */
+    h1{
+      font-family: 'Cormorant Garamond', serif; /* ✅ poétique */
+      font-size: clamp(2rem, 5vw, 2.85rem);
+      color: var(--accent);
+      margin: 0 0 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(255,255,255,0.55);
+    }
+
+    .subtitle{
+      font-family: 'Cormorant Garamond', serif; /* ✅ poétique */
+      font-style: italic;
+      font-size: 1.22rem;
+      color: var(--muted);
+      margin-bottom: 26px;
+      font-weight: 600;
+    }
+
+    p{
+      font-size: 1rem;
+      line-height: 1.75;
+      margin: 0 0 18px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .divider{
+      height: 1px;
+      width: 52%;
+      margin: 28px auto;
+      background: linear-gradient(to right, transparent, rgba(180,138,100,.75), transparent);
+      opacity: 0.9;
+    }
+
+    /* Micro-phrase poétique (Option A) */
+    .micro-poesie{
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 600;
+      color: rgba(44,30,22,0.78);
+      margin: 8px 0 18px;
+      font-size: 1.08rem;
+    }
+
+    /* ===== JEU ARÔMES ===== */
+    .game-instruction{
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.55rem;
+      color: var(--ink);
+      margin: 0 0 10px;
+      font-weight: 700;
+    }
+
+    .aroma-grid{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 18px 0 8px;
+    }
+
+    .aroma-pill{
+      background: rgba(255,255,255,0.70);
+      border: 1px solid rgba(180,138,100,0.25);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+
+    .aroma-pill:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.92);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.10);
+    }
+
+    .aroma-pill.selected{
+      background-color: var(--accent);
+      border-color: rgba(128,0,32,0.35);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(128, 0, 32, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .counter-text{
+      font-size: 0.95rem;
+      color: rgba(44,30,22,0.70);
+      margin-top: 10px;
+      font-style: italic;
+      font-weight: 500;
+    }
+
+    /* ===== BOUTONS (fonctionnel Montserrat) ===== */
+    .btn-main{
+      background: linear-gradient(135deg, #4F352C 0%, #2c1e16 100%);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.98rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      margin-top: 18px;
+      transition: all 0.25s ease;
+      box-shadow: 0 12px 26px rgba(44, 30, 22, 0.18);
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .btn-main:disabled{
+      background: #9e8e86;
+      cursor: not-allowed;
+      box-shadow: none;
+      opacity: 0.75;
+    }
+
+    .btn-main:hover:not(:disabled){
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(128, 0, 32, 0.18);
+      background: linear-gradient(135deg, var(--accent) 0%, #5a0016 100%);
+    }
+
+    /* ===== STEPS ===== */
+    .step-section{
+      display: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .step-section.active{
+      display: block;
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeIn{
+      from{ opacity:0; transform: translateY(10px); }
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    /* ===== REVELATION ===== */
+    .handwritten-name{
+      font-family: 'Great Vibes', cursive; /* ✅ manuscrit */
+      font-size: clamp(2.6rem, 7vw, 3.6rem);
+      margin: 18px 0 8px;
+      display: inline-block;
+      position: relative;
+
+      /* Texte principal : net */
+      color: var(--accent);
+      text-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    }
+
+    /* Ombre dorée derrière (ombré, pas contour) */
+    .handwritten-name::after{
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      transform: translate(3px, 3px);   /* ombré visible */
+      z-index: -1;
+
+      color: rgba(200, 155, 90, 0.95); /* doré plus présent mais élégant */
+      filter: blur(0.7px);            /* diffusion douce, pas de bavure */
+    }
+
+    .address-box{
+      background: rgba(255,255,255,0.78);
+      border: 1px solid rgba(180,138,100,0.75);
+      padding: 22px;
+      margin: 26px auto 0;
+      border-radius: 14px;
+      max-width: 520px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+      text-align: center;
+    }
+
+    .address-kicker{
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      color: rgba(44,30,22,0.60);
+      margin: 0 0 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+    }
+
+    .address-text{
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 6px 0;
+    }
+
+    .closing-msg{
+      display: none;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      opacity: 0.92;
+      margin-top: 26px;
+      color: rgba(44,30,22,0.82);
+      font-size: 1.08rem;
+      animation: fadeIn 1.2s ease;
+      background: rgba(128, 0, 32, 0.06);
+      padding: 14px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(128, 0, 32, 0.12);
+    }
+
+    .icon-envelope{
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+      display: inline-block;
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.10));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float{
+      0%{ transform: translateY(0px); }
+      50%{ transform: translateY(-10px); }
+      100%{ transform: translateY(0px); }
+    }
+
+    /* ===== LIEN RETOUR : forme de bouton + devient bordeaux à l'interaction ===== */
+    .footer-retour{
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-retour-discret{
+      display: inline-block;
+      text-decoration: none;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+
+      /* Forme visible au repos */
+      background: rgba(255,255,255,0.48);
+      border: 1px solid rgba(180,138,100,0.55);
+      border-radius: 999px;
+      padding: 12px 18px;
+
+      color: rgba(44,30,22,0.78);
+
+      box-shadow:
+        0 10px 22px rgba(0,0,0,0.10),
+        0 0 0 2px rgba(180,138,100,0.10);
+
+      transition: background .25s ease,
+                  box-shadow .25s ease,
+                  color .25s ease,
+                  transform .2s ease,
+                  border-color .25s ease;
+    }
+
+    /* Comme les boutons d'action : montée en bordeaux à l'interaction */
+    .btn-retour-discret:hover,
+    .btn-retour-discret:active,
+    .btn-retour-discret:focus-visible{
+      background: linear-gradient(135deg, var(--accent) 0%, #5a0016 100%);
+      color: #fff;
+      border-color: rgba(255,255,255,0.22);
+      transform: translateY(-2px);
+      box-shadow:
+        0 18px 34px rgba(128, 0, 32, 0.18),
+        0 0 0 2px rgba(180,138,100,0.18);
+      outline: none;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 600px){
+      body{ padding: 12px; }
+      .card-container{
+        padding: 30px 18px;
+        border-radius: 20px;
+      }
+      .divider{ width: 70%; }
+      .aroma-pill{
+        padding: 10px 14px;
+        font-size: 0.90rem;
+      }
+      p{ font-size: 1rem; }
+      .micro-poesie{ font-size: 1.05rem; }
+      .address-box{ padding: 18px; }
+      .btn-retour-discret{
+        width: 100%;
+        max-width: 420px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card-container">
+
+    <!-- STEP 1 -->
+    <div id="step-game" class="step-section active">
+      <div style="font-size: 2.6rem; margin-bottom: 8px;">🍇</div>
+
+      <h1>Le matin des arômes</h1>
+      <div class="subtitle">Après le repos, l'éveil des sens...</div>
+
+      <p>
+        Ce matin, vous n'êtes pas spectateurs. Vous allez toucher à l'essence même de votre histoire.
+        Mais avant, nous devons connaître vos goûts.
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="game-instruction">Assemblez votre cuvée idéale</div>
+      <div class="micro-poesie">Choisissez trois notes… comme on choisit trois souvenirs.</div>
+
+      <!-- ✅ Phrase redondante supprimée -->
+
+      <div class="aroma-grid">
+        <div class="aroma-pill" onclick="toggleAroma(this)">🍒 Fruits rouges</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🌸 Floral</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🍋 Agrumes</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🍯 Miel & Douceur</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🌶️ Épices</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🪵 Boisé</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🪨 Minéral</div>
+        <div class="aroma-pill" onclick="toggleAroma(this)">🍫 Cacao</div>
+      </div>
+
+      <div class="counter-text" id="counter">0 / 3 sélectionnés</div>
+
+      <button id="btnValidate" class="btn-main" onclick="goToEnvelope()" disabled>
+        Sélectionnez 3 arômes...
+      </button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step-envelope" class="step-section">
+      <div class="icon-envelope">🍇</div>
+
+      <h1>De la terre au verre...</h1>
+
+      <p style="font-size: 1.05rem; margin-top: 18px;">
+        Vous avez choisi vos arômes, mais le secret ne se trouve pas sur cet écran.<br>
+        Il est caché dans un pli de papier, scellé par le fruit de la vigne.
+      </p>
+
+      <div class="divider" style="width: 34%;"></div>
+
+      <p style="font-weight: 600; color: var(--accent); font-size: 1.05rem; margin-bottom: 8px;">
+        Munissez-vous de l'enveloppe <br>
+        <span style="font-family:'Cormorant Garamond', serif; font-size:1.9rem; font-weight:700;">
+          "La Grappe de raisin"
+        </span>
+      </p>
+
+      <p style="margin-top: 0;">
+        Elle contient la clé de votre atelier privé.
+      </p>
+
+      <button class="btn-main" onclick="revealDestination()">
+        Révéler la destination
+      </button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step-reveal" class="step-section">
+      <div style="font-size: 2.6rem; margin-bottom: 10px;">✨</div>
+      <h1>C'est parfait.</h1>
+
+      <p>
+        Vos choix révèlent une belle complexité.<br>
+        Aujourd'hui, vous allez créer votre propre vin.
+      </p>
+
+      <p>Bienvenue dans votre <strong>atelier privé d'assemblage</strong>.</p>
+
+      <!-- ✅ Ombre dorée derrière + texte net -->
+      <span class="handwritten-name" data-text="L’Infiniment Nous">L’Infiniment Nous</span>
+
+      <p>Vous repartirez avec votre bouteille unique, créée par vos mains, scellée par votre amour.</p>
+
+      <div class="address-box">
+        <div class="address-kicker">Destination (7 min)</div>
+        <div class="address-text">La Petite Maison de Rouyre</div>
+        <div style="margin-top: 6px; font-size: 0.98rem; color: rgba(44,30,22,0.78); font-weight: 500;">
+          320, route du Dolmen de Saint Paul<br>81140 Sainte-Cécile-du-Cayrou
+        </div>
+      </div>
+
+      <div id="msgConclusion" class="closing-msg">
+        <strong>L'atelier est terminé ?</strong><br>
+        Nous espérons que vous avez passé un moment hors du temps et découvert les secrets cachés de la vigne.
+        Que cet atelier restera gravé dans vos mémoires, tout comme cette cuvée unique scellée par votre amour.
+      </div>
+
+      <!-- ✅ LIEN RETOUR UNIQUE -->
+      <div class="footer-retour" id="footerRetour" style="display:none;">
+        <a class="btn-retour-discret" href="jour2_accueil.html">Retrouver le fil du voyage</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- CONFIGURATION ---
+    const MODE_TEST = true;
+
+    let selectedCount = 0;
+    const maxSelection = 3;
+
+    // En test : conclusion visible rapidement, sinon 1h
+    const DELAY_SHOW_MSG = MODE_TEST ? 10000 : 60 * 60 * 1000;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkTime();
+    });
+
+    function toggleAroma(el) {
+      if (el.classList.contains('selected')) {
+        el.classList.remove('selected');
+        selectedCount--;
+      } else {
+        if (selectedCount < maxSelection) {
+          el.classList.add('selected');
+          selectedCount++;
+        } else {
+          return;
+        }
+      }
+
+      document.getElementById('counter').textContent =
+        selectedCount + " / " + maxSelection + " sélectionnés";
+
+      const btn = document.getElementById('btnValidate');
+      if (selectedCount === maxSelection) {
+        btn.disabled = false;
+        btn.textContent = "Valider mon assemblage";
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Sélectionnez 3 arômes...";
+      }
+    }
+
+    function goToEnvelope() {
+      switchStep('step-game', 'step-envelope');
+    }
+
+    function revealDestination() {
+      localStorage.setItem("j2_vin_ok", "true");
+
+      if (!localStorage.getItem("j2_vin_start_time")) {
+        localStorage.setItem("j2_vin_start_time", Date.now());
+      }
+
+      switchStep('step-envelope', 'step-reveal');
+      checkTime();
+    }
+
+    function checkTime() {
+      const startTime = localStorage.getItem("j2_vin_start_time");
+
+      if (startTime) {
+        const now = Date.now();
+        const timePassed = now - parseInt(startTime, 10);
+
+        if (timePassed >= DELAY_SHOW_MSG) {
+          const msg = document.getElementById("msgConclusion");
+          const footer = document.getElementById("footerRetour");
+          if (msg) msg.style.display = "block";
+          if (footer) footer.style.display = "flex";
+        } else {
+          const retryDelay = MODE_TEST ? 2000 : 60000;
+          setTimeout(checkTime, retryDelay);
+        }
+      }
+    }
+
+    function switchStep(fromId, toId) {
+      const fromDiv = document.getElementById(fromId);
+      const toDiv = document.getElementById(toId);
+
+      fromDiv.style.opacity = '0';
+      setTimeout(() => {
+        fromDiv.classList.remove('active');
+        fromDiv.style.display = 'none';
+        toDiv.style.display = 'block';
+        requestAnimationFrame(() => {
+          toDiv.classList.add('active');
+        });
+      }, 420);
+    }
+  </script>
+
+</body>
+</html>

@@ -263,101 +263,101 @@
     <div id="popup">
         <div class="popup-content">
             <h2>🔒 En attente de la maturité du Millésime...</h2>
-            <p>Ce chapitre est encore scellé. Les secrets du grand voyage ne se dévoilent qu'à partir de **Juin 2026**.</p>
+            <p>Ce chapitre est encore scellé. Les secrets du grand voyage ne se dévoilent qu'à partir de **4 Juin 2026**.</p>
             <button id="closePopup">Compris</button>
         </div>
     </div>
 
-    <script>
-        // -------- CONFIGURATION POUR DOUBLE COMMANDE --------
-        // Si l'URL contient "?preview=true", le mode développeur est activé (tout est accessible).
-        const urlParams = new URLSearchParams(window.location.search);
-        const previewMode = urlParams.get('preview') === 'true';
+   <script>
+    // -------- CONFIGURATION DES DATES --------
+    const now = new Date();
+    
+    // Pour tester immédiatement, tu peux ajouter ?preview=true à la fin de l'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const previewMode = urlParams.get('preview') === 'true';
 
-        const unlockDate = new Date("2026-06-01T00:00:00");
-        const now = new Date();
+    // DATES DE DÉVERROUILLAGE (Année 2026 selon ton fichier original)
+    // Mois 5 = Juin (car Janvier = 0)
+    const DATE_JOUR_1 = new Date(2026, 5, 4, 0, 0, 0); // 4 Juin 2026
+    const DATE_JOUR_2 = new Date(2026, 5, 5, 0, 0, 0); // 5 Juin 2026
 
-        const vignettes = [
-            {
-                titre: "Le Début d'un Secret", // Vignette 1 (Noël)
-                phrase: "Là où tout commence, dans le silence de l'hiver...",
-                img: "images/noel.jpg",
-                lien: "noel.html",
-                isNoel: true
-            },
-            {
-                titre: "💛 Les Voix du Cœur", // Vignette 2 (Juin / Audio)
-                phrase: "Juste avant le départ, un murmure familial pour vous guider sur la route...",
-                img: "images/voix.jpg",
-                lien: "message_route.html",
-                accessible: false
-            },
-            {
-                titre: "🛣️ La Route des Souvenirs", // Vignette 3 (Jour 1)
-                phrase: "Chaque virage mène à un souvenir.",
-                img: "images/jour1.jpg",
-                lien: "jour1_accueil.html",
-                accessible: false
-            },
-            {
-                titre: "💎 Le Secret du Millésime", // Vignette 4 (Jour 2)
-                phrase: "Certains secrets ne se dévoilent qu'à maturité.",
-                img: "images/jour2.jpg",
-                lien: "jour2_accueil.html",
-                accessible: false
-            },
-            {
-                titre: "📜 Ce que les uns partagent", // Vignette 5 (Livre d'Or)
-                phrase: "Le séjour s'achève, mais l'histoire continue de s'écrire.",
-                img: "images/livre.jpg",
-                lien: "livre-or.html",
-                accessible: false
+    const vignettes = [
+        {
+            titre: "Le Début d'un Secret",
+            phrase: "Là où tout commence, dans le silence de l'hiver...",
+            img: "images/noel.jpg",
+            lien: "noel.html",
+            locked: false // Toujours ouvert
+        },
+        {
+            titre: "💛 Les Voix du Cœur",
+            phrase: "Juste avant le départ...",
+            img: "images/voix.jpg",
+            lien: "message_route.html",
+            // S'ouvre en même temps que le Jour 1 ? (sinon change DATE_JOUR_1)
+            locked: now < DATE_JOUR_1 && !previewMode 
+        },
+        {
+            titre: "🛣️ La Route des Souvenirs (Jour 1)",
+            phrase: "4 Juin : Chaque virage mène à un souvenir.",
+            img: "images/jour1.jpg",
+            lien: "jour1_accueil.html",
+            locked: now < DATE_JOUR_1 && !previewMode
+        },
+        {
+            titre: "💎 Le Secret du Millésime (Jour 2)",
+            phrase: "5 Juin : Certains secrets ne se dévoilent qu'à maturité.",
+            img: "images/jour2.jpg",
+            lien: "jour2_accueil.html",
+            locked: now < DATE_JOUR_2 && !previewMode
+        },
+        {
+            titre: "📜 Ce que les uns partagent",
+            phrase: "Le livre d'or final.",
+            img: "images/livre.jpg",
+            lien: "livre_or.html",
+            // S'ouvre généralement à la fin du jour 2
+            locked: now < DATE_JOUR_2 && !previewMode
+        }
+    ];
+
+    // -------- GÉNÉRATION DES VIGNETTES --------
+    const gallery = document.getElementById("gallery");
+    const popup = document.getElementById("popup");
+
+    vignettes.forEach(v => {
+        const div = document.createElement("div");
+        let className = "vignette";
+        
+        // Style Noël
+        if (v.lien.includes("noel")) className += " noel";
+        // Style Verrouillé
+        if (v.locked) className += " locked";
+
+        div.className = className;
+        div.innerHTML = `
+            <img src="${v.img}" alt="${v.titre}">
+            <h3>${v.titre}</h3>
+            <p>${v.phrase}</p>
+        `;
+
+        div.addEventListener("click", () => {
+            if (!v.locked) {
+                window.location.href = v.lien;
+            } else {
+                // Affiche la popup si verrouillé
+                popup.style.display = "flex";
             }
-        ];
-
-        // -------- LOGIQUE DES VIGNETTES --------
-        const gallery = document.getElementById("gallery");
-
-        vignettes.forEach(v => {
-            const div = document.createElement("div");
-
-            // Si l'URL contient ?preview=true, isUnlocked devient TRUE, peu importe la date.
-            const isUnlocked = previewMode || v.isNoel || now >= unlockDate;
-
-            let className = "vignette";
-            if (v.isNoel) {
-                className += " noel";
-            } else if (!isUnlocked) {
-                className += " locked";
-            }
-
-            div.className = className;
-            div.innerHTML = `
-                <img src="${v.img}" alt="${v.titre}">
-                <h3>${v.titre}</h3>
-                <p>${v.phrase}</p>
-            `;
-
-            div.addEventListener("click", () => {
-                if (isUnlocked) {
-                    window.location.href = v.lien;
-                } else {
-                    document.getElementById("popup").style.display = "flex";
-                }
-            });
-
-            gallery.appendChild(div);
         });
 
-        // -------- POPUP --------
-        const popup = document.getElementById("popup");
-        document.getElementById("closePopup").addEventListener("click", () => {
-            popup.style.display = "none";
-        });
-        popup.addEventListener("click", e => {
-            if (e.target === popup) popup.style.display = "none";
-        });
-    </script>
+        gallery.appendChild(div);
+    });
 
-</body>
-</html>
+    // Gestion Popup
+    document.getElementById("closePopup").addEventListener("click", () => {
+        popup.style.display = "none";
+    });
+    popup.addEventListener("click", e => {
+        if (e.target === popup) popup.style.display = "none";
+    });
+</script>

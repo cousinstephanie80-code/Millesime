@@ -1,150 +1,385 @@
-<!DOCTYPE html>
-<html lang="fr">
+<!doctype html>
+<html lang="fr" class="h-full">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jour 1 - Heure du Repos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* --- STYLES RÉCUPÉRÉS ET ADAPTÉS --- */
-        :root {
-            --color-primary: #B48A64;
-            --color-secondary: #9C7A55;
-            --color-cacao-dark: #4F352C;
-            --color-card-background: #fffdf9;
-            --color-border-subtle: rgba(180,138,100,0.4);
-            --color-text-dark: #333;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jour 1 — Fin de journée</title>
 
-        body {
-            font-family: 'Lato', sans-serif;
-            color: var(--color-text-dark);
-            margin: 0;
-            background-image: url('images/vignette_plat.jpg'); 
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-        }
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        .section {
-            max-width: 900px;
-            margin: 6vw auto;
-            padding: 5vw;
-            background: var(--color-card-background); 
-            border-radius: 18px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            position: relative;
-            text-align: center;
-        }
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        /* --- STYLES SPÉCIFIQUES CLÔTURE (Basés sur le bloc original) --- */
-        .cloture-titre {
-            font-family: 'Lato', sans-serif;
-            font-size: 36px;
-            color: var(--color-primary);
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .cloture-paragraphe {
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 10px;
-            max-width: 600px;
-            margin: 10px auto;
-        }
-        .btn {
-            display: inline-block;
-            color: #fff;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all .3s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            margin-top: 20px;
-            border: none;
-        }
-        .btn-jour2 {
-            background: var(--color-primary); 
-            font-size: 18px;
-            padding: 18px 40px;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-        }
-        .btn-jour2:hover {
-            background: var(--color-secondary);
-        }
-        .petit-texte {
-            font-size: 13px;
-            color: var(--color-secondary);
-            font-style: italic;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .tag-fin-journee {
-            background: rgba(255, 255, 255, 0.5);
-            padding: 8px 15px;
-            border-radius: 5px;
-            display: inline-block;
-            font-weight: 700;
-            color: var(--color-cacao-dark);
-            margin: 20px 0;
-            border: 1px solid var(--color-border-subtle);
-        }
-        h1 {font-size: 2.5em; color: var(--color-cacao-dark);}
-    </style>
+  <style>
+    :root{
+      --nightText: rgba(255,253,240,0.92);
+      --goldText: rgba(255,246,218,0.94);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:"Montserrat", sans-serif;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    /* ✅ TON FOND NUIT (inchangé, sauf overflow) */
+    .night-sky{
+      background: linear-gradient(180deg, #3d2436 0%, #4a2c3d 50%, #2d1b24 100%);
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: visible;
+      min-height: 100vh;
+    }
+
+    .content-glow{
+      background: radial-gradient(ellipse at center, rgba(255,253,240,0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      width: 120%;
+      height: 120%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #stars-container{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+    }
+
+    .star{
+      position:absolute;
+      background:white;
+      border-radius:50%;
+      animation: twinkle 3s ease-in-out infinite;
+      box-shadow: 0 0 3px rgba(255,255,255,0.8);
+      pointer-events:none;
+    }
+    @keyframes twinkle{
+      0%,100%{ opacity:0.3; transform:scale(1); }
+      50%{ opacity:1; transform:scale(1.2); }
+    }
+
+    .celestial-banner{
+      background: linear-gradient(
+        90deg,
+        rgba(61, 36, 54, 0.6) 0%,
+        rgba(74, 44, 61, 0.8) 50%,
+        rgba(61, 36, 54, 0.6) 100%
+      );
+      border-top: 1px solid rgba(255, 253, 240, 0.2);
+      border-bottom: 1px solid rgba(255, 253, 240, 0.2);
+      position: relative;
+      z-index: 10;
+    }
+
+    .moon{
+      background: radial-gradient(circle at 35% 35%, #f5f3e8 0%, #e8e6d8 50%, #d5d3c5 100%);
+      border-radius: 50%;
+      box-shadow: inset -8px -8px 15px rgba(0,0,0,0.25), inset 3px 3px 8px rgba(255,255,255,0.1);
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .moon::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at 60% 25%, rgba(200,195,180,0.4) 0%, transparent 15%),
+        radial-gradient(circle at 25% 60%, rgba(200,195,180,0.3) 0%, transparent 12%),
+        radial-gradient(circle at 70% 70%, rgba(200,195,180,0.35) 0%, transparent 10%),
+        radial-gradient(circle at 40% 80%, rgba(200,195,180,0.25) 0%, transparent 8%);
+    }
+
+    .constellation-line{
+      stroke: rgba(255,253,240,0.45);
+      stroke-width: 0.65;
+      opacity: 0.85;
+    }
+
+    /* ✅ CONTENU sur fond (sans carte) */
+    .overlay-content{
+      position: relative;
+      z-index: 5;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      padding: 46px 18px 80px;
+      color: var(--nightText);
+    }
+
+    .overlay-content::before{
+      content:"";
+      position:absolute;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(980px, 92vw);
+      height: 720px;
+      background: radial-gradient(ellipse at center,
+        rgba(0,0,0,0.38) 0%,
+        rgba(0,0,0,0.20) 42%,
+        rgba(0,0,0,0.00) 72%);
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .title-script{
+      font-family:"Great Vibes", cursive;
+      font-size: clamp(2.6rem, 6vw, 3.6rem);
+      line-height: 1.05;
+      color: var(--goldText);
+      text-shadow: 0 10px 28px rgba(0,0,0,0.55);
+      margin: 22px 0 12px;
+      letter-spacing: .02em;
+    }
+
+    .divider{
+      width:min(680px, 86vw);
+      height:1px;
+      background: linear-gradient(to right, transparent, rgba(255,246,218,0.70), transparent);
+      margin: 10px auto 18px;
+      opacity:.9;
+    }
+
+    .poem{
+      max-width: 860px;
+      font-size: clamp(1.02rem, 2.4vw, 1.12rem);
+      line-height: 1.95;
+      color: rgba(255,253,240,0.92);
+      text-shadow: 0 10px 26px rgba(0,0,0,0.55);
+    }
+    .poem em{
+      color: rgba(255,246,218,0.92);
+      font-style: italic;
+    }
+
+    .rituel{
+      margin-top: 22px;
+      font-family:"Cormorant Garamond", serif;
+      font-size: clamp(1.25rem, 2.9vw, 1.55rem);
+      line-height: 2.05;
+      color: rgba(255,253,240,0.92);
+      text-shadow: 0 10px 26px rgba(0,0,0,0.55);
+    }
+    .rituel .line{
+      display:block;
+      font-style: italic;
+      margin: 10px 0;
+    }
+
+    .wish{
+      margin-top: 22px;
+      font-size: clamp(1.02rem, 2.4vw, 1.12rem);
+      font-style: italic;
+      color: rgba(255,246,218,0.92);
+      text-shadow: 0 10px 26px rgba(0,0,0,0.55);
+    }
+
+    /* ✅ “Bonne nuit” dans la même écriture que le reste du texte */
+    .signature{
+      margin-top: 10px;
+      font-family:"Montserrat", sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.05rem, 2.7vw, 1.18rem);
+      color: rgba(255,253,240,0.92);
+      text-shadow: 0 10px 26px rgba(0,0,0,0.55);
+    }
+
+    .cta{
+      margin-top: 22px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 14px 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(128,0,32,0.96), rgba(100,0,24,0.94));
+      color:#fff;
+      text-decoration:none;
+      font-weight:500;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,246,218,0.18);
+      max-width: 92vw;
+      transition: transform .16s ease, filter .16s ease;
+      text-align: center;
+      line-height: 1.25;
+    }
+    .cta:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+    .cta:active{ transform: translateY(0); }
+
+    /* ✅ Ajustements smartphone : bandeau plus compact, éléments qui “respirent” */
+    @media (max-width: 520px){
+      .celestial-banner{ padding-left: 14px !important; padding-right: 14px !important; }
+      .celestial-banner .moon{ width: 52px !important; height: 52px !important; }
+      .celestial-banner svg[viewBox="0 0 140 80"]{ width: 112px !important; height: 64px !important; }
+      .overlay-content{ padding: 36px 14px 76px; }
+      .overlay-content::before{ height: 820px; } /* halo un peu plus grand pour couvrir le contenu sur mobile */
+    }
+
+    @media (max-width: 380px){
+      .celestial-banner{ padding-left: 12px !important; padding-right: 12px !important; }
+      .celestial-banner .moon{ width: 46px !important; height: 46px !important; }
+      .celestial-banner svg[viewBox="0 0 140 80"]{ width: 104px !important; height: 60px !important; }
+      .cta{ padding: 14px 14px; border-radius: 14px; }
+    }
+  </style>
+
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
 </head>
-<body>
 
-<div class="section">
-    <p class="cloture-titre">
-        <span style="font-size: 38px;">&#x1F319;</span> Quand le silence s'installe...
-    </p>
-    <p class="cloture-paragraphe">
-        La journée s'achève, riche de découvertes et de tendresse.<br>
-        Le calme revient, les pensées se posent, et le sommeil approche doucement.
-    </p>
+<body class="h-full">
+  <div id="app-wrapper" class="w-full night-sky flex flex-col">
+    <div class="content-glow"></div>
+    <div id="stars-container"></div>
 
-    <p class="cloture-paragraphe" style="font-weight: 700; margin-top: 20px;">
-        Bonne nuit à vous deux...
-    </p>
-    <p class="cloture-paragraphe">
-        Que cette parenthèse vous berce encore au réveil,<br>
-        et vous guide vers une nouvelle aventure au goût d'infini. <span style="font-size: 18px;">&#x1F347;</span>
-    </p>
-    
-    <p class="tag-fin-journee">
-        Fin de journée – Chambre
-    </p>
+    <!-- Bandeau céleste (inchangé, juste rendu plus responsive via CSS) -->
+    <div class="celestial-banner py-6 px-8">
+      <div class="flex items-center justify-between">
+        <div class="moon w-16 h-16"></div>
 
-    <p class="petit-texte">
-        Le silence s'installe... le matin révèlera une nouvelle aventure : la naissance d'un grand cru.
-        <span style="font-size: 18px; display: block; margin-top: 5px;">&#x1F377;</span>
-    </p>
+        <!-- Cassiopée élégante -->
+        <svg width="140" height="80" viewBox="0 0 140 80" class="mx-6" aria-hidden="true">
+          <defs>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="1.2" result="b"/>
+              <feMerge>
+                <feMergeNode in="b"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
 
-    <a href="index.html" id="btnJour2" class="btn btn-jour2">
-        <span style="font-size: 18px; margin-right: 8px;">&#x2728;</span> Rendez-vous au Jour 2 : Rencontre avec l'Infiniment Nous
-    </a>
-</div>
+          <g class="constellation-line" fill="none">
+            <path d="M20 52 L42 27 L70 42 L100 22 L122 47" />
+          </g>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-    // Clé pour déverrouiller la VIGNETTE 5 sur la page Index (Accueil 1)
-    const KEY_INDEX_JOUR2 = "index_vignette_jour2_deverrouillee"; 
-    
-    const btnJour2 = document.getElementById('btnJour2');
+          <g filter="url(#softGlow)" fill="#fffdf0">
+            <circle cx="20"  cy="52" r="2.2" opacity="0.95"/>
+            <circle cx="42"  cy="27" r="3.1" opacity="0.98"/>
+            <circle cx="70"  cy="42" r="2.5" opacity="0.95"/>
+            <circle cx="100" cy="22" r="2.9" opacity="0.98"/>
+            <circle cx="122" cy="47" r="2.4" opacity="0.95"/>
+          </g>
 
-    // --- NAVIGATION JOUR 2 (DÉVERROUILLAGE et Redirection) ---
-    btnJour2.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // 1. Définir la clé du Jour 2 pour déverrouiller la vignette 5 sur l'index
-        localStorage.setItem(KEY_INDEX_JOUR2, "true"); 
-        
-        // 2. Naviguer vers l'accueil 
-        window.location.href = 'index.html';
+          <g filter="url(#softGlow)" fill="#fffdf0" opacity="0.55">
+            <circle cx="30"  cy="36" r="1.2"/>
+            <circle cx="54"  cy="30" r="1.0"/>
+            <circle cx="86"  cy="28" r="1.4"/>
+            <circle cx="112" cy="33" r="1.0"/>
+            <circle cx="92"  cy="54" r="1.0"/>
+          </g>
+        </svg>
+
+        <div class="w-16 h-16"></div>
+      </div>
+
+      <!-- Livre signature -->
+      <div class="flex justify-center mt-3 opacity-90">
+        <svg width="54" height="54" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <ellipse cx="32" cy="50" rx="22" ry="3" fill="rgba(0, 0, 0, 0.2)" />
+          <path d="M 16 18 Q 16 16 18 16 L 30 16 L 30 44 L 18 46 Q 16 46 16 44 Z"
+                fill="#fffdf0" stroke="#e8e6d8" stroke-width="1" />
+          <path d="M 34 16 L 46 16 Q 48 16 48 18 L 48 44 Q 48 46 46 46 L 34 44 Z"
+                fill="#f5f3e8" stroke="#e8e6d8" stroke-width="1" />
+          <rect x="30" y="16" width="4" height="28" fill="#d5d3c5" />
+          <g filter="drop-shadow(0 0 2px rgba(255,253,240,0.55))" opacity="0.95">
+            <line x1="32" y1="33" x2="32" y2="45" stroke="#fff6da" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="26" y1="39" x2="38" y2="39" stroke="#fff6da" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="28.5" y1="35.5" x2="35.5" y2="42.5" stroke="#fff6da" stroke-width="0.9" stroke-linecap="round" opacity="0.75"/>
+            <line x1="35.5" y1="35.5" x2="28.5" y2="42.5" stroke="#fff6da" stroke-width="0.9" stroke-linecap="round" opacity="0.75"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Contenu complet + bouton -->
+    <section class="overlay-content" aria-label="Clôture Jour 1">
+      <div class="title-script">Quand la nuit pose son velours…</div>
+      <div class="divider"></div>
+
+      <div class="poem">
+        Le Jour 1 s’achève, doucement.<br><br>
+        Que la chambre garde la chaleur de cette journée,<br>
+        et que tout ce que vous avez vécu se dépose…<br>
+        <em>comme un grand cru qu’on laisse respirer.</em><br><br>
+        La nuit veille.<br>
+        Le reste attendra.
+      </div>
+
+      <div class="rituel" aria-label="Rituel du soir">
+        <span class="line">Apaiser… laisser la journée se dissoudre.</span>
+        <span class="line">Savourer… garder ce qui a compté.</span>
+        <span class="line">Reposer… se laisser porter.</span>
+      </div>
+
+      <div class="wish">Demain, on crée quelque chose qui vous ressemble.</div>
+      <div class="signature">Bonne nuit à vous deux.</div>
+
+      <a class="cta" href="index.html" id="goJour2">Ouvrir le Jour 2 : Naissance du Grand Cru</a>
+    </section>
+  </div>
+
+  <script>
+    // SDK minimal (inchangé)
+    const defaultConfig = { background_color: "#3d2436", text_color: "#fffdf0" };
+    async function onConfigChange(config) {}
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); } },
+          { get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); } }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+    function mapToEditPanelValues(config) { return new Map([]); }
+
+    // étoiles
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      const starCount = 200;
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2 + 1;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        container.appendChild(star);
+      }
+    }
+
+    // déverrouillage + redirection
+    document.getElementById("goJour2").addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.setItem("index_vignette_jour2_deverrouillee", "true");
+      window.location.href = "index.html";
     });
-});
-</script>
+
+    if (window.elementSdk) {
+      window.elementSdk.init({ defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues });
+    }
+    createStars();
+  </script>
+
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe96ceb6e0ee96',t:'MTc2NjA2MDE2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>

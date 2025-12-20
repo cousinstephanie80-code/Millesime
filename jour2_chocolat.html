@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Le Goût Sucré de l’Éternel — Jour 2</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Lato:wght@400;700;900&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --choco-900:#24150f;
+  --choco-850:#2c1912;
+  --choco-800:#352017;
+
+  --gold-1:#fff1c9;
+  --gold-2:#f0d28e;
+  --gold-3:#d3a760;
+  --gold-4:#b48a64;
+
+  --ink:#f6f1e8;
+  --ink-soft:rgba(246,241,232,.86);
+
+  --error:#ffb4b4;
+  --success:#9fe0b8;
+
+  --panel: rgba(44, 25, 18, 0.68);
+  --panel2: rgba(44, 25, 18, 0.52);
+
+  --shadow: 0 14px 40px rgba(0,0,0,.38);
+}
+
+/* GLOBAL */
+body{
+  font-family:'Lato',sans-serif;
+  margin:0;
+  padding:0;
+  color:var(--ink);
+  line-height:1.7;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+
+  background:
+    radial-gradient(900px 520px at 12% 8%, rgba(247,231,181,.14) 0%, rgba(36,21,15,0) 60%),
+    radial-gradient(820px 520px at 86% 12%, rgba(217,183,122,.12) 0%, rgba(36,21,15,0) 62%),
+    radial-gradient(900px 700px at 50% 92%, rgba(180,138,100,.12) 0%, rgba(36,21,15,0) 62%),
+    linear-gradient(180deg, var(--choco-900) 0%, var(--choco-850) 45%, var(--choco-800) 100%);
+  position:relative;
+}
+
+/* Grain léger */
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+main{ max-width:920px; margin:4vw auto; padding:25px; }
+
+.bloc-contenu{
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  padding: 40px 30px;
+  border-radius: 22px;
+  border: 1px solid rgba(217,183,122,.22);
+  box-shadow: var(--shadow);
+  max-width:820px;
+  margin:0 auto;
+}
+
+/* TITRES */
+.kicker{
+  text-align:center;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-size:12px;
+  color: rgba(247,231,181,.78);
+  margin-bottom: 10px;
+}
+h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:44px;
+  font-weight:700;
+  text-align:center;
+  margin: 0 0 10px;
+  color: transparent;
+  background: linear-gradient(135deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-4) 100%);
+  -webkit-background-clip: text;
+  background-clip:text;
+  text-shadow: 0 10px 28px rgba(247,231,181,.08);
+}
+p{margin: 0.65rem 0; color: var(--ink-soft);}
+
+/* DETAILS */
+details{
+  background: var(--panel2);
+  border:1px solid rgba(217,183,122,.20);
+  border-radius:14px;
+  box-shadow: 0 10px 26px rgba(0,0,0,.24);
+  margin-bottom:18px;
+  padding: 12px 15px;
+  overflow:hidden;
+}
+summary{
+  font-weight:900;
+  font-size:1.02rem;
+  cursor:pointer;
+  outline:none;
+  text-transform:uppercase;
+  text-align:center;
+  letter-spacing:.08em;
+  color: rgba(247,231,181,.92);
+}
+
+/* Encadré */
+.encadre-direction{
+  background: rgba(247,231,181,.08);
+  border:1px solid rgba(247,231,181,.22);
+  border-radius:12px;
+  padding:10px 12px;
+  text-align:center;
+  font-weight:800;
+  margin:16px auto;
+  width:fit-content;
+  color: rgba(247,231,181,.92);
+}
+
+/* Image */
+.hero-img{
+  width:100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius:16px;
+  border:1px solid rgba(217,183,122,.16);
+  box-shadow: 0 14px 30px rgba(0,0,0,.28);
+  margin: 10px 0 6px;
+}
+
+/* SENSATIONS & INTERACTIONS */
+.sensations-wrap{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+@media (min-width: 820px){
+  .sensations-wrap{ grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.sensation{
+  user-select:none;
+  cursor:pointer;
+  border-radius: 999px;
+  border: 1px solid rgba(217,183,122,.34);
+  padding: 12px 14px;
+  background:
+    radial-gradient(120px 80px at 30% 30%, rgba(247,231,181,.12) 0%, rgba(44,25,18,0) 62%),
+    linear-gradient(180deg, rgba(67,39,29,.60), rgba(53,32,23,.62));
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height: 56px;
+  position:relative;
+}
+.sensation:hover{ transform: translateY(-2px); box-shadow: 0 16px 28px rgba(0,0,0,.28); }
+.icon{ width:18px; height:18px; opacity:.95; filter: drop-shadow(0 6px 10px rgba(0,0,0,.30)); }
+.lab{ font-weight:900; font-size:.98rem; color: rgba(247,231,181,.92); }
+
+.sensation.selected{
+  border-color: rgba(247,231,181,.68);
+  box-shadow:
+    0 18px 32px rgba(0,0,0,.30),
+    0 0 0 2px rgba(247,231,181,.14),
+    0 0 26px rgba(247,231,181,.14);
+  transform: translateY(-2px);
+}
+.sensation.selected::after{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border-radius:999px;
+  border:1px solid rgba(247,231,181,.35);
+  pointer-events:none;
+}
+
+/* Accessibilité : Focus clavier */
+.sensation:focus-visible, .bouton-action:focus-visible {
+  outline: 2px solid var(--gold-2);
+  outline-offset: 4px;
+}
+
+/* Animation d'erreur "Shake" */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+.shake-element {
+  animation: shake 0.4s ease-in-out;
+  border-color: var(--error) !important;
+}
+
+/* Compteur */
+#counterHint{
+  text-align:center;
+  font-weight:900;
+  margin-top: 10px;
+  color: rgba(247,231,181,.85);
+}
+
+/* Boutons */
+.boutons{ text-align:center; margin-top: 18px; }
+.bouton-action{
+  display:inline-block;
+  padding: 12px 24px;
+  margin: 10px;
+  border-radius: 12px;
+  text-decoration:none;
+  font-weight:900;
+  text-transform: uppercase;
+  letter-spacing:.04em;
+  transition: all .25s ease;
+  box-shadow: 0 10px 22px rgba(0,0,0,.22);
+  text-align:center;
+  border: 1px solid rgba(217,183,122,.34);
+  background: rgba(247,231,181,.08);
+  color: rgba(247,231,181,.92);
+  cursor:pointer;
+}
+.bouton-action:hover{ transform: translateY(-1px); background: rgba(247,231,181,.12); }
+.bouton-principal{
+  background: linear-gradient(135deg, rgba(247,231,181,.18), rgba(217,183,122,.10));
+  border: 1px solid rgba(247,231,181,.45);
+}
+.bouton-action.locked{ opacity:.45; cursor:not-allowed; }
+
+/* Messages */
+.message-feedback{
+  text-align:center;
+  margin-top: 14px;
+  font-size: 1.05rem;
+  font-weight:900;
+  color: var(--error);
+  min-height: 1.5em; /* Évite le saut de ligne */
+}
+
+/* Révélation */
+#revelation{
+  display:none;
+  text-align:center;
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 16px;
+  border: 1px dashed rgba(247,231,181,.35);
+  background: rgba(247,231,181,.06);
+}
+.fade-step{ opacity:0; transform: translateY(10px); transition: opacity .9s ease, transform .9s ease; }
+.fade-step.on{ opacity:1; transform: translateY(0); }
+
+/* Cartouche lieu */
+.place-card{
+  margin: 14px auto 0;
+  max-width: 580px;
+  border-radius: 18px;
+  border: 1px solid rgba(247,231,181,.22);
+  background: rgba(36,21,15,.52);
+  padding: 14px;
+  display:flex;
+  gap: 12px;
+  align-items:center;
+  text-align:left;
+  box-shadow: 0 16px 34px rgba(0,0,0,.28);
+}
+.place-card img{
+  width:62px; height:62px;
+  object-fit:contain;
+  border-radius: 14px;
+  background: rgba(247,231,181,.06);
+  border: 1px solid rgba(247,231,181,.18);
+  padding: 8px;
+}
+.place-title{ margin:0; font-weight:900; color: rgba(247,231,181,.95); }
+.place-addr{ margin:6px 0 0; white-space: pre-line; color: rgba(244,239,231,.86); }
+
+/* ✅ NOUVELLE CARTE FINALE : VERSION LUXE & LISIBLE */
+.fin-card {
+  margin: 20px auto 0;
+  max-width: 720px;
+  border-radius: 4px; /* Plus carré pour faire "carte cartonnée" */
+  padding: 40px 30px;
+  position: relative;
+  text-align: center;
+  
+  /* Fond sombre profond avec une texture papier subtile */
+  background-color: #1a0f0a; 
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(255, 241, 201, 0.15), transparent 60%),
+    url("data:image/svg+xml,%3Csvg width='4' height='4' viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 3h1v1H1V3zm2-2h1v1H3V1z' fill='%23d3a760' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+    
+  box-shadow: 
+    0 20px 50px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(211, 167, 96, 0.3), /* Bordure fine interne */
+    0 0 0 6px rgba(36, 21, 15, 0.8),  /* Espace sombre */
+    0 0 0 7px rgba(211, 167, 96, 0.5); /* Bordure dorée externe */
+
+  /* Animation d'apparition douce */
+  animation: floatUp 1.2s ease-out forwards;
+}
+
+@keyframes floatUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Titre Manuscrit */
+.fin-script-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin: 0 0 20px;
+  line-height: 1.1;
+  background: linear-gradient(to bottom, var(--gold-1), var(--gold-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Séparateur ornemental */
+.fin-divider-ornament {
+  font-size: 24px;
+  color: var(--gold-3);
+  margin: 10px 0 25px;
+  opacity: 0.8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.fin-divider-ornament::before, .fin-divider-ornament::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-3), transparent);
+}
+
+/* Corps du texte : LISIBILITÉ (Cormorant Garamond) */
+.fin-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.35rem;
+  line-height: 1.6;
+  color: var(--ink);
+  font-weight: 600;
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+
+/* La première lettre (Lettrine) */
+.fin-body::first-letter {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.7;
+  margin-right: 8px;
+  margin-top: 5px;
+  color: var(--gold-2);
+  text-shadow: 0 2px 10px rgba(211, 167, 96, 0.3);
+}
+
+/* Signature */
+.fin-signature {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2rem;
+  margin-top: 30px;
+  color: var(--gold-2);
+  transform: rotate(-3deg);
+  display: inline-block;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Footer */
+footer{ text-align:center; margin: 34px 0 10px; }
+.btn-footer-retour{
+  display:inline-block;
+  text-decoration:none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight:900;
+  letter-spacing:.04em;
+  text-transform: uppercase;
+  font-size: .95rem;
+  border: 1px solid rgba(255,241,201,.26);
+  background: rgba(255,241,201,.06);
+  color: rgba(255,241,201,.92);
+  box-shadow: 0 12px 26px rgba(0,0,0,.22);
+  transition: transform .2s ease, background .2s ease;
+}
+.btn-footer-retour:hover{ transform: translateY(-2px); background: rgba(255,241,201,.10); }
+
+@media (max-width:600px){
+  main{padding:0;}
+  .bloc-contenu{margin:5vw; padding:20px;}
+  h1{font-size:2.2rem;}
+  .fin-body{ font-size: 1.2rem; text-align: left; }
+}
+</style>
+</head>
+
+<body>
+<main>
+  <div class="bloc-contenu">
+
+    <div class="kicker">Jour 2 • Millésime</div>
+    <h1>Le Goût Sucré de l’Éternel</h1>
+
+    <details open>
+      <summary>UNE DERNIÈRE ÉNIGME</summary>
+      <p style="text-align:center;">
+        Après le vin de la maturité vient le temps de la douceur…<br><br>
+        Cette journée marque la dernière étape de votre voyage.<br>
+        Laissez-vous guider par la tendresse, le parfum du cacao<br>
+        et la promesse d’une découverte gourmande.
+      </p>
+      <div class="encadre-direction">Choisissez 3 sensations à emporter avec vous.</div>
+      <img class="hero-img" src="images/photo_musee_choco.jpg" alt="Une promesse gourmande" />
+    </details>
+
+    <details open>
+      <summary>LES SENSATIONS DU VOYAGE</summary>
+
+      <p style="text-align:center; font-weight:900; color: rgba(247,231,181,.82);">
+        Sélectionnez <strong>3 sensations</strong>.
+      </p>
+
+      <div id="counterHint">0 / 3 sélectionnées</div>
+
+      <div class="sensations-wrap" id="sensations">
+        <div class="sensation" data-key="douceur">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.4-7 10-7 10Z" stroke="rgba(247,231,181,.92)" stroke-width="1.6"/>
+          </svg>
+          <span class="lab">Douceur</span>
+        </div>
+
+        <div class="sensation" data-key="partage">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 12a3 3 0 1 1 0-6 3 3 0 0 1 0 6Zm8 0a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" stroke="rgba(247,231,181,.92)" stroke-width="1.6"/>
+            <path d="M3.5 20c.7-3.2 3-5 4.5-5s3.8 1.8 4.5 5M11.5 20c.7-3.2 3-5 4.5-5s3.8 1.8 4.5 5" stroke="rgba(247,231,181,.70)" stroke-width="1.4"/>
+          </svg>
+          <span class="lab">Partage</span>
+        </div>
+
+        <div class="sensation" data-key="souvenir">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 7h10v14H7V7Z" stroke="rgba(247,231,181,.92)" stroke-width="1.6"/>
+            <path d="M9 3h6v4H9V3Z" stroke="rgba(247,231,181,.70)" stroke-width="1.4"/>
+          </svg>
+          <span class="lab">Souvenir</span>
+        </div>
+
+        <div class="sensation" data-key="plaisir">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 14c1.2 2.8 3 4 5 4s3.8-1.2 5-4" stroke="rgba(247,231,181,.92)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M8 10h0M16 10h0" stroke="rgba(247,231,181,.92)" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+          <span class="lab">Plaisir</span>
+        </div>
+
+        <div class="sensation" data-key="surprise">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 3v2M12 19v2" stroke="rgba(247,231,181,.78)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M12 7c2.2 0 4 1.3 4 3 0 1.4-1.1 2.2-2.2 2.8-.9.5-1.8 1.1-1.8 2.2v.6" stroke="rgba(247,231,181,.92)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="lab">Surprise</span>
+        </div>
+
+        <div class="sensation" data-key="lenteur">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 7v6l4 2" stroke="rgba(247,231,181,.92)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="rgba(247,231,181,.70)" stroke-width="1.4"/>
+          </svg>
+          <span class="lab">Lenteur</span>
+        </div>
+
+        <div class="sensation" data-key="tendresse">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7 14c2 3 8 3 10 0" stroke="rgba(247,231,181,.92)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M9 10h0M15 10h0" stroke="rgba(247,231,181,.92)" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+          <span class="lab">Tendresse</span>
+        </div>
+
+        <div class="sensation" data-key="emerveillement">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 2l1.6 5 5 .4-4 3 1.3 5-3.9-2.6-3.9 2.6 1.3-5-4-3 5-.4L12 2Z" stroke="rgba(247,231,181,.92)" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+          <span class="lab">Émerveillement</span>
+        </div>
+      </div>
+
+      <div class="boutons">
+        <button class="bouton-action" id="resetBtn" type="button">Réinitialiser</button>
+        <button class="bouton-action bouton-principal locked" id="validateBtn" type="button" disabled>Valider</button>
+      </div>
+
+      <p class="message-feedback" id="msg"></p>
+
+      <div id="revelation">
+
+        <div class="fade-step" id="r1">
+          <p style="margin:0; font-weight:700; font-size: 1.35rem; color: rgba(246,241,232,.88);">
+            Ces sensations vous accompagneront… bien au-delà de ce voyage.
+          </p>
+        </div>
+
+        <div class="fade-step" id="r2" style="margin-top:14px;">
+          <p style="margin:0; font-size:1.1rem; color: rgba(246,241,232,.86);">
+            Certaines douceurs se dégustent. D’autres se découvrent.
+          </p>
+        </div>
+
+        <div class="fade-step" id="r3" style="margin-top:14px;">
+          <div class="place-card">
+            <img src="images/logo_musee.png" alt="Logo" />
+            <div>
+              <p class="place-title">MUSEE DU CHOCOLAT</p>
+              <p class="place-addr">📍 13 Pl. Paul Saissac<br>, 81310 Lisle-sur-Tarn</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-step" id="r4" style="margin-top:16px;">
+          <div class="fin-card">
+            <div class="fin-script-title">Des souvenirs plein la tête</div>
+            
+            <div class="fin-divider-ornament">✦</div>
+          
+            <div class="fin-body">
+              Nous espérons sincèrement que cette escapade a été à la hauteur de vos rêves.
+              Ce cadeau, né de tout notre amour et façonné par nos pensées réunies, n'avait qu'un seul but : votre bonheur.<br><br>
+              
+              Si vous avez pu savourer chaque instant et faire le plein de beaux moments, notre mission est accomplie.
+              Pour prolonger un peu la magie, n'hésitez pas à nous confier vos impressions et vos clichés préférés dans le Livre d’Or.
+            </div>
+          
+            <div class="fin-signature">
+              Avec toute notre affection ✨
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-step" id="r5" style="margin-top:24px;">
+          <p style="margin:0; font-weight:900; color: var(--success);">✅ Étape validée.</p>
+          <div class="boutons" style="margin-top:10px;">
+            <a class="bouton-action bouton-principal" href="livre_or.html">Ouvrir le Livre d’Or</a>
+            <a class="bouton-action" href="jour2_accueil.html">Revenir au Jour 2</a>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <footer>
+      <a class="btn-footer-retour" href="index.html">Retour à l’index</a>
+    </footer>
+
+  </div>
+</main>
+
+<script>
+(() => {
+  // CONFIGURATION
+  const CONFIG = {
+    keyDone: "millesime_j2_step2_done",
+    keySensations: "millesime_j2_sensations",
+    keyProgression: "progression",
+    maxSelection: 3,
+    timings: [200, 1200, 2300, 3400, 4700] // Délais d'apparition
+  };
+
+  // ÉLÉMENTS DOM
+  const elements = {
+    wrap: document.getElementById("sensations"),
+    validateBtn: document.getElementById("validateBtn"),
+    resetBtn: document.getElementById("resetBtn"),
+    counterHint: document.getElementById("counterHint"),
+    msg: document.getElementById("msg"),
+    revelation: document.getElementById("revelation"),
+    steps: ["r1", "r2", "r3", "r4", "r5"].map(id => document.getElementById(id)),
+    sensations: document.querySelectorAll(".sensation")
+  };
+
+  let selected = new Set();
+
+  // --- FONCTIONS UTILITAIRES ---
+
+  // Gestion sécurisée du LocalStorage (évite crash en navigation privée)
+  const storage = {
+    set: (key, value) => {
+      try { localStorage.setItem(key, value); } catch (e) { console.warn("Storage access denied"); }
+    },
+    get: (key) => {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    }
+  };
+
+  function setMsg(text, type = "neutral") {
+    elements.msg.textContent = text || "";
+    if (type === "success") elements.msg.style.color = "var(--success)";
+    else if (type === "error") elements.msg.style.color = "var(--error)";
+    else elements.msg.style.color = "inherit";
+  }
+
+  function updateUI() {
+    const count = selected.size;
+    elements.counterHint.textContent = `${count} / ${CONFIG.maxSelection} sélectionnées`;
+    
+    const canValidate = (count === CONFIG.maxSelection);
+    elements.validateBtn.disabled = !canValidate;
+    elements.validateBtn.classList.toggle("locked", !canValidate);
+    
+    // Mise à jour ARIA pour l'accessibilité
+    elements.sensations.forEach(el => {
+      const key = el.dataset.key;
+      el.setAttribute("aria-pressed", selected.has(key));
+    });
+  }
+
+  function handleSelection(pill) {
+    if (!pill) return;
+    
+    // Feedback haptique (mobile)
+    if (navigator.vibrate) navigator.vibrate(15);
+
+    const key = pill.dataset.key;
+    const isSelected = selected.has(key);
+
+    if (isSelected) {
+      pill.classList.remove("selected");
+      selected.delete(key);
+      setMsg("");
+    } else {
+      if (selected.size >= CONFIG.maxSelection) {
+        setMsg("Trois suffisent pour emporter l’essentiel…", "error");
+        // Effet visuel "Shake"
+        pill.classList.add("shake-element");
+        setTimeout(() => pill.classList.remove("shake-element"), 400);
+        if (navigator.vibrate) navigator.vibrate([50, 50, 50]); // Vibre plus fort
+        return;
+      }
+      pill.classList.add("selected");
+      selected.add(key);
+      setMsg("");
+    }
+    updateUI();
+  }
+
+  function showRevelation() {
+    elements.revelation.style.display = "block";
+    
+    // Scroll doux vers la révélation
+    setTimeout(() => {
+        elements.revelation.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+
+    elements.steps.forEach((el, i) => {
+      setTimeout(() => el.classList.add("on"), CONFIG.timings[i]);
+    });
+  }
+
+  function lockInterface() {
+    elements.sensations.forEach(el => {
+      el.style.pointerEvents = "none";
+      el.tabIndex = -1; // Ne plus être focusable
+    });
+    elements.resetBtn.style.display = "none";
+    elements.validateBtn.style.display = "none";
+  }
+
+  // --- EVENT LISTENERS ---
+
+  // Initialisation des attributs d'accessibilité sur les div
+  elements.sensations.forEach(el => {
+    el.setAttribute("role", "button");
+    el.setAttribute("tabindex", "0");
+    
+    // Support Clavier (Entrée / Espace)
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleSelection(el);
+      }
+    });
+  });
+
+  elements.wrap.addEventListener("click", (e) => {
+    handleSelection(e.target.closest(".sensation"));
+  });
+
+  elements.resetBtn.addEventListener("click", () => {
+    selected.clear();
+    elements.sensations.forEach(el => el.classList.remove("selected"));
+    setMsg("Réinitialisé ✅", "success");
+    updateUI();
+  });
+
+  elements.validateBtn.addEventListener("click", () => {
+    if (selected.size !== CONFIG.maxSelection) return;
+
+    // Sauvegarde
+    storage.set(CONFIG.keySensations, JSON.stringify([...selected]));
+    storage.set(CONFIG.keyDone, "1");
+    
+    // --- LIGNE AJOUTÉE POUR LA COMPATIBILITÉ AVEC L'ACCUEIL ---
+    localStorage.setItem("j2_choco_ok", "true"); 
+    // ---------------------------------------------------------
+
+    // Verrouillage
+    elements.resetBtn.disabled = true;
+    elements.validateBtn.disabled = true;
+
+    lockInterface();
+    setMsg("");
+    showRevelation();
+  });
+
+  // --- INIT ---
+  // Vérifie si déjà fait au chargement
+  const isAlreadyDone = storage.get(CONFIG.keyDone) === "1";
+  
+  if (isAlreadyDone) {
+    elements.counterHint.textContent = "Étape déjà validée ✅";
+    lockInterface();
+    elements.revelation.style.display = "block";
+    
+    // Force l'affichage immédiat sans délai
+    elements.steps.forEach(el => {
+        el.style.transition = "none";
+        el.classList.add("on");
+    });
+  } else {
+    updateUI();
+  }
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="fr" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fond Nuit</title>
+
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { box-sizing: border-box; }
+
+    .night-sky {
+      background: linear-gradient(180deg, #3d2436 0%, #4a2c3d 50%, #2d1b24 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-glow {
+      background: radial-gradient(ellipse at center, rgba(255, 253, 240, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      width: 120%;
+      height: 120%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s ease-in-out infinite;
+      box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .celestial-banner {
+      background: linear-gradient(
+        90deg,
+        rgba(61, 36, 54, 0.6) 0%,
+        rgba(74, 44, 61, 0.8) 50%,
+        rgba(61, 36, 54, 0.6) 100%
+      );
+      border-top: 1px solid rgba(255, 253, 240, 0.2);
+      border-bottom: 1px solid rgba(255, 253, 240, 0.2);
+    }
+
+    .moon {
+      background: radial-gradient(circle at 35% 35%, #f5f3e8 0%, #e8e6d8 50%, #d5d3c5 100%);
+      border-radius: 50%;
+      box-shadow: inset -8px -8px 15px rgba(0, 0, 0, 0.25), inset 3px 3px 8px rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+
+    .moon::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 60% 25%, rgba(200, 195, 180, 0.4) 0%, transparent 15%),
+        radial-gradient(circle at 25% 60%, rgba(200, 195, 180, 0.3) 0%, transparent 12%),
+        radial-gradient(circle at 70% 70%, rgba(200, 195, 180, 0.35) 0%, transparent 10%),
+        radial-gradient(circle at 40% 80%, rgba(200, 195, 180, 0.25) 0%, transparent 8%);
+    }
+
+    /* ✅ Constellation plus fine (moins "schéma") */
+    .constellation-line{
+      stroke: rgba(255, 253, 240, 0.45);
+      stroke-width: 0.65;
+      opacity: 0.85;
+    }
+
+    .constellation-star {
+      fill: #fffdf0;
+      filter: drop-shadow(0 0 2px rgba(255, 253, 240, 0.8));
+    }
+  </style>
+
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+</head>
+
+<body class="h-full">
+  <div id="app-wrapper" class="w-full h-full night-sky flex flex-col">
+    <div class="content-glow"></div>
+
+    <!-- Poussière d'étoiles -->
+    <div id="stars-container"></div>
+
+    <!-- ✅ Bandeau céleste (P2) : lune + constellation en haut, livre en dessous -->
+    <div class="celestial-banner py-6 px-8 relative z-10">
+      <!-- Ligne du haut -->
+      <div class="flex items-center justify-between">
+        <!-- Pleine lune -->
+        <div class="moon w-16 h-16"></div>
+
+        <!-- Constellation Cassiopée (élégante, "astronomie ancienne") -->
+        <svg width="140" height="80" viewBox="0 0 140 80" class="mx-6" aria-hidden="true">
+          <defs>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="1.2" result="b"/>
+              <feMerge>
+                <feMergeNode in="b"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <!-- Lignes fines -->
+          <g class="constellation-line" fill="none">
+            <path d="M20 52 L42 27 L70 42 L100 22 L122 47" />
+          </g>
+
+          <!-- Étoiles principales (magnitudes) -->
+          <g filter="url(#softGlow)" fill="#fffdf0">
+            <circle cx="20"  cy="52" r="2.2" opacity="0.95"/>
+            <circle cx="42"  cy="27" r="3.1" opacity="0.98"/>
+            <circle cx="70"  cy="42" r="2.5" opacity="0.95"/>
+            <circle cx="100" cy="22" r="2.9" opacity="0.98"/>
+            <circle cx="122" cy="47" r="2.4" opacity="0.95"/>
+          </g>
+
+          <!-- Étoiles secondaires (poussière autour) -->
+          <g filter="url(#softGlow)" fill="#fffdf0" opacity="0.55">
+            <circle cx="30"  cy="36" r="1.2"/>
+            <circle cx="54"  cy="30" r="1.0"/>
+            <circle cx="86"  cy="28" r="1.4"/>
+            <circle cx="112" cy="33" r="1.0"/>
+            <circle cx="92"  cy="54" r="1.0"/>
+          </g>
+        </svg>
+
+        <!-- Spacer pour équilibrer visuellement -->
+        <div class="w-16 h-16"></div>
+      </div>
+
+      <!-- Ligne du bas : Livre (P2) -->
+      <div class="flex justify-center mt-3 opacity-90">
+        <svg width="54" height="54" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <!-- Ombre -->
+          <ellipse cx="32" cy="50" rx="22" ry="3" fill="rgba(0, 0, 0, 0.2)" />
+
+          <!-- Page gauche -->
+          <path d="M 16 18 Q 16 16 18 16 L 30 16 L 30 44 L 18 46 Q 16 46 16 44 Z"
+                fill="#fffdf0" stroke="#e8e6d8" stroke-width="1" />
+
+          <!-- Page droite -->
+          <path d="M 34 16 L 46 16 Q 48 16 48 18 L 48 44 Q 48 46 46 46 L 34 44 Z"
+                fill="#f5f3e8" stroke="#e8e6d8" stroke-width="1" />
+
+          <!-- Reliure -->
+          <rect x="30" y="16" width="4" height="28" fill="#d5d3c5" />
+
+          <!-- Lignes fines (style papier) -->
+          <line x1="19" y1="22" x2="28" y2="22" stroke="#d5d3c5" stroke-width="0.5" opacity="0.55" />
+          <line x1="19" y1="26" x2="28" y2="26" stroke="#d5d3c5" stroke-width="0.5" opacity="0.55" />
+          <line x1="19" y1="30" x2="26" y2="30" stroke="#d5d3c5" stroke-width="0.5" opacity="0.55" />
+
+          <line x1="36" y1="22" x2="45" y2="22" stroke="#c5c3b5" stroke-width="0.5" opacity="0.55" />
+          <line x1="36" y1="26" x2="45" y2="26" stroke="#c5c3b5" stroke-width="0.5" opacity="0.55" />
+          <line x1="36" y1="30" x2="43" y2="30" stroke="#c5c3b5" stroke-width="0.5" opacity="0.55" />
+
+          <!-- ✅ Étoile "gravure" (plus chic, moins logo) -->
+          <g filter="drop-shadow(0 0 2px rgba(255,253,240,0.55))" opacity="0.95">
+            <line x1="32" y1="33" x2="32" y2="45" stroke="#fff6da" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="26" y1="39" x2="38" y2="39" stroke="#fff6da" stroke-width="1.2" stroke-linecap="round"/>
+            <line x1="28.5" y1="35.5" x2="35.5" y2="42.5" stroke="#fff6da" stroke-width="0.9" stroke-linecap="round" opacity="0.75"/>
+            <line x1="35.5" y1="35.5" x2="28.5" y2="42.5" stroke="#fff6da" stroke-width="0.9" stroke-linecap="round" opacity="0.75"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ✅ PLUS DE TEXTE : contenu principal supprimé -->
+  </div>
+
+  <script>
+    // (On garde la config minimale pour ne pas casser l'init SDK)
+    const defaultConfig = {
+      background_color: "#3d2436",
+      text_color: "#fffdf0"
+    };
+
+    async function onConfigChange(config) {
+      // Rien à mettre à jour côté texte (supprimé)
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      // Plus de champs texte
+      return new Map([]);
+    }
+
+    // Créer la poussière d'étoiles
+    function createStars() {
+      const container = document.getElementById('stars-container');
+      const starCount = 200;
+
+      for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+
+        const size = Math.random() * 2 + 1;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+
+        star.style.animationDelay = Math.random() * 3 + 's';
+        star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+
+        container.appendChild(star);
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    createStars();
+  </script>
+
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9afe96ceb6e0ee96',t:'MTc2NjA2MDE2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>

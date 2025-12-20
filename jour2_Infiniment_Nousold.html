@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Infiniment Nous</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* On allège le fond pour laisser passer la lumière */
+            --bg-overlay: rgba(20, 10, 5, 0.25); 
+            
+            /* COULEURS */
+            --text-main: #2c1e16; 
+            --text-muted: #4e3d35;
+            --accent-color: #800020; 
+            --gold-color: #B48A64;
+            --white-glass: rgba(255, 253, 250, 0.65); 
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
+            background-image: url('images/header-bg.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-overlay);
+            z-index: -1;
+        }
+
+        /* --- GLASSMORPHISM --- */
+        .card-container {
+            background: rgba(255, 253, 248, 0.45); 
+            backdrop-filter: blur(15px); 
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 750px; 
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: center;
+            position: relative;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.5);
+        }
+
+        .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--accent-color), transparent);
+            margin: 30px auto;
+            width: 50%;
+            opacity: 0.4;
+        }
+
+        /* --- JEU ARÔMES --- */
+        .game-instruction {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .aroma-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .aroma-pill {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            color: var(--text-main);
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .aroma-pill:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .aroma-pill.selected {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(128, 0, 32, 0.3);
+            transform: scale(1.05);
+        }
+
+        .counter-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 15px;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        /* --- BOUTONS --- */
+        .btn-main {
+            background: linear-gradient(135deg, #4F352C 0%, #2c1e16 100%);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 16px 35px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(44, 30, 22, 0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .btn-main:disabled {
+            background: #9e8e86;
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.7;
+        }
+
+        .btn-main:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(128, 0, 32, 0.25);
+            background: linear-gradient(135deg, var(--accent-color) 0%, #5a0016 100%);
+        }
+
+        /* --- SECTIONS --- */
+        .step-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .step-section.active {
+            display: block;
+            animation: fadeIn 0.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- REVELATION --- */
+        .handwritten-name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.5rem;
+            color: var(--accent-color);
+            margin: 20px 0;
+            display: block;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+        }
+
+        .address-box {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid var(--gold-color);
+            padding: 25px;
+            margin: 30px auto;
+            border-radius: 12px;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .address-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 5px 0;
+        }
+        
+        /* Message de conclusion (Caché par défaut) */
+        .closing-msg {
+            display: none; /* CACHÉ INITIALEMENT */
+            font-style: italic;
+            opacity: 0.9;
+            margin-top: 35px;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            animation: fadeIn 1.5s ease;
+            background: rgba(128, 0, 32, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(128, 0, 32, 0.1);
+        }
+
+        .icon-envelope {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @media (max-width: 600px) {
+            .card-container { padding: 30px 20px; width: 95%; }
+            .aroma-grid { gap: 8px; }
+            .aroma-pill { padding: 8px 14px; font-size: 0.85rem; }
+            h1 { font-size: 2rem; }
+            .handwritten-name { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="localStorage.clear(); window.location.reload();" style="position:fixed; top:10px; left:10px; z-index:10000; padding:10px; background:rgba(200,0,0,0.8); color:white; border:none; border-radius:5px; cursor:pointer; font-size:12px;">
+        🔄 RESET TEST
+    </button>
+
+    <div class="card-container">
+        
+        <div id="step-game" class="step-section active">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">🍇</div>
+
+            <h1>En route vers l'exceptionnel</h1>
+            <p class="subtitle">Après le repos, l'éveil des sens...</p>
+
+            <p>
+                Ce matin, vous n'êtes pas spectateurs. Vous allez toucher à l'essence même de votre histoire.
+                Mais avant, nous devons connaître vos goûts.
+            </p>
+
+            <div class="divider"></div>
+
+            <p class="game-instruction">Assemblez votre cuvée idéale</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Sélectionnez <strong>3 arômes</strong> qui définissent votre amour :</p>
+
+            <div class="aroma-grid">
+                <div class="aroma-pill" onclick="toggleAroma(this)">🍒 Fruits rouges</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🌸 Floral</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🍋 Agrumes</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🍯 Miel & Douceur</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🌶️ Épices</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🪵 Boisé</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🪨 Minéral</div>
+                <div class="aroma-pill" onclick="toggleAroma(this)">🍫 Cacao</div>
+            </div>
+
+            <div class="counter-text" id="counter">0 / 3 sélectionnés</div>
+
+            <button id="btnValidate" class="btn-main" onclick="goToEnvelope()" disabled>
+                Valider mon assemblage
+            </button>
+        </div>
+
+        <div id="step-envelope" class="step-section">
+            <div class="icon-envelope">🍇</div>
+            
+            <h1>De la terre au verre...</h1>
+            
+            <p style="font-size: 1.1rem; margin-top: 30px;">
+                Vous avez choisi vos arômes, mais le secret ne se trouve pas sur cet écran.<br>
+                Il est caché dans un pli de papier, scellé par le fruit de la vigne.
+            </p>
+
+            <div class="divider" style="width:30%"></div>
+
+            <p style="font-weight: 600; color: var(--accent-color); font-size: 1.1rem;">
+                Munissez-vous de l'enveloppe <br> <span style="font-family:'Cormorant Garamond'; font-size:1.8rem;">"La Grappe"</span>
+            </p>
+            
+            <p>
+                Elle contient la clé de votre atelier privé.
+            </p>
+
+            <button class="btn-main" onclick="revealDestination()">
+                Révéler la destination
+            </button>
+        </div>
+
+        <div id="step-reveal" class="step-section">
+            <div style="font-size: 2.5rem; margin-bottom: 10px;">✨</div>
+            <h1>C'est parfait.</h1>
+            
+            <p>Vos choix révèlent une belle complexité.<br>
+            Aujourd'hui, vous allez créer votre propre vin.</p>
+
+            <p>Bienvenue dans votre <strong>atelier privé d'assemblage</strong>.</p>
+            
+            <span class="handwritten-name">L'Infiniment Nous</span>
+            
+            <p>Vous repartirez avec votre bouteille unique, créée par vos mains, scellée par votre amour.</p>
+
+            <div class="address-box">
+                <p style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; color:#888;">Destination (7 min)</p>
+                <p class="address-text">La Petite Maison de Rouyre</p>
+                <p style="margin:5px 0 0 0; font-size:0.95rem;">320, route du Dolmen de Saint Paul<br>81140 Sainte-Cécile-du-Cayrou</p>
+            </div>
+            
+            <div id="msgConclusion" class="closing-msg">
+                <strong>L'atelier est terminé ?</strong><br>
+                Nous espérons que vous avez passé un moment hors du temps et découvert les secrets cachés de la vigne.
+                Que cet atelier restera gravé dans vos mémoires, tout comme cette cuvée unique scellée par votre amour.
+            </div>
+
+            <button id="btnBackToCarnet" class="btn-main" style="display:none; background:transparent; border:1px solid var(--text-main); color:var(--text-main); margin: 20px auto 0 auto;" onclick="window.location.href='jour2_accueil.html'">
+                ← Retour au carnet
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const MODE_TEST = true; 
+
+        let selectedCount = 0;
+        const maxSelection = 3;
+        
+        const DELAY_SHOW_MSG = MODE_TEST ? 10000 : 60 * 60 * 1000; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkTime();
+        });
+
+        function toggleAroma(el) {
+            if (el.classList.contains('selected')) {
+                el.classList.remove('selected');
+                selectedCount--;
+            } else {
+                if (selectedCount < maxSelection) {
+                    el.classList.add('selected');
+                    selectedCount++;
+                } else {
+                    return; 
+                }
+            }
+            document.getElementById('counter').textContent = selectedCount + " / " + maxSelection + " sélectionnés";
+            
+            const btn = document.getElementById('btnValidate');
+            if (selectedCount === maxSelection) {
+                btn.disabled = false;
+                btn.style.opacity = "1";
+                btn.textContent = "Valider mon assemblage";
+            } else {
+                btn.disabled = true;
+                btn.textContent = "Sélectionnez 3 arômes...";
+            }
+        }
+
+        function goToEnvelope() {
+            switchStep('step-game', 'step-envelope');
+        }
+
+        function revealDestination() {
+            localStorage.setItem("j2_vin_ok", "true");
+            
+            if(!localStorage.getItem("j2_vin_start_time")) {
+                localStorage.setItem("j2_vin_start_time", Date.now());
+            }
+
+            switchStep('step-envelope', 'step-reveal');
+            
+            checkTime();
+        }
+
+        function checkTime() {
+            const startTime = localStorage.getItem("j2_vin_start_time");
+            
+            if (startTime) {
+                const now = Date.now();
+                const timePassed = now - parseInt(startTime);
+
+                if (timePassed >= DELAY_SHOW_MSG) {
+                    document.getElementById("msgConclusion").style.display = "block";
+                    document.getElementById("btnBackToCarnet").style.display = "block";
+                } else {
+                    const retryDelay = MODE_TEST ? 2000 : 60000;
+                    setTimeout(checkTime, retryDelay); 
+                }
+            }
+        }
+
+        function switchStep(fromId, toId) {
+            const fromDiv = document.getElementById(fromId);
+            const toDiv = document.getElementById(toId);
+
+            fromDiv.style.opacity = '0';
+            setTimeout(() => {
+                fromDiv.classList.remove('active');
+                fromDiv.style.display = 'none'; 
+                toDiv.style.display = 'block'; 
+                requestAnimationFrame(() => {
+                    toDiv.classList.add('active');
+                });
+            }, 500);
+        }
+    </script>
+
+    🔄 RESET MÉMOIRE
+</button>
+
+
+</body>
+</html>
