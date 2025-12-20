@@ -176,18 +176,28 @@ body::before {
   gap: 15px;
 }
 
-/* STYLE DES TIRETS INDICES */
-.char-hint {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  color: var(--gold);
-  letter-spacing: 3px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  user-select: none;
+/* ====== NOUVELLE SAISIE "BRODÉE" (tirets + lettres) ====== */
+.stitch-field{
+  position: relative;
+  width: 100%;
+  max-width: 560px; /* plus large pour éviter le retour à la ligne */
 }
-.char-hint span {
-  display: inline-block;
+
+.stitch-display{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 700;
+  font-size: 1.55rem;
+  color: var(--ink);
+  letter-spacing: 6px;
+  white-space: nowrap;          /* 🔥 reste sur une seule ligne */
+  overflow: hidden;             /* sécurité */
+  text-overflow: clip;
 }
 
 .sewn-input {
@@ -198,12 +208,15 @@ body::before {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 700;
   font-size: 1.5rem;
-  color: var(--ink);
+  color: transparent;           /* on cache le texte tapé */
+  caret-color: var(--ink);      /* mais on garde le curseur */
   text-align: center;
   width: 100%;
-  max-width: 350px;
+  max-width: 560px;             /* aligné avec la display */
   outline: none;
   transition: all 0.3s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 .sewn-input:focus {
   background: #fff;
@@ -275,19 +288,23 @@ body::before {
   .titre-page { font-size: 3rem; }
   .section-rituel { padding: 25px 20px; }
   .cle img { height: 160px; }
-  .char-hint { font-size: 1.1rem; letter-spacing: 1px; }
+
+  /* Sur mobile : on réduit un peu pour tenir sur 1 ligne */
+  .stitch-field { max-width: 100%; }
+  .stitch-display{
+    font-size: 1.15rem;
+    letter-spacing: 3px;
+  }
+  .sewn-input{
+    font-size: 1.15rem;
+    max-width: 100%;
+  }
 }
-/* ✅ Correctif clavier smartphone (iOS / Android) */
+
+/* ✅ Fix clavier mobile : enlever seulement le "fixed" du fond sur petit écran */
 @media (max-width: 768px) {
-  body {
-    background-attachment: scroll !important;
-  }
-
-  body::before {
-    position: absolute;
-  }
+  body { background-attachment: scroll !important; }
 }
-
 </style>
 </head>
 
@@ -340,13 +357,24 @@ body::before {
     </p>
 
     <div class="zone-input">
-      
-      <div class="char-hint">
-        <span>_ _ _ _ _ _ _ _ _</span> - <span>_ _ _ _ _ _ _ _ _</span>
+
+      <!-- ✅ Saisie brodée (tirets restent visibles + lettres se posent dessus) -->
+      <div class="stitch-field" id="stitchField">
+        <div id="stitchDisplay" class="stitch-display" aria-hidden="true"></div>
+
+        <input
+          type="text"
+          id="reponse"
+          class="sewn-input"
+          placeholder=""
+          autocomplete="off"
+          inputmode="text"
+          enterkeyhint="done"
+        >
       </div>
 
-      <input type="text" id="reponse" class="sewn-input" placeholder="Le Lieu..." autocomplete="off">
-      <button class="btn-luxe" onclick="verifier()">Tisser le lien</button>
+      <!-- ✅ Bouton en dessous -->
+      <button class="btn-luxe" id="btnTisser" onclick="verifier()">Tisser le lien</button>
     </div>
 
     <div id="message"></div>
@@ -370,86 +398,120 @@ body::before {
 let erreurs = 0;
 const STATE_DEPART_ACCESSIBLE = 'jour1_depart_ok';
 
+/* ========= Affichage brodé (tirets + lettres, sur une seule ligne) ========= */
+const DISPLAY_PATTERN = "_________ - _________"; // 9 + 9
+const displayEl = document.getElementById("stitchDisplay");
+const inputEl = document.getElementById("reponse");
+const fieldEl = document.getElementById("stitchField");
+
+function updateStitchDisplay(raw) {
+  const letters = (raw || "")
+    .toUpperCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^A-Z]/g, "");
+
+  let i = 0;
+  const filled = DISPLAY_PATTERN.split("").map(ch => {
+    if (ch === "_") {
+      const c = letters[i] || "_";
+      i++;
+      return c;
+    }
+    return ch; // garde " - "
+  }).join("");
+
+  // Tirets visuels élégants (—) au lieu de "_"
+  displayEl.textContent = filled.replace(/_/g, "—");
+}
+
+// init
+updateStitchDisplay("");
+
+// focus quand on clique sur la zone (ergonomie)
+fieldEl.addEventListener("click", () => inputEl.focus(), { passive: true });
+fieldEl.addEventListener("touchend", () => inputEl.focus(), { passive: true });
+
+// mise à jour en direct
+inputEl.addEventListener("input", () => updateStitchDisplay(inputEl.value));
+
+/* ========= Logique de ton énigme (inchangée) ========= */
 function nettoyer(texte) {
-    return texte
-        .toLowerCase()
-        .normalize("NFD").replace(/[\u0300-\u036f]/g, "") 
-        .replace(/[^a-z]/g, ""); 
+  return texte
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z]/g, "");
 }
 
 function reussite(nomVille) {
-    const msgBox = document.getElementById("message");
-    
-    msgBox.innerHTML = `
-        <div style="border-top: 1px solid var(--gold); margin-top: 20px; padding-top: 20px;">
-            <p style="color: var(--gold); font-size: 2.5rem; font-family: 'Great Vibes', cursive; margin: 0;">
-                ${nomVille}
-            </p>
-            <p style="font-weight: bold; margin-top: 15px; color: var(--ink);">
-                Le fil est juste. La cité se révèle.
-            </p>
-            <p style="color: var(--ink); font-size: 1.1rem; margin: 20px 0;">
-                🚗 <strong>Prenez maintenant la route</strong> vers cette destination.
-            </p>
-            <p style="font-style: italic; font-size: 1rem; opacity: 0.8; line-height: 1.6; color:#5a4633;">
-                Une fois arrivés sur place, cliquez sur le bouton ci-dessous.<br>
-                De retour sur la carte, ouvrez la <strong>"Vignette 2 : Le savoir-faire oublié"</strong>.
-            </p>
-        </div>
-    `;
-    
-    const btn = document.getElementById("btnSuivant");
-    btn.innerHTML = "📍 Nous sommes arrivés, poursuivre";
-    btn.style.display = "inline-block";
-    
-    localStorage.setItem(STATE_DEPART_ACCESSIBLE, 'true');
+  const msgBox = document.getElementById("message");
 
-    document.querySelector('.btn-luxe').disabled = true;
-    document.getElementById("reponse").disabled = true;
-    document.getElementById("reponse").style.borderColor = "transparent";
+  msgBox.innerHTML = `
+    <div style="border-top: 1px solid var(--gold); margin-top: 20px; padding-top: 20px;">
+      <p style="color: var(--gold); font-size: 2.5rem; font-family: 'Great Vibes', cursive; margin: 0;">
+        ${nomVille}
+      </p>
+      <p style="font-weight: bold; margin-top: 15px; color: var(--ink);">
+        Le fil est juste. La cité se révèle.
+      </p>
+      <p style="color: var(--ink); font-size: 1.1rem; margin: 20px 0;">
+        🚗 <strong>Prenez maintenant la route</strong> vers cette destination.
+      </p>
+      <p style="font-style: italic; font-size: 1rem; opacity: 0.8; line-height: 1.6; color:#5a4633;">
+        Une fois arrivés sur place, cliquez sur le bouton ci-dessous.<br>
+        De retour sur la carte, ouvrez la <strong>"Vignette 2 : Le savoir-faire oublié"</strong>.
+      </p>
+    </div>
+  `;
+
+  const btn = document.getElementById("btnSuivant");
+  btn.innerHTML = "📍 Nous sommes arrivés, poursuivre";
+  btn.style.display = "inline-block";
+
+  localStorage.setItem(STATE_DEPART_ACCESSIBLE, 'true');
+
+  document.getElementById("btnTisser").disabled = true;
+  inputEl.disabled = true;
+  inputEl.style.borderColor = "transparent";
 }
 
 function echec(msg) {
-    const msgBox = document.getElementById("message");
-    msgBox.innerHTML = msg;
-    msgBox.style.color = "#a85a5a";
-    
-    const input = document.getElementById("reponse");
-    input.style.borderColor = "#a85a5a";
-    setTimeout(() => { input.style.borderColor = "#b48a64"; }, 1000);
+  const msgBox = document.getElementById("message");
+  msgBox.innerHTML = msg;
+  msgBox.style.color = "#a85a5a";
+
+  inputEl.style.borderColor = "#a85a5a";
+  setTimeout(() => { inputEl.style.borderColor = "#b48a64"; }, 1000);
 }
 
 function verifier() {
-    const input = document.getElementById("reponse");
-    const saisie = nettoyer(input.value);
-    
-    // Validation souple (accepte les deux écritures pour éviter la frustration)
-    const bonne1 = nettoyer("Labastide-Rouairoux"); // Celle visée
-    const bonne2 = nettoyer("La Bastide-Rouairoux"); // Au cas où
+  const saisie = nettoyer(inputEl.value);
 
-    if (saisie === bonne1 || saisie === bonne2) {
-        // Affiche toujours la bonne orthographe officielle
-        reussite("Labastide-Rouairoux");
-        return;
-    }
+  const bonne1 = nettoyer("Labastide-Rouairoux");
+  const bonne2 = nettoyer("La Bastide-Rouairoux");
 
-    erreurs++;
+  if (saisie === bonne1 || saisie === bonne2) {
+    reussite("Labastide-Rouairoux");
+    return;
+  }
 
-    if (erreurs === 1) {
-        echec("Ce n’est pas encore le bon fil... Consultez l’indice.");
-        const box = document.getElementById("indicesBox");
-        box.style.display = "block";
-        box.style.animation = "fadeUp 1s";
-    }
-    else if (erreurs === 2) {
-        reussite("Labastide-Rouairoux");
-        document.getElementById("indicesBox").style.display = "block";
-        document.getElementById("indicesBox").innerHTML = "<h3>Le vent vous souffle la réponse...</h3>C'est Labastide-Rouairoux.";
-    }
+  erreurs++;
+
+  if (erreurs === 1) {
+    echec("Ce n’est pas encore le bon fil... Consultez l’indice.");
+    const box = document.getElementById("indicesBox");
+    box.style.display = "block";
+    box.style.animation = "fadeUp 1s";
+  }
+  else if (erreurs === 2) {
+    reussite("Labastide-Rouairoux");
+    const box = document.getElementById("indicesBox");
+    box.style.display = "block";
+    box.innerHTML = "<h3>Le vent vous souffle la réponse...</h3>C'est Labastide-Rouairoux.";
+  }
 }
 
-document.getElementById("reponse").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") verifier();
+inputEl.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") verifier();
 });
 </script>
 
