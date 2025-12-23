@@ -13,7 +13,6 @@
             --color-beige-textile: #F7F4F0;
             --color-text-dark: #3E332C;
             --color-lock-red: #924B4B;
-            --color-gift-green: #2C5F2D; /* Nouvelle couleur pour le cadeau */
         }
 
         body {
@@ -116,21 +115,25 @@
             opacity: 0.8;
         }
 
-        /* Style spécifique Noël */
         .vignette.noel {
             border: 3px solid #ffaa00;
             box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
         }
         .vignette.noel h3 { color: #d89617; }
 
-        /* ÉTAT VERROUILLÉ GÉNÉRAL */
+        /* ÉTAT VERROUILLÉ */
         .vignette.locked {
             cursor: not-allowed;
             background: #fff;
         }
 
         .vignette.locked img {
-            filter: blur(6px) brightness(0.98) saturate(1.15) sepia(0.35) contrast(0.95);
+            filter:
+                blur(6px)
+                brightness(0.98)
+                saturate(1.15)
+                sepia(0.35)
+                contrast(0.95);
             transform: scale(1.05);
         }
 
@@ -138,20 +141,26 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(180,138,100,0.35), transparent 55%),
-                        linear-gradient(180deg, rgba(247,244,240,0.15), rgba(180,138,100,0.22));
+            background:
+                radial-gradient(circle at 30% 20%, rgba(180,138,100,0.35), transparent 55%),
+                linear-gradient(180deg, rgba(247,244,240,0.15), rgba(180,138,100,0.22));
             pointer-events: none;
         }
 
         .vignette.locked h3,
-        .vignette.locked p { visibility: hidden; }
+        .vignette.locked p {
+            visibility: hidden;
+        }
 
         .vignette.locked::after {
             content: "🔒";
             position: absolute;
-            top: 12px; right: 12px;
-            width: 40px; height: 40px;
-            display: grid; place-items: center;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
             border-radius: 999px;
             background: rgba(255, 253, 249, 0.80);
             border: 1px solid rgba(180,138,100,0.35);
@@ -159,25 +168,28 @@
             font-size: 20px;
             pointer-events: none;
         }
-        
-        /* Cadenas spécifique pour Noël verrouillé */
-        .vignette.locked.noel::after {
-            content: "🎁"; /* On remplace le cadenas par un cadeau */
-            font-size: 24px;
-            background: rgba(255, 240, 220, 0.9);
-            border: 1px solid #ffaa00;
-        }
 
         .vignette.locked:hover {
             transform: none;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        .vignette.locked:hover img {
+            transform: scale(1.05);
+            filter:
+                blur(6px)
+                brightness(0.98)
+                saturate(1.15)
+                sepia(0.35)
+                contrast(0.95);
+        }
 
-        /* --- POPUP GLOBAL --- */
-        .popup-overlay {
+        /* Pop-up verrouillage */
+        #popup {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0,0,0,0.7);
             display: none;
             align-items: center;
@@ -195,21 +207,12 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.25);
             animation: fadeIn 0.4s ease forwards;
             border: 3px solid var(--color-lock-red);
-            text-align: center;
         }
 
         .popup-content h2 {
             color: var(--color-lock-red);
             margin-bottom: 0.8rem;
             font-family: 'Lato', sans-serif;
-        }
-
-        /* Style spécifique Popup Noël */
-        .popup-content.noel-style {
-            border-color: #ffaa00;
-        }
-        .popup-content.noel-style h2 {
-            color: #d89617;
         }
 
         .popup-content button {
@@ -221,13 +224,9 @@
             margin-top: 1rem;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1rem;
-            transition: background 0.3s, transform 0.2s;
+            transition: background 0.3s;
         }
-        .popup-content button:hover { 
-            background: #9d7553; 
-            transform: scale(1.05);
-        }
+        .popup-content button:hover { background: #9d7553; }
 
         @keyframes fadeIn {
             from {opacity: 0; transform: translateY(10px);}
@@ -238,17 +237,20 @@
             h1 { font-size: 1.8rem; }
         }
 
-        /* LIEN TEST */
-        .test-link-wrap{ padding: 12px 0 18px; }
+        /* ✅ LIEN TEST ULTRA DISCRET EN BAS */
+        .test-link-wrap{
+            padding: 12px 0 18px;
+        }
         #testLink{
             font-size: 11px;
-            opacity: 0.08;
+            opacity: 0.08;            /* quasi invisible */
             color: var(--color-cacao-dark);
             text-decoration: none;
             cursor: default;
             user-select: none;
             transition: opacity .2s ease;
         }
+        /* il apparaît seulement si on “le trouve” */
         #testLink:hover, #testLink:focus{
             opacity: 0.35;
             cursor: pointer;
@@ -267,68 +269,51 @@
 
     <div class="gallery" id="gallery"></div>
 
-    <div id="popupDate" class="popup-overlay">
+    <div id="popup">
         <div class="popup-content">
-            <h2>🔒 En attente de la maturité...</h2>
-            <p id="popupDateText">Ce chapitre est encore scellé.</p>
-            <button id="closePopupDate">Patience...</button>
+            <h2>🔒 En attente de la maturité du Millésime...</h2>
+            <p>Ce chapitre est encore scellé. Les secrets du grand voyage ne se dévoilent qu'à partir de **4 Juin 2026**.</p>
+            <button id="closePopup">Compris</button>
         </div>
     </div>
 
-    <div id="popupGift" class="popup-overlay">
-        <div class="popup-content noel-style">
-            <h2>🎁 Joyeux Noël !</h2>
-            <p>Une première page de l'histoire est prête à être révélée...</p>
-            <button id="unlockGiftBtn">✨ Ouvrir mon cadeau ✨</button>
-        </div>
-    </div>
-
+    <!-- ✅ Lien “TEST” ultra discret (à supprimer à la fin du projet) -->
     <div class="test-link-wrap">
-        <a id="testLink" href="#" aria-label="Mode test">test</a>
+        <a id="testLink" href="#" aria-label="Mode test (déverrouille toutes les vignettes)">test</a>
     </div>
 
    <script>
-    // -------- CONFIGURATION --------
+    // -------- CONFIGURATION DES DATES --------
     const now = new Date();
+
+    // Mode preview via URL ?preview=true
     const urlParams = new URLSearchParams(window.location.search);
     const previewMode = urlParams.get('preview') === 'true';
 
-    // Clés LocalStorage
+    // ✅ Mode TEST persistant (via lien discret en bas)
     const TEST_KEY = "millesime_test_unlock_all";
-    const NOEL_KEY = "millesime_noel_opened"; // Clé spécifique pour l'ouverture du cadeau
-
-    // État des variables
     const testUnlockAll = localStorage.getItem(TEST_KEY) === "1";
-    const isNoelOpened = localStorage.getItem(NOEL_KEY) === "1";
 
-    // Dates
-    const DATE_JOUR_1 = new Date(2026, 5, 4, 0, 0, 0); // 4 Juin
-    const DATE_JOUR_2 = new Date(2026, 5, 5, 0, 0, 0); // 5 Juin
+    // DATES DE DÉVERROUILLAGE
+    const DATE_JOUR_1 = new Date(2026, 5, 4, 0, 0, 0);
+    const DATE_JOUR_2 = new Date(2026, 5, 5, 0, 0, 0);
 
-    // Helper: enlever les dates pour l'affichage si test
+    // ✅ Helper : si test, on affiche une phrase “sans dates”
     const stripDates = (txt) => {
         if (!txt) return "";
-        return txt.replace(/^\s*\d{1,2}\s*(Juin|Mai|Avril)\s*:\s*/i, "");
+        // Ex: "4 Juin : blabla" / "5 Juin : blabla"
+        return txt.replace(/^\s*\d{1,2}\s*(Juin|Mai|Avril|Mars|Février|Fevrier|Janvier|Juillet|Août|Aout|Septembre|Octobre|Novembre|Décembre|Decembre)\s*:\s*/i, "");
     };
 
-    /* LOGIQUE DE VERROUILLAGE :
-       type: 'gift' -> Se déverrouille au clic (indépendant par téléphone)
-       type: 'date' -> Se déverrouille selon la date système
-    */
     const vignettes = [
         {
-            id: 'noel',
-            type: 'gift', // Spécial cadeau
             titre: "Le Début d'un Secret",
             phrase: "Là où tout commence, dans le silence de l'hiver...",
             img: "images/noel.jpg",
             lien: "noel.html",
-            // Verrouillé SI : ce n'est pas déjà ouvert ET ce n'est pas le mode test
-            locked: (!isNoelOpened && !testUnlockAll) 
+            locked: false
         },
         {
-            id: 'voix',
-            type: 'date',
             titre: "💛 Les Voix du Cœur",
             phrase: "Juste avant le départ...",
             img: "images/voix.jpg",
@@ -336,8 +321,6 @@
             locked: (now < DATE_JOUR_1 && !previewMode && !testUnlockAll)
         },
         {
-            id: 'jour1',
-            type: 'date',
             titre: "🛣️ La Route des Souvenirs (Jour 1)",
             phrase: "4 Juin : Chaque virage mène à un souvenir.",
             img: "images/jour1.jpg",
@@ -345,8 +328,6 @@
             locked: (now < DATE_JOUR_1 && !previewMode && !testUnlockAll)
         },
         {
-            id: 'jour2',
-            type: 'date',
             titre: "💎 Le Secret du Millésime (Jour 2)",
             phrase: "5 Juin : Certains secrets ne se dévoilent qu'à maturité.",
             img: "images/jour2.jpg",
@@ -354,8 +335,6 @@
             locked: (now < DATE_JOUR_2 && !previewMode && !testUnlockAll)
         },
         {
-            id: 'livre',
-            type: 'date',
             titre: "📜 Ce que les uns partagent",
             phrase: "Le livre d'or final.",
             img: "images/livre.jpg",
@@ -364,19 +343,18 @@
         }
     ];
 
-    // -------- GÉNÉRATION --------
+    // -------- GÉNÉRATION DES VIGNETTES --------
     const gallery = document.getElementById("gallery");
-    const popupDate = document.getElementById("popupDate");
-    const popupGift = document.getElementById("popupGift");
-    const popupDateText = document.getElementById("popupDateText");
+    const popup = document.getElementById("popup");
 
     vignettes.forEach(v => {
         const div = document.createElement("div");
         let className = "vignette";
 
-        if (v.id === 'noel') className += " noel";
+        if (v.lien.includes("noel")) className += " noel";
         if (v.locked) className += " locked";
 
+        // ✅ Si mode test: on enlève le préfixe date dans l’affichage (sans toucher aux données)
         const phraseAffichee = (testUnlockAll ? stripDates(v.phrase) : v.phrase);
 
         div.className = className;
@@ -388,59 +366,30 @@
 
         div.addEventListener("click", () => {
             if (!v.locked) {
-                // Si c'est ouvert, on y va
                 window.location.href = v.lien;
             } else {
-                // Si c'est verrouillé, on vérifie pourquoi
-                if (v.type === 'gift') {
-                    // C'est le cadeau de Noël -> Popup Cadeau
-                    popupGift.style.display = "flex";
-                } else {
-                    // C'est une date -> Popup Date
-                    // On personnalise le texte selon la date requise
-                    if(v.id === 'jour2' || v.id === 'livre') {
-                         popupDateText.innerText = "Ce secret ne se dévoile qu'à partir du 5 Juin 2026.";
-                    } else {
-                         popupDateText.innerText = "Patience... Rendez-vous le 4 Juin 2026.";
-                    }
-                    popupDate.style.display = "flex";
-                }
+                popup.style.display = "flex";
             }
         });
 
         gallery.appendChild(div);
     });
 
-    // -------- GESTION DES POPUPS --------
-
-    // 1. Fermer le popup Date
-    document.getElementById("closePopupDate").addEventListener("click", () => {
-        popupDate.style.display = "none";
+    // -------- POPUP --------
+    document.getElementById("closePopup").addEventListener("click", () => {
+        popup.style.display = "none";
+    });
+    popup.addEventListener("click", e => {
+        if (e.target === popup) popup.style.display = "none";
     });
 
-    // 2. Action "Ouvrir le cadeau"
-    document.getElementById("unlockGiftBtn").addEventListener("click", () => {
-        // On enregistre que c'est ouvert pour ce téléphone
-        localStorage.setItem(NOEL_KEY, "1");
-        
-        // Petit effet sympa : on recharge la page pour voir la vignette déverrouillée
-        // On pourrait faire plus fluide en JS pur, mais le reload est simple et robuste
-        window.location.reload();
-    });
-
-    // Fermeture au clic en dehors (pour les deux popups)
-    [popupDate, popupGift].forEach(p => {
-        p.addEventListener("click", e => {
-            if (e.target === p) p.style.display = "none";
-        });
-    });
-
-    // -------- LIEN TEST --------
+    // -------- ✅ LIEN TEST (toggle) --------
     const testLink = document.getElementById("testLink");
     testLink.addEventListener("click", (e) => {
         e.preventDefault();
         const enabled = localStorage.getItem(TEST_KEY) === "1";
         localStorage.setItem(TEST_KEY, enabled ? "0" : "1");
+        // reload pour regénérer les vignettes
         window.location.reload();
     });
 </script>

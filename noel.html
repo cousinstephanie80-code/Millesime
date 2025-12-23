@@ -1,449 +1,551 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Le Millésime Secret : Aventure pour des 80 ans Tissés</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎄 Test Visuel - Le Premier Secret</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --color-cacao-dark: #4F352C;
-            --color-millésime-gold: #B48A64;
-            --color-beige-textile: #F7F4F0;
-            --color-text-dark: #3E332C;
-            --color-lock-red: #924B4B;
-            --color-gift-green: #2C5F2D; /* Nouvelle couleur pour le cadeau */
-        }
+<style>
+    /* --- COULEURS --- */
+    :root {
+        --color-cacao-dark: #4F352C;
+        --color-millésime-gold: #B48A64;
+        --color-beige-textile: #F7F4F0;
+        --color-text-dark: #3E332C;
+        --color-lock-red: #924B4B;
+        --color-accent-gold: #d89617;
+    }
 
-        body {
-            margin: 0;
-            font-family: 'Lato', sans-serif;
-            background-color: var(--color-beige-textile);
-            color: var(--color-text-dark);
-            text-align: center;
-            min-height: 100vh;
-        }
+    body {
+        margin: 0;
+        font-family: 'Lato', sans-serif;
+        background: url('images/fond-noel.jpg') center/cover no-repeat fixed; 
+        color: var(--color-text-dark);
+        text-align: center;
+        overflow-x: hidden;
+        transition: background 0.5s ease; 
+    }
+    
+    body.final-background {
+        background: url('images/cadeau-ouvert-millesime.png') center bottom no-repeat fixed;
+        background-size: auto; 
+    }
 
-        h1 {
-            font-family: 'Lato', sans-serif;
-            color: var(--color-cacao-dark);
-            margin-top: 5vh;
-            font-size: 36px;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
+    /* --- CONTENEUR --- */
+    .contenu {
+        background: rgba(255,250,240,0.92);
+        max-width: 900px;
+        margin: 4vw auto;
+        padding: 4vw;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        transition: opacity 3s ease;
+    }
 
-        p.intro {
-            max-width: 800px;
-            margin: 2vh auto 5vh;
-            font-size: clamp(0.9rem, 2vw, 1.1rem);
-            line-height: 1.6;
-            color: var(--color-cacao-dark);
-            opacity: 0.9;
-        }
+    h1 {
+        font-family: 'Cormorant Garamond', serif;
+        color: var(--color-cacao-dark);
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
 
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto 6vh;
-            padding: 0 5vw;
-        }
+    p { line-height: 1.8; margin: 1rem 0; }
+    .intro-text strong { color: var(--color-accent-gold); }
 
-        .vignette {
-            width: 100%;
-            max-width: 300px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            background: #fff;
-            cursor: pointer;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s ease forwards;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
+    #demarrer {
+        display: inline-block;
+        margin-top: 1.5rem;
+        color: var(--color-millésime-gold);
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #demarrer:hover { text-decoration: underline; color: var(--color-accent-gold); }
 
-        @media (max-width: 600px) {
-            .vignette { max-width: 90%; }
-        }
+    /* --- CADEAU --- */
+    .cadeau {
+        position: relative;
+        margin: 4vw auto;
+        width: 280px;
+        height: 280px;
+        background: url('images/cadeau.jpg') center/cover no-repeat;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        display: none; 
+        cursor: pointer;
+        transition: transform 1.5s ease;
+        z-index: 10;
+        filter: none;
+    }
 
-        .vignette:nth-child(1) { animation-delay: 0.1s; }
-        .vignette:nth-child(2) { animation-delay: 0.2s; }
-        .vignette:nth-child(3) { animation-delay: 0.3s; }
-        .vignette:nth-child(4) { animation-delay: 0.4s; }
-        .vignette:nth-child(5) { animation-delay: 0.5s; }
+    .etincelles {
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 180px; height: 180px;
+        transform: translate(-50%, -50%);
+        display: none; pointer-events: none;
+    }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(25px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    /* MODIFICATION : Animation plus vivante une fois ouvert */
+    .cadeau.ouvert {
+        transform: scale(1.1) rotateX(10deg);
+        filter: brightness(1.2);
+        animation: heartbeat 3s infinite ease-in-out; /* Battement de coeur */
+    }
 
-        .vignette:hover {
-            transform: translateY(-6px) scale(1.03);
-            box-shadow: 0 10px 18px rgba(0,0,0,0.15);
-        }
+    @keyframes heartbeat {
+        0% { transform: scale(1.1) rotateX(10deg); }
+        50% { transform: scale(1.15) rotateX(10deg); }
+        100% { transform: scale(1.1) rotateX(10deg); }
+    }
 
-        .vignette img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            transition: transform 0.5s ease, filter 0.4s ease;
-            display: block;
-        }
+    /* --- ÉNIGME (AMÉLIORATION VISUELLE) --- */
+    .enigme {
+        display: none;
+        margin: 15vh auto 2rem;
+        background: rgba(255,255,255,0.9); /* Un peu plus opaque */
+        padding: 2rem 3rem;
+        border-radius: 4px; /* Plus carré pour faire "papier" */
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        max-width: 450px;
+        font-family: 'Cormorant Garamond', serif;
+        border: 1px solid rgba(180, 138, 100, 0.3); /* Bordure fine dorée */
+    }
 
-        .vignette:hover img {
-            transform: scale(1.08);
-            filter: brightness(1.05);
-        }
+    .enigme-container {
+        display: flex;
+        flex-direction: column; /* Stack vertical pour le style manuscrit */
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
 
-        .vignette h3 {
-            margin: 1rem 0 0.3rem;
-            color: var(--color-millésime-gold);
-            font-family: 'Lato', sans-serif;
-            font-weight: 600;
-        }
+    /* MODIFICATION : Input style "Ligne manuscrite" */
+    .enigme input {
+        padding: 10px 5px;
+        border: none;
+        border-bottom: 2px solid var(--color-millésime-gold); /* Juste la ligne du bas */
+        background: transparent;
+        border-radius: 0;
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.5rem; /* Plus grand */
+        font-weight: 700;
+        color: var(--color-cacao-dark);
+        outline: none;
+        transition: border-color 0.3s;
+    }
 
-        .vignette p {
-            font-size: 0.9rem;
-            color: var(--color-cacao-dark);
-            margin-bottom: 1.2rem;
-            padding: 0 1rem;
-            opacity: 0.8;
-        }
+    .enigme input::placeholder {
+        color: rgba(79, 53, 44, 0.4);
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
 
-        /* Style spécifique Noël */
-        .vignette.noel {
-            border: 3px solid #ffaa00;
-            box-shadow: 0 0 20px rgba(255, 165, 0, 0.4);
-        }
-        .vignette.noel h3 { color: #d89617; }
+    .enigme input:focus {
+        border-bottom-color: var(--color-cacao-dark); /* Fonce au focus */
+    }
 
-        /* ÉTAT VERROUILLÉ GÉNÉRAL */
-        .vignette.locked {
-            cursor: not-allowed;
-            background: #fff;
-        }
+    .enigme button {
+        background: var(--color-millésime-gold);
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 50px; /* Plus rond */
+        margin-top: 1rem;
+        cursor: pointer;
+        font-weight: bold;
+        font-family: 'Lato', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: transform 0.2s, background 0.3s;
+    }
+    .enigme button:hover { 
+        background: #9d7553; 
+        transform: translateY(-2px);
+    }
 
-        .vignette.locked img {
-            filter: blur(6px) brightness(0.98) saturate(1.15) sepia(0.35) contrast(0.95);
-            transform: scale(1.05);
-        }
+    /* --- AUTRES ÉLÉMENTS --- */
+    #btnAide, #indice {
+        font-size: 0.9rem;
+        color: var(--color-cacao-dark);
+        cursor: pointer;
+        margin-top: 15px;
+        font-family: 'Lato', sans-serif;
+    }
+    #btnAide:hover { text-decoration: underline; }
 
-        .vignette.locked::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 30% 20%, rgba(180,138,100,0.35), transparent 55%),
-                        linear-gradient(180deg, rgba(247,244,240,0.15), rgba(180,138,100,0.22));
-            pointer-events: none;
-        }
+    #clip-container {
+        display: none;
+        width: 90%; max-width: 700px;
+        margin: 3vw auto;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+    #clip { width: 100%; height: auto; border-radius: 16px; }
 
-        .vignette.locked h3,
-        .vignette.locked p { visibility: hidden; }
+    .message {
+        display: none;
+        font-style: italic;
+        margin-top: 1.5rem;
+        color: var(--color-accent-gold);
+        font-weight: 600;
+        font-family: 'Cormorant Garamond', serif;
+    }
 
-        .vignette.locked::after {
-            content: "🔒";
-            position: absolute;
-            top: 12px; right: 12px;
-            width: 40px; height: 40px;
-            display: grid; place-items: center;
-            border-radius: 999px;
-            background: rgba(255, 253, 249, 0.80);
-            border: 1px solid rgba(180,138,100,0.35);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.10);
-            font-size: 20px;
-            pointer-events: none;
-        }
-        
-        /* Cadenas spécifique pour Noël verrouillé */
-        .vignette.locked.noel::after {
-            content: "🎁"; /* On remplace le cadenas par un cadeau */
-            font-size: 24px;
-            background: rgba(255, 240, 220, 0.9);
-            border: 1px solid #ffaa00;
-        }
+    /* --- BLOC CHANSON --- */
+    #chanson-teaser {
+        display: none;
+        max-width: 500px;
+        margin: 10vh auto;
+        border-radius: 15px;
+        font-family: 'Cormorant Garamond', serif;
+    }
 
-        .vignette.locked:hover {
-            transform: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+    #chanson-teaser.final-teaser {
+        background: rgba(247, 228, 217, 0.90); 
+        max-width: 600px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        padding-top: 40px; padding-bottom: 40px;
+        transition: height 0.5s ease;
+    }
 
-        /* --- POPUP GLOBAL --- */
-        .popup-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
+    #chanson-teaser p {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.2rem; margin: 5px 0;
+        line-height: 1.3; color: var(--color-text-dark);
+    }
 
-        .popup-content {
-            background: var(--color-beige-textile);
-            color: var(--color-text-dark);
-            padding: 2rem;
-            border-radius: 14px;
-            max-width: 90%;
-            width: 420px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-            animation: fadeIn 0.4s ease forwards;
-            border: 3px solid var(--color-lock-red);
-            text-align: center;
-        }
+    .final-text-line { font-size: 1.5rem; font-weight: 700; }
 
-        .popup-content h2 {
-            color: var(--color-lock-red);
-            margin-bottom: 0.8rem;
-            font-family: 'Lato', sans-serif;
-        }
+    .final-click-prompt {
+        font-size: 1.1rem; font-weight: 600;
+        margin-top: 30px; color: var(--color-text-dark);
+    }
+    
+    .envelope-trigger {
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 15px;
+        transition: transform 0.3s ease;
+    }
+    .envelope-trigger:hover { transform: scale(1.05); }
 
-        /* Style spécifique Popup Noël */
-        .popup-content.noel-style {
-            border-color: #ffaa00;
-        }
-        .popup-content.noel-style h2 {
-            color: #d89617;
-        }
+    .envelope-image {
+        width: 100%; max-width: 280px; height: auto;
+        border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        background: none; border: none; 
+    }
 
-        .popup-content button {
-            background: var(--color-millésime-gold);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.6rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: background 0.3s, transform 0.2s;
-        }
-        .popup-content button:hover { 
-            background: #9d7553; 
-            transform: scale(1.05);
-        }
+    /* MODIFICATION : Animation "En cours d'écoute" */
+    .music-listening-state {
+        display: none; /* Caché par défaut */
+        margin-top: 20px;
+        animation: pulseText 2.5s infinite ease-in-out;
+    }
+    .music-note {
+        font-size: 3rem;
+        color: var(--color-millésime-gold);
+        display: block;
+        margin-bottom: 10px;
+    }
+    @keyframes pulseText {
+        0% { opacity: 0.6; transform: scale(0.98); }
+        50% { opacity: 1; transform: scale(1.02); }
+        100% { opacity: 0.6; transform: scale(0.98); }
+    }
 
-        @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(10px);}
-            to {opacity: 1; transform: translateY(0);}
-        }
+    /* --- MESSAGE DE FIN --- */
+    .locked-message {
+        display: none;
+        text-align: center;
+        color: var(--color-text-dark);
+        font-weight: 500;
+        background: rgba(255,248,240,0.9);
+        padding: 25px 35px;
+        border-radius: 10px;
+        margin: 30px auto;
+        max-width: 600px;
+        box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.2rem;
+        border: 1px solid var(--color-millésime-gold);
+    }
 
-        @media (max-width: 600px) {
-            h1 { font-size: 1.8rem; }
-        }
+    .retour {
+        display: none;
+        background: var(--color-millésime-gold);
+        color: white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-top: 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        transition: 0.3s;
+        margin-left: auto; margin-right: auto;
+        width: fit-content;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .retour:hover { background: #9d7553; transform: translateY(-3px); }
 
-        /* LIEN TEST */
-        .test-link-wrap{ padding: 12px 0 18px; }
-        #testLink{
-            font-size: 11px;
-            opacity: 0.08;
-            color: var(--color-cacao-dark);
-            text-decoration: none;
-            cursor: default;
-            user-select: none;
-            transition: opacity .2s ease;
-        }
-        #testLink:hover, #testLink:focus{
-            opacity: 0.35;
-            cursor: pointer;
-            text-decoration: underline;
-            outline: none;
-        }
-    </style>
+    @media (max-width: 768px) {
+        .contenu { margin: 5vw; padding: 6vw; }
+        h1 { font-size: 1.6rem; }
+        #clip-container { width: 100%; }
+    }
+</style>
 </head>
 
 <body>
-    <h1>La trame secrète du Millésime 🍷🍫</h1>
-    <p class="intro">
-        Une aventure tissée à plusieurs mains pour l'anniversaire d'un cœur en or.<br>
-        Chaque étape débloquée vous mène au cœur d'un <strong>savoir-faire ancien</strong>, à l'<strong>essence d'un grand cru</strong> et à l'<strong>éloge des sens</strong>.
-    </p>
 
-    <div class="gallery" id="gallery"></div>
+<div class="contenu" id="intro">
+    <h1>🎄 Le Premier Secret de l’Année</h1>
+    <p><strong>Chers Papa et Maman, Papou et Manou...</strong></p>
+    <p class="intro-text">Ce soir de Noël n’est pas tout à fait comme les autres. Le cadeau que vous allez ouvrir n’est pas sous le sapin.</p>
+    <p class="intro-text">Il est immatériel, tissé de temps, d’amour et de mémoire.</p>
+    <p class="intro-text">Pour vos 80 ans, plusieurs générations se sont unies pour vous créer quelque chose à votre image.</p>
+    <p id="demarrer">✨ Écoutez le foyer s'animer...</p>
+</div>
 
-    <div id="popupDate" class="popup-overlay">
-        <div class="popup-content">
-            <h2>🔒 En attente de la maturité...</h2>
-            <p id="popupDateText">Ce chapitre est encore scellé.</p>
-            <button id="closePopupDate">Patience...</button>
+<div id="clip-container">
+    <video id="clip" controls playsinline>
+        <source src="videos/clip-noel.mp4" type="video/mp4">
+        Votre navigateur ne prend pas en charge la vidéo.
+    </video>
+</div>
+
+<div class="enigme" id="enigme">
+    <p style="font-size: 1.2rem; margin-bottom: 20px;">🎁 Pour ouvrir ce cadeau, écrivez le mot magique...</p>
+    
+    <div class="enigme-container">
+        <input type="text" id="reponse" placeholder="Écrivez ici..." autocomplete="off">
+        <button id="valider">Ouvrir !</button>
+    </div>
+    
+    <p id="message-erreur" style="display: none; color:var(--color-lock-red); margin-top:15px;">Le murmure n'est pas clair... Essayez encore 🎄</p>
+
+    <button id="btnAide" style="display: none;">💭 J'ai besoin d'un murmure d'aide</button>
+    <p id="indice" style="display: none;">Indice : Le nom de la fête !</p>
+</div>
+
+<div class="cadeau" id="cadeau">
+    <img src="images/etincelles.gif" alt="étincelles" class="etincelles" id="etincelles">
+</div>
+
+<p class="message" id="bravo" style="font-size:1.4rem; color:#D8A24C; cursor:pointer; text-align:center;">
+    🌟 Le voile se lève sur une douce surprise... ✨<br>
+    👉 <span id="startAudio" style="text-decoration:underline;">Ouvrir le Message</span>
+</p>
+
+<div id="chanson-teaser" class="contenu final-teaser">
+    <div id="teaser-content">
+        <p class="final-text-line">Il y avait quelque chose que nous voulions vous dire</p>
+        <p class="final-text-line">depuis longtemps...</p>
+        <br>
+        <p class="final-text-line">Avec le cœur.</p>
+        <p class="final-click-prompt">Touchez la lettre pour l'ouvrir.</p>
+        <div id="btnChanson" class="envelope-trigger">
+            <img src="images/enveloppe_finale.png" alt="Lettre scellée" class="envelope-image">
         </div>
     </div>
 
-    <div id="popupGift" class="popup-overlay">
-        <div class="popup-content noel-style">
-            <h2>🎁 Joyeux Noël !</h2>
-            <p>Une première page de l'histoire est prête à être révélée...</p>
-            <button id="unlockGiftBtn">✨ Ouvrir mon cadeau ✨</button>
-        </div>
+    <div id="listening-content" class="music-listening-state">
+        <span class="music-note">🎵</span>
+        <p class="final-text-line" style="font-style:italic;">Laissez la mélodie vous emporter...</p>
+        <p style="font-size:0.9rem; opacity:0.8;">Le secret se dévoilera à la fin de la chanson.</p>
     </div>
+</div>
 
-    <div class="test-link-wrap">
-        <a id="testLink" href="#" aria-label="Mode test">test</a>
-    </div>
+<div class="locked-message" id="locked-message"></div>
+<a href="index.html" class="retour" id="retour">⬅️ Retour à l’accueil</a>
 
-   <script>
-    // -------- CONFIGURATION --------
-    const now = new Date();
-    const urlParams = new URLSearchParams(window.location.search);
-    const previewMode = urlParams.get('preview') === 'true';
+<audio id="feu" src="audios/feu.mp3" loop></audio>
+<audio id="voix" src="audios/message-voix.mp3"></audio>
+<audio id="froissement" src="audios/froissement.mp3"></audio>
+<audio id="clochette" src="audios/clochette.mp3"></audio>
+<audio id="chanson-finale" src="audios/chanson_finale.mp3"></audio> 
 
-    // Clés LocalStorage
-    const TEST_KEY = "millesime_test_unlock_all";
-    const NOEL_KEY = "millesime_noel_opened"; // Clé spécifique pour l'ouverture du cadeau
+<script>
+const feu = document.getElementById("feu");
+const voix = document.getElementById("voix");
+const chansonFinale = document.getElementById("chanson-finale");
+const cadeau = document.getElementById("cadeau");
+const enigme = document.getElementById("enigme");
+const clipContainer = document.getElementById("clip-container");
+const clip = document.getElementById("clip");
+const bravo = document.getElementById("bravo");
+const retour = document.getElementById("retour");
+const locked = document.getElementById("locked-message");
+const etincelles = document.getElementById("etincelles");
+const froissement = document.getElementById("froissement");
+const clochette = document.getElementById("clochette");
+const intro = document.getElementById("intro");
+const inputReponse = document.getElementById("reponse");
+const btnAide = document.getElementById("btnAide");
+const indice = document.getElementById("indice");
+const btnValider = document.getElementById("valider");
+const messageErreur = document.getElementById("message-erreur");
+const chansonTeaser = document.getElementById("chanson-teaser");
+const btnChanson = document.getElementById("btnChanson");
+const body = document.body;
 
-    // État des variables
-    const testUnlockAll = localStorage.getItem(TEST_KEY) === "1";
-    const isNoelOpened = localStorage.getItem(NOEL_KEY) === "1";
+// Nouveaux éléments pour la gestion visuelle
+const teaserContent = document.getElementById("teaser-content");
+const listeningContent = document.getElementById("listening-content");
 
-    // Dates
-    const DATE_JOUR_1 = new Date(2026, 5, 4, 0, 0, 0); // 4 Juin
-    const DATE_JOUR_2 = new Date(2026, 5, 5, 0, 0, 0); // 5 Juin
+let tentatives = 0;
+let cadeauOuvert = false; 
 
-    // Helper: enlever les dates pour l'affichage si test
-    const stripDates = (txt) => {
-        if (!txt) return "";
-        return txt.replace(/^\s*\d{1,2}\s*(Juin|Mai|Avril)\s*:\s*/i, "");
-    };
+const MOTS_DE_PASSE = ["noel", "reveillon"]; 
+const UNLOCK_DATE = new Date("2026-06-01T00:00:00");
 
-    /* LOGIQUE DE VERROUILLAGE :
-       type: 'gift' -> Se déverrouille au clic (indépendant par téléphone)
-       type: 'date' -> Se déverrouille selon la date système
-    */
-    const vignettes = [
-        {
-            id: 'noel',
-            type: 'gift', // Spécial cadeau
-            titre: "Le Début d'un Secret",
-            phrase: "Là où tout commence, dans le silence de l'hiver...",
-            img: "images/noel.jpg",
-            lien: "noel.html",
-            // Verrouillé SI : ce n'est pas déjà ouvert ET ce n'est pas le mode test
-            locked: (!isNoelOpened && !testUnlockAll) 
-        },
-        {
-            id: 'voix',
-            type: 'date',
-            titre: "💛 Les Voix du Cœur",
-            phrase: "Juste avant le départ...",
-            img: "images/voix.jpg",
-            lien: "jour1_message_route.html",
-            locked: (now < DATE_JOUR_1 && !previewMode && !testUnlockAll)
-        },
-        {
-            id: 'jour1',
-            type: 'date',
-            titre: "🛣️ La Route des Souvenirs (Jour 1)",
-            phrase: "4 Juin : Chaque virage mène à un souvenir.",
-            img: "images/jour1.jpg",
-            lien: "jour1_route_des_souvenirs.html",
-            locked: (now < DATE_JOUR_1 && !previewMode && !testUnlockAll)
-        },
-        {
-            id: 'jour2',
-            type: 'date',
-            titre: "💎 Le Secret du Millésime (Jour 2)",
-            phrase: "5 Juin : Certains secrets ne se dévoilent qu'à maturité.",
-            img: "images/jour2.jpg",
-            lien: "jour2_accueil.html",
-            locked: (now < DATE_JOUR_2 && !previewMode && !testUnlockAll)
-        },
-        {
-            id: 'livre',
-            type: 'date',
-            titre: "📜 Ce que les uns partagent",
-            phrase: "Le livre d'or final.",
-            img: "images/livre.jpg",
-            lien: "livre_or.html",
-            locked: (now < DATE_JOUR_2 && !previewMode && !testUnlockAll)
+// --- FONCTIONS AUDIO ---
+function fadeOutAudio(audio, duree) {
+    const interval = 50;
+    const decrement = audio.volume / (duree / interval);
+    const fade = setInterval(() => {
+        if (audio.volume > decrement) {
+            audio.volume -= decrement;
+        } else {
+            audio.pause();
+            audio.volume = 1.0;
+            clearInterval(fade);
         }
-    ];
+    }, interval);
+}
 
-    // -------- GÉNÉRATION --------
-    const gallery = document.getElementById("gallery");
-    const popupDate = document.getElementById("popupDate");
-    const popupGift = document.getElementById("popupGift");
-    const popupDateText = document.getElementById("popupDateText");
+function fadeInAudio(audio, duree, maxVolume = 0.2) {
+    audio.play();
+    audio.volume = 0;
+    const interval = 50;
+    const increment = maxVolume / (duree / interval);
+    const fade = setInterval(() => {
+        if (audio.volume < maxVolume) {
+            audio.volume += increment;
+        } else {
+            audio.volume = maxVolume;
+            clearInterval(fade);
+        }
+    }, interval);
+}
 
-    vignettes.forEach(v => {
-        const div = document.createElement("div");
-        let className = "vignette";
+// --- LOGIQUE ---
 
-        if (v.id === 'noel') className += " noel";
-        if (v.locked) className += " locked";
+// 1. Démarrage
+document.getElementById("demarrer").addEventListener("click", () => {
+    feu.volume = 0.4; 
+    feu.play(); 
+    intro.style.opacity = 0;
+    setTimeout(() => { intro.style.display = 'none'; }, 3000);
+    setTimeout(() => {
+        intro.style.display = 'none';
+        enigme.style.display = "block";
+    }, 800);
+});
 
-        const phraseAffichee = (testUnlockAll ? stripDates(v.phrase) : v.phrase);
+// 2. Validation Enigme
+btnValider.addEventListener("click", () => {
+    const reponse = inputReponse.value.trim().toLowerCase();
+    messageErreur.style.display = 'none';
+    
+    if (MOTS_DE_PASSE.includes(reponse)) {
+        fadeOutAudio(feu, 500); 
+        enigme.style.display = "none";
+        clipContainer.style.display = "block";
+        clip.load(); 
+        clip.play(); 
+        if (clip.requestFullscreen) clip.requestFullscreen();
+        else if (clip.webkitRequestFullscreen) clip.webkitRequestFullscreen();
+        clipContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+        tentatives++;
+        messageErreur.style.display = 'block';
+        if (tentatives >= 2) btnAide.style.display = "inline-block";
+    }
+});
 
-        div.className = className;
-        div.innerHTML = `
-            <img src="${v.img}" alt="${v.titre}">
-            <h3>${v.titre}</h3>
-            <p>${phraseAffichee}</p>
-        `;
+// 3. Fin Vidéo
+clip.addEventListener("ended", () => {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    clipContainer.style.display = 'none'; 
 
-        div.addEventListener("click", () => {
-            if (!v.locked) {
-                // Si c'est ouvert, on y va
-                window.location.href = v.lien;
-            } else {
-                // Si c'est verrouillé, on vérifie pourquoi
-                if (v.type === 'gift') {
-                    // C'est le cadeau de Noël -> Popup Cadeau
-                    popupGift.style.display = "flex";
-                } else {
-                    // C'est une date -> Popup Date
-                    // On personnalise le texte selon la date requise
-                    if(v.id === 'jour2' || v.id === 'livre') {
-                         popupDateText.innerText = "Ce secret ne se dévoile qu'à partir du 5 Juin 2026.";
-                    } else {
-                         popupDateText.innerText = "Patience... Rendez-vous le 4 Juin 2026.";
-                    }
-                    popupDate.style.display = "flex";
-                }
-            }
-        });
+    if (!cadeauOuvert) {
+        cadeau.style.display = "block";
+        cadeau.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        cadeau.classList.add("ouvert"); // Déclenche aussi l'animation heartbeat
+        froissement.play();
+        clochette.play();
+        setTimeout(() => { bravo.style.display = "block"; }, 2000);
+    }
+});
 
-        gallery.appendChild(div);
-    });
+// 4. Start Audio Message
+document.getElementById("startAudio").addEventListener("click", () => {
+    document.getElementById("bravo").style.display = "none";
+    voix.volume = 1.0;
+    voix.play();
+});
 
-    // -------- GESTION DES POPUPS --------
+// 5. Fin Audio Voix
+voix.onended = () => {
+    bravo.style.display = "none";
+    body.classList.add("final-background");
+    chansonTeaser.style.display = "block";
+    chansonTeaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
+};
 
-    // 1. Fermer le popup Date
-    document.getElementById("closePopupDate").addEventListener("click", () => {
-        popupDate.style.display = "none";
-    });
+// 6. Lancement Chanson Finale (AMÉLIORÉ)
+btnChanson.addEventListener("click", () => {
+    // Au lieu de tout cacher, on bascule l'affichage
+    teaserContent.style.display = "none"; // Cache l'enveloppe
+    listeningContent.style.display = "block"; // Affiche l'animation d'écoute
 
-    // 2. Action "Ouvrir le cadeau"
-    document.getElementById("unlockGiftBtn").addEventListener("click", () => {
-        // On enregistre que c'est ouvert pour ce téléphone
-        localStorage.setItem(NOEL_KEY, "1");
-        
-        // Petit effet sympa : on recharge la page pour voir la vignette déverrouillée
-        // On pourrait faire plus fluide en JS pur, mais le reload est simple et robuste
-        window.location.reload();
-    });
+    fadeInAudio(chansonFinale, 4000, 0.8);
+    
+    chansonFinale.onended = () => {
+        chansonTeaser.style.display = "none"; // On cache tout le bloc seulement à la fin
+        finalSequence();
+    };
+});
 
-    // Fermeture au clic en dehors (pour les deux popups)
-    [popupDate, popupGift].forEach(p => {
-        p.addEventListener("click", e => {
-            if (e.target === p) p.style.display = "none";
-        });
-    });
+// 7. Séquence Finale
+function finalSequence() {
+    fadeInAudio(feu, 2000, 0.4);
+    const now = new Date();
+    
+    if (now < UNLOCK_DATE) {
+        locked.innerHTML = "🔒 Le secret a murmuré son message. Patientez...<br>L'aventure ne se poursuit qu'avec le retour des <strong>premiers bourgeons</strong>.";
+    } else {
+        locked.innerHTML = "🌿 Le temps a fait son œuvre...<br>Le chemin est désormais déverrouillé sur la page d'accueil.";
+    }
+    locked.style.display = "block";
+    retour.style.display = "block";
+    locked.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
-    // -------- LIEN TEST --------
-    const testLink = document.getElementById("testLink");
-    testLink.addEventListener("click", (e) => {
-        e.preventDefault();
-        const enabled = localStorage.getItem(TEST_KEY) === "1";
-        localStorage.setItem(TEST_KEY, enabled ? "0" : "1");
-        window.location.reload();
-    });
+btnAide.addEventListener("click", () => {
+    indice.style.display = "block";
+    btnAide.style.display = "none";
+});
+
+// Fallback cadeau
+cadeau.addEventListener("click", () => {
+    if (clipContainer.style.display === "block" && clip.paused) {
+        cadeau.classList.add("ouvert");
+        froissement.play();
+        clochette.play();
+        setTimeout(() => { bravo.style.display = "block"; }, 2000); 
+    }
+});
+
 </script>
-
 </body>
 </html>
