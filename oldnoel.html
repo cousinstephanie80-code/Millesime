@@ -88,10 +88,11 @@
         display: none; pointer-events: none;
     }
 
+    /* MODIFICATION : Animation plus vivante une fois ouvert */
     .cadeau.ouvert {
         transform: scale(1.1) rotateX(10deg);
         filter: brightness(1.2);
-        animation: heartbeat 3s infinite ease-in-out;
+        animation: heartbeat 3s infinite ease-in-out; /* Battement de coeur */
     }
 
     @keyframes heartbeat {
@@ -100,38 +101,39 @@
         100% { transform: scale(1.1) rotateX(10deg); }
     }
 
-    /* --- ÉNIGME --- */
+    /* --- ÉNIGME (AMÉLIORATION VISUELLE) --- */
     .enigme {
         display: none;
         margin: 15vh auto 2rem;
-        background: rgba(255,255,255,0.9);
+        background: rgba(255,255,255,0.9); /* Un peu plus opaque */
         padding: 2rem 3rem;
-        border-radius: 4px;
+        border-radius: 4px; /* Plus carré pour faire "papier" */
         box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         max-width: 450px;
         font-family: 'Cormorant Garamond', serif;
-        border: 1px solid rgba(180, 138, 100, 0.3);
+        border: 1px solid rgba(180, 138, 100, 0.3); /* Bordure fine dorée */
     }
 
     .enigme-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: column; /* Stack vertical pour le style manuscrit */
         justify-content: center;
         align-items: center;
         gap: 20px;
     }
 
+    /* MODIFICATION : Input style "Ligne manuscrite" */
     .enigme input {
         padding: 10px 5px;
         border: none;
-        border-bottom: 2px solid var(--color-millésime-gold);
+        border-bottom: 2px solid var(--color-millésime-gold); /* Juste la ligne du bas */
         background: transparent;
         border-radius: 0;
         margin-top: 1rem;
         width: 100%;
         text-align: center;
         font-family: 'Cormorant Garamond', serif;
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* Plus grand */
         font-weight: 700;
         color: var(--color-cacao-dark);
         outline: none;
@@ -146,7 +148,7 @@
     }
 
     .enigme input:focus {
-        border-bottom-color: var(--color-cacao-dark);
+        border-bottom-color: var(--color-cacao-dark); /* Fonce au focus */
     }
 
     .enigme button {
@@ -154,7 +156,7 @@
         color: white;
         border: none;
         padding: 10px 30px;
-        border-radius: 50px;
+        border-radius: 50px; /* Plus rond */
         margin-top: 1rem;
         cursor: pointer;
         font-weight: bold;
@@ -240,8 +242,9 @@
         background: none; border: none; 
     }
 
+    /* MODIFICATION : Animation "En cours d'écoute" */
     .music-listening-state {
-        display: none;
+        display: none; /* Caché par défaut */
         margin-top: 20px;
         animation: pulseText 2.5s infinite ease-in-out;
     }
@@ -274,42 +277,6 @@
         border: 1px solid var(--color-millésime-gold);
     }
 
-    /* ✅ AJOUT : SIGNATURE FINALE MILLÉSIME */
-    .signature-finale {
-        display: none;
-        max-width: 650px;
-        margin: 10vh auto 4vh;
-        padding: 40px 35px;
-        background: rgba(255,248,240,0.95);
-        border-radius: 12px;
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.35rem;
-        line-height: 1.65;
-        color: var(--color-text-dark);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-        border: 1px solid rgba(180, 138, 100, 0.35);
-    }
-
-    .signature-finale p {
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 2.4s ease, transform 2.4s ease;
-        margin: 1rem 0;
-    }
-
-    .signature-finale p.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .signature-finale .chuchotee {
-        font-style: italic;
-        font-size: 1.15rem;
-        opacity: 0;
-        transition: opacity 4s ease;
-        margin-top: 2.2rem;
-    }
-
     .retour {
         display: none;
         background: var(--color-millésime-gold);
@@ -332,7 +299,6 @@
         .contenu { margin: 5vw; padding: 6vw; }
         h1 { font-size: 1.6rem; }
         #clip-container { width: 100%; }
-        .signature-finale { margin: 8vh 5vw 4vh; padding: 28px 22px; font-size: 1.2rem; }
     }
 </style>
 </head>
@@ -397,37 +363,6 @@
     </div>
 </div>
 
-<!-- ✅ AJOUT : signature finale Millésime (arrive après la chanson) -->
-<div class="signature-finale" id="signatureFinale">
-    <p><strong>Le coffret <em>Millésime</em> est prêt.</strong></p>
-
-    <p>
-        Ouvrez-le.<br>
-        Il délivre les premiers fragments de votre cadeau,<br>
-        comme on dévoile les notes d’un grand cru.
-    </p>
-
-    <p>
-        Certaines émotions se devinent dès la première goutte.<br>
-        D’autres prennent le temps de s’installer.
-    </p>
-
-    <p>Laissez-le encore mûrir.</p>
-
-    <p>
-        Lorsque les beaux jours reviendront,<br>
-        le voyage se révélera pleinement,<br>
-        goutte après goutte,<br>
-        au fil du temps.
-    </p>
-
-    <p class="chuchotee">
-        Parce que certaines attentions<br>
-        ne se dévoilent jamais<br>
-        d’un seul geste…
-    </p>
-</div>
-
 <div class="locked-message" id="locked-message"></div>
 <a href="index.html" class="retour" id="retour">⬅️ Retour à l’accueil</a>
 
@@ -460,9 +395,6 @@ const messageErreur = document.getElementById("message-erreur");
 const chansonTeaser = document.getElementById("chanson-teaser");
 const btnChanson = document.getElementById("btnChanson");
 const body = document.body;
-
-// ✅ AJOUT : signature finale
-const signatureFinale = document.getElementById("signatureFinale");
 
 // Nouveaux éléments pour la gestion visuelle
 const teaserContent = document.getElementById("teaser-content");
@@ -548,7 +480,7 @@ clip.addEventListener("ended", () => {
     if (!cadeauOuvert) {
         cadeau.style.display = "block";
         cadeau.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        cadeau.classList.add("ouvert");
+        cadeau.classList.add("ouvert"); // Déclenche aussi l'animation heartbeat
         froissement.play();
         clochette.play();
         setTimeout(() => { bravo.style.display = "block"; }, 2000);
@@ -570,63 +502,33 @@ voix.onended = () => {
     chansonTeaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
 };
 
-// 6. Lancement Chanson Finale
+// 6. Lancement Chanson Finale (AMÉLIORÉ)
 btnChanson.addEventListener("click", () => {
-    teaserContent.style.display = "none";
-    listeningContent.style.display = "block";
+    // Au lieu de tout cacher, on bascule l'affichage
+    teaserContent.style.display = "none"; // Cache l'enveloppe
+    listeningContent.style.display = "block"; // Affiche l'animation d'écoute
 
     fadeInAudio(chansonFinale, 4000, 0.8);
     
     chansonFinale.onended = () => {
-        chansonTeaser.style.display = "none";
-        // ✅ ET LÀ SEULEMENT : signature finale + message verrouillé
+        chansonTeaser.style.display = "none"; // On cache tout le bloc seulement à la fin
         finalSequence();
     };
 });
 
-// 7. Séquence Finale (✅ MODIFIÉE : signature + timing "petite larme")
+// 7. Séquence Finale
 function finalSequence() {
-    // feu très doux, plus cocon
-    fadeInAudio(feu, 3000, 0.25);
-
-    // 1) afficher la signature finale
-    signatureFinale.style.display = "block";
-    signatureFinale.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-    const lignes = signatureFinale.querySelectorAll("p:not(.chuchotee)");
-    const chuchotee = signatureFinale.querySelector(".chuchotee");
-
-    // 2) apparition progressive des paragraphes
-    lignes.forEach((ligne, index) => {
-        setTimeout(() => {
-            ligne.classList.add("visible");
-        }, index * 2500);
-    });
-
-    // 3) la phrase "chuchotée" arrive à la fin, plus lente
-    setTimeout(() => {
-        chuchotee.style.opacity = "1";
-    }, lignes.length * 2500 + 1800);
-
-    // 4) ensuite seulement : le message de verrouillage + bouton retour
-    setTimeout(() => {
-        const now = new Date();
-
-        if (now < UNLOCK_DATE) {
-            locked.innerHTML =
-                "🔒 Le coffret a livré ses premiers fragments…<br>" +
-                "Mais l’aventure complète attend le retour des <strong>beaux jours</strong>.<br>" +
-                "Revenez quand les <strong>premiers bourgeons</strong> auront repris leur place.";
-        } else {
-            locked.innerHTML =
-                "🌿 Le temps a fait son œuvre…<br>" +
-                "Le chemin est désormais déverrouillé sur la page d'accueil.";
-        }
-
-        locked.style.display = "block";
-        retour.style.display = "block";
-        locked.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, lignes.length * 2500 + 6500);
+    fadeInAudio(feu, 2000, 0.4);
+    const now = new Date();
+    
+    if (now < UNLOCK_DATE) {
+        locked.innerHTML = "🔒 Le secret a murmuré son message. Patientez...<br>L'aventure ne se poursuit qu'avec le retour des <strong>premiers bourgeons</strong>.";
+    } else {
+        locked.innerHTML = "🌿 Le temps a fait son œuvre...<br>Le chemin est désormais déverrouillé sur la page d'accueil.";
+    }
+    locked.style.display = "block";
+    retour.style.display = "block";
+    locked.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 btnAide.addEventListener("click", () => {
@@ -643,6 +545,7 @@ cadeau.addEventListener("click", () => {
         setTimeout(() => { bravo.style.display = "block"; }, 2000); 
     }
 });
+
 </script>
 </body>
 </html>
